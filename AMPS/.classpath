@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="src/" kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/huebler/git/RMA6Sifter/RMASifterResurgencePrime/dependencies/apache-log4j-2.6.2-bin/log4j-core-2.6.2.jar"/>
+	<classpathentry kind="lib" path="/Users/huebler/git/RMA6Sifter/RMASifterResurgencePrime/dependencies/apache-log4j-2.6.2-bin/log4j-api-2.6.2.jar"/>
+	<classpathentry kind="lib" path="/Users/huebler/git/RMA6Sifter/RMASifterResurgencePrime/dependencies/commons-cli-1.3.1/commons-cli-1.3.1.jar" sourcepath="/RMASifterResurgencePrime/dependencies/commons-cli-1.3.1/apidocs/org/apache/commons/cli/class-use"/>
+	<classpathentry kind="lib" path="/Users/huebler/git/RMA6Sifter/RMASifterResurgencePrime/dependencies/commons-exec-1.3/commons-exec-1.3.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

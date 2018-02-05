@@ -228,6 +228,7 @@ public class ParameterProcessor {
 	private void generateMALTCommandLine(ArrayList<String> inputME, String outputME){
 		ArrayList<String> maltLine= new ArrayList<String>();
 		maltLine.add(pathToMalt);//malt location
+		maltLine.add(vmoptions);
 		maltLine.add("-d");				maltLine.add(index);//index
 		maltLine.add("-i"); 				maltLine.addAll(inputME);//inputfiles
 		maltLine.add("-o");			 	maltLine.add(outputME);//output

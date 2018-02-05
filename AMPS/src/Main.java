@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import ProcessManagement.ProcessExecutor;
 import Utility.ParameterProcessor;
-//TODO find better way to parallelize crawler maybe with Runnable
+//TODO MALT works now set memory requirements for it.... still not integreated well with slurm maybe create second version
 public class Main {
 	/**
 	 * @author huebler 

@@ -19,7 +19,7 @@ public class ParameterProcessor {
 	private String output;
 	private int threads;
 	private Logger log;
-	private String vmoptions="-J-Xmx500G";
+	private int maxMemory=500;
 	//MALT
 	private ArrayList<String> MALTCommandLine;
 	private String pathToMalt;
@@ -85,8 +85,8 @@ public class ParameterProcessor {
 	public void process(){	
 		switch(ampsMode){
 		case ALL:
-			if(Config.entryExists("vmoptions")){
-				vmoptions = Config.getString("vmoptions");
+			if(Config.entryExists("maxMemory")){
+				maxMemory = Config.getInt("maxMemory");
 			}
 			 if(Config.entryExists("pathToMalt")){
 				 pathToMalt=Config.getString("pathToMalt");
@@ -118,8 +118,8 @@ public class ParameterProcessor {
 			 }	 	 
 			 break;
 		case MALT:	
-			if(Config.entryExists("vmoptions")){
-				vmoptions = Config.getString("vmoptions");
+			if(Config.entryExists("maxMemory")){
+				maxMemory = Config.getInt("maxMemory");
 			}
 			if(Config.entryExists("pathToMalt")){
 				 pathToMalt=Config.getString("pathToMalt");
@@ -135,8 +135,8 @@ public class ParameterProcessor {
 			 }
 			 break;
 		case MALTEX:	
-			if(Config.entryExists("vmoptions")){
-				vmoptions = Config.getString("vmoptions");
+			if(Config.entryExists("maxMemory")){
+				maxMemory = Config.getInt("maxMemory");
 			}
 			if(Config.entryExists("pathToMaltExtract")){
 				 pathToMaltExtract=pathToMalt=Config.getString("pathToMaltExtract");
@@ -228,7 +228,8 @@ public class ParameterProcessor {
 	private void generateMALTCommandLine(ArrayList<String> inputME, String outputME){
 		ArrayList<String> maltLine= new ArrayList<String>();
 		maltLine.add(pathToMalt);//malt location
-		maltLine.add(vmoptions);
+		
+		maltLine.add("-J-Xmx"+maxMemory+"G");
 		maltLine.add("-d");				maltLine.add(index);//index
 		maltLine.add("-i"); 				maltLine.addAll(inputME);//inputfiles
 		maltLine.add("-o");			 	maltLine.add(outputME);//output
@@ -322,7 +323,7 @@ public class ParameterProcessor {
 	}
 	private void generateMALTExtractCommandLine(String inputME, String outputME){
 		ArrayList<String> meLine = new ArrayList<String>();
-		meLine.add("java");			meLine.add("-jar");meLine.add(pathToMaltExtract);//start java process
+		meLine.add("java");			meLine.add("-jar");meLine.add("Xmx"+maxMemory+"G");meLine.add(pathToMaltExtract);//start java process
 		meLine.add("-i");			meLine.add(inputME);//Input
 		meLine.add("-o");			meLine.add(outputME);//output
 		meLine.add("-p");			meLine.add(""+threads);//threads
@@ -367,7 +368,7 @@ public class ParameterProcessor {
 	}
 	private void generateMALTExtractCommandLine(ArrayList<String> inputME, String outputME){
 		ArrayList<String> meLine = new ArrayList<String>();
-		meLine.add("java");			meLine.add("-jar");meLine.add(pathToMaltExtract);// start MaltExtract
+		meLine.add("java");			meLine.add("-jar");meLine.add("Xmx"+maxMemory+"G");meLine.add(pathToMaltExtract);// start MaltExtract
 		meLine.add("-i");			meLine.addAll(inputME);// input
 		meLine.add("-o");			meLine.add(outputME);//output
 		meLine.add("-p");			meLine.add(""+threads);//threads

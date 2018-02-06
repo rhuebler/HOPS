@@ -13,14 +13,15 @@ public class ParameterProcessor {
 	 * Is used to evaluate all parameters from the config file and generate a commandline to execute the different 
 	 * parts of the pipeline
 	 */
-	//General
+	//General Parameters
 	private AMPS_Mode ampsMode;
 	private ArrayList<String> input; 
 	private String output;
 	private int threads;
 	private Logger log;
 	private int maxMemory=500;
-	//MALT
+	
+	//MALT Parameters
 	private ArrayList<String> MALTCommandLine;
 	private String pathToMalt;
 	private String index;
@@ -33,7 +34,8 @@ public class ParameterProcessor {
 	private String memoryMode;
 	private boolean verboseMalt;
 	private ArrayList<String> additionalMALTParameters;
-	//MaltExtract
+	
+	//MaltExtract Parameters
 	private ArrayList<String> MALTExtractCommandLine;
 	private String pathToMaltExtract;
 	private String filter = "defAnc";
@@ -51,7 +53,8 @@ public class ParameterProcessor {
 	private boolean dupRemOff=false;
 	private boolean	downSampOff=false;
 	private ArrayList<String> additionalMaltExtractParameters;
-	//POSTPROCESSING
+	
+	//POSTPROCESSING Parameters
 	private ArrayList<String> commandLinePost;
 	private String pathToList;
 	private String pathToPostProcessing;

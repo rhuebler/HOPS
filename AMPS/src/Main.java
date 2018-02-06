@@ -1,5 +1,4 @@
 import CommandLineReader.InputParameterProcessor;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.logging.FileHandler;
@@ -32,12 +31,16 @@ public class Main {
 			ParameterProcessor processor = new ParameterProcessor(config, inputProcessor.getInputFiles(), inputProcessor.getOutDir(),log,inputProcessor.getAMPS_Mode());
 			processor.process();
 			log.log(Level.INFO,"Run Mode " +  inputProcessor.getAMPS_Mode());
-			switch(inputProcessor.getAMPS_Mode()){
+			if(processor.useSlurm()){
+				//run(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem)
+				switch(inputProcessor.getAMPS_Mode()){
 				case ALL:{
 					ProcessExecutor executor = new ProcessExecutor();
-					boolean MALTfinished = executor.run(processor.getMALTCommandLine(), log);
+					boolean MALTfinished = executor.run(processor.getMALTCommandLine(), log, processor.getOutDir(), 
+							processor.getThreads(), processor.getMaxmMemory());
 					if(MALTfinished){
-						boolean MALTExFinished = executor.run(processor.getMALTExtractCommandLine(), log);
+						boolean MALTExFinished = executor.run(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
+								processor.getThreads(), processor.getMaxmMemory());
 						if(MALTExFinished){
 							boolean PostProcessing = executor.run(processor.getPostProcessingLine(), log);
 							if( !PostProcessing){
@@ -55,7 +58,8 @@ public class Main {
 				}
 				case MALT:{
 					ProcessExecutor executor = new ProcessExecutor();
-					boolean MALTfinished = executor.run(processor.getMALTCommandLine(), log);
+					boolean MALTfinished = executor.run(processor.getMALTCommandLine(), log, processor.getOutDir(), 
+							processor.getThreads(), processor.getMaxmMemory());
 					if(!MALTfinished){
 						log.log(Level.SEVERE,"MALT interuppted");
 					}
@@ -63,7 +67,8 @@ public class Main {
 				}
 				case MALTEX:{
 					ProcessExecutor executor = new ProcessExecutor();
-					boolean MALTExFinished = executor.run(processor.getMALTExtractCommandLine(), log);
+					boolean MALTExFinished = executor.run(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
+							processor.getThreads(), processor.getMaxmMemory());
 					if(!MALTExFinished){
 						log.log(Level.SEVERE,"MALTExtract interupted");
 					}
@@ -78,6 +83,54 @@ public class Main {
 					break;
 				}
 			}
+			}else{
+				switch(inputProcessor.getAMPS_Mode()){
+					case ALL:{
+						ProcessExecutor executor = new ProcessExecutor();
+						boolean MALTfinished = executor.run(processor.getMALTCommandLine(), log);
+						if(MALTfinished){
+							boolean MALTExFinished = executor.run(processor.getMALTExtractCommandLine(), log);
+							if(MALTExFinished){
+								boolean PostProcessing = executor.run(processor.getPostProcessingLine(), log);
+								if( !PostProcessing){
+									log.log(Level.SEVERE,"Postprocessing interuppted");
+								}
+							}else{
+								log.log(Level.SEVERE,"MALTExtract interupted");
+							}
+						}else{
+							log.log(Level.SEVERE,"MALT interuppted");
+							System.exit(1);
+						}
+							
+						break;
+					}
+					case MALT:{
+						ProcessExecutor executor = new ProcessExecutor();
+						boolean MALTfinished = executor.run(processor.getMALTCommandLine(), log);
+						if(!MALTfinished){
+							log.log(Level.SEVERE,"MALT interuppted");
+						}
+						break;
+					}
+					case MALTEX:{
+						ProcessExecutor executor = new ProcessExecutor();
+						boolean MALTExFinished = executor.run(processor.getMALTExtractCommandLine(), log);
+						if(!MALTExFinished){
+							log.log(Level.SEVERE,"MALTExtract interupted");
+						}
+						break;
+					}
+					case POST:{
+						ProcessExecutor executor = new ProcessExecutor();
+						boolean PostProcessing = executor.run(processor.getPostProcessingLine(), log);
+						if( !PostProcessing){
+							log.log(Level.SEVERE,"Postprocessing interuppted");
+						}
+						break;
+					}
+				}
+			}	
 			log.log(Level.INFO,"AMPS run finished!");
 			System.exit(0);
 		}catch(Exception e) {

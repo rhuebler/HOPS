@@ -20,6 +20,8 @@ public class ParameterProcessor {
 	private int threads;
 	private Logger log;
 	private int maxMemory=500;
+	private boolean useSlurm = false;
+	private String partition;
 	
 	//MALT Parameters
 	private ArrayList<String> MALTCommandLine;
@@ -60,6 +62,7 @@ public class ParameterProcessor {
 	private String pathToPostProcessing;
 	
 	
+
 	//Constructor
 	public ParameterProcessor(String config, ArrayList<String> in, String out,Logger log, AMPS_Mode aMode){
 		this.log = log;
@@ -75,6 +78,36 @@ public class ParameterProcessor {
 			log.log(Level.SEVERE, "Using AMPS with default 1 core highly discouraged use threads XX in config file");
 			threads = 1;
 		}
+		if(Config.entryExists("useSlurm")) {
+			useSlurm = Config.getBoolean("useSlurm");
+			log.log(Level.INFO, "Using AMPS in Slurm Mode");
+		}else {
+			log.log(Level.INFO, "Using AMPS in Default Mode");
+			threads = 1;
+		}
+		if(Config.entryExists("maxMemory")){
+			maxMemory = Config.getInt("maxMemory");
+			log.log(Level.INFO, "Set maximum Memory for AMPS to "+maxMemory);
+		}
+		if(Config.entryExists("partition")){
+			partition = Config.getString("partition");
+			log.log(Level.INFO, "Set Partition for AMPS to "+maxMemory);
+		}
+	}
+	public String getPartition(){
+		return partition;
+	}
+	public int getThreads() {
+		return threads;
+	}
+	public boolean useSlurm() {
+		return useSlurm;
+	}
+	public int getMaxmMemory() {
+		return maxMemory;
+	}
+	public String getOutDir() {
+		return output;
 	}
 	public ArrayList<String> getMALTCommandLine(){
 		return MALTCommandLine;
@@ -88,9 +121,7 @@ public class ParameterProcessor {
 	public void process(){	
 		switch(ampsMode){
 		case ALL:
-			if(Config.entryExists("maxMemory")){
-				maxMemory = Config.getInt("maxMemory");
-			}
+			
 			 if(Config.entryExists("pathToMalt")){
 				 pathToMalt=Config.getString("pathToMalt");
 				 processMALTParameters();
@@ -121,9 +152,6 @@ public class ParameterProcessor {
 			 }	 	 
 			 break;
 		case MALT:	
-			if(Config.entryExists("maxMemory")){
-				maxMemory = Config.getInt("maxMemory");
-			}
 			if(Config.entryExists("pathToMalt")){
 				 pathToMalt=Config.getString("pathToMalt");
 				 processMALTParameters();
@@ -138,9 +166,6 @@ public class ParameterProcessor {
 			 }
 			 break;
 		case MALTEX:	
-			if(Config.entryExists("maxMemory")){
-				maxMemory = Config.getInt("maxMemory");
-			}
 			if(Config.entryExists("pathToMaltExtract")){
 				 pathToMaltExtract=pathToMalt=Config.getString("pathToMaltExtract");
 				 processMALTExtractParameters();

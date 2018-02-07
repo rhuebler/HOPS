@@ -7,13 +7,13 @@ import java.util.logging.SimpleFormatter;
 import ProcessManagement.ProcessExecutor;
 import Utility.ParameterProcessor;
 //TODO MALT works now set memory requirements for it.... still not integreated well with slurm maybe create second version
-public class Main {
+public class AMPS_Main {
 	/**
 	 * @author huebler 
 	 * @params String args
 	 * Main method of AMPS pipeline read in command line and config file and execute parts of the pipeline
 	 */
-	private static final Logger log = Logger.getLogger(Main.class.getName());
+	private static final Logger log = Logger.getLogger(AMPS_Main.class.getName());
 	public static void main(String[] args) {
 		try {
 			InputParameterProcessor inputProcessor = new InputParameterProcessor(args);
@@ -36,16 +36,16 @@ public class Main {
 			//TODO test	
 				case ALL:{
 					ProcessExecutor executor = new ProcessExecutor();
-					boolean MALTfinished = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir(), 
-							processor.getThreads(), processor.getMaxmMemory());
-					if(MALTfinished){
-						boolean MALTExFinished = executor.runDependendSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
-								processor.getThreads(), processor.getMaxmMemory(),1);
-						if(MALTExFinished){
-							boolean PostProcessing = executor.run(processor.getPostProcessingLine(), log);
-							if( !PostProcessing){
-								log.log(Level.SEVERE,"Postprocessing interuppted");
-							}
+					int MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir(), 
+							processor.getThreads(), processor.getMaxmMemory(),"malt");
+					if(MALT_ID>0){
+						int MALTExID = executor.runDependendSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
+								processor.getThreads(), processor.getMaxmMemory(),"maltEx",MALT_ID);
+						if(MALTExID>0){
+//							boolean PostProcessing = executor.run(processor.getPostProcessingLine(), log);
+//							if( !PostProcessing){
+//								log.log(Level.SEVERE,"Postprocessing interuppted");
+//							}
 						}else{
 							log.log(Level.SEVERE,"MALTExtract interupted");
 						}
@@ -58,18 +58,18 @@ public class Main {
 				}
 				case MALT:{
 					ProcessExecutor executor = new ProcessExecutor();
-					boolean MALTfinished = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
-							processor.getThreads(), processor.getMaxmMemory());
-					if(!MALTfinished){
+						int MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
+							processor.getThreads(), processor.getMaxmMemory(),"malt");
+					if(MALT_ID == 0){
 						log.log(Level.SEVERE,"MALT interuppted");
 					}
 					break;
 				}
 				case MALTEX:{
 					ProcessExecutor executor = new ProcessExecutor();
-					boolean MALTExFinished = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
-							processor.getThreads(), processor.getMaxmMemory());
-					if(!MALTExFinished){
+					int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
+							processor.getThreads(), processor.getMaxmMemory(),"maltEx");
+					if(MALTExID == 0){
 						log.log(Level.SEVERE,"MALTExtract interupted");
 					}
 					break;

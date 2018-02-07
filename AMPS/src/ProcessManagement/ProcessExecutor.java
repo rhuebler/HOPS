@@ -15,7 +15,9 @@ public class ProcessExecutor {
 	 * @return
 	 * @throws
 	 */
-	public boolean runSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem){
+	public Integer runSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, String name){
+		int ID = 0;
+		name = "AMPS"+name;
 		if(command!=null&&command.size()!=0) {
 			String l ="";
 			for(String s : command){
@@ -27,10 +29,10 @@ public class ProcessExecutor {
 			com.add("-o");com.add(outDir+"s.log");
 			com.add("-c");com.add(""+threads);
 			com.add("--mem");com.add(""+(maxMem*1000));
+			com.add("-job-name");com.add(name);
 			com.add("--wrap=\""+l+"\"");
 			log.log(Level.INFO,l);
 			ProcessBuilder builder = new ProcessBuilder (com);
-			boolean continueRun = false;
 			//Map<String, String> environ = builder.environment();
 			try {
 				final Process process = builder.start();//get JobID here
@@ -48,27 +50,22 @@ public class ProcessExecutor {
 				    int status = process.waitFor();
 					log.log(Level.INFO,"Process Exited with status: " + status);
 			    }
-				continueRun = true;
 			} catch (IOException | InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			getJobID();
-			if(continueRun)
-				return continueRun;
-			else{
-				 log.log(Level.SEVERE,"Process interuppted");
-				System.exit(1);
-				return continueRun;
-			}	
+			ID = getJobID(name);
 		}
 		else {
 			log.log(Level.SEVERE,"Process interuppted");
 			System.exit(1);
-			return false;
 		}
+		return ID;
 	}
-	public boolean runDependendSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, int dependency){
+	public int runDependendSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, 
+			String name, int dependency){
+		int ID = 0;
+		name = "AMPS"+name;
 		if(command!=null&&command.size()!=0) {
 			String l ="";
 			for(String s : command){
@@ -80,10 +77,10 @@ public class ProcessExecutor {
 			com.add("-o");com.add(outDir+"s.log");
 			com.add("-c");com.add(""+threads);
 			com.add("--mem");com.add(""+(maxMem*1000));
+			com.add("-job-name");com.add(name);
 			com.add("--wrap=\""+l+"\"");
 			log.log(Level.INFO,l);
 			ProcessBuilder builder = new ProcessBuilder (com);
-			boolean continueRun = false;
 			//Map<String, String> environ = builder.environment();
 			try {
 				final Process process = builder.start();//get JobID here
@@ -101,28 +98,20 @@ public class ProcessExecutor {
 				    int status = process.waitFor();
 					log.log(Level.INFO,"Process Exited with status: " + status);
 			    }
-				continueRun = true;
 			} catch (IOException | InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-		
-			if(continueRun)
-				return continueRun;
-			else{
-				 log.log(Level.SEVERE,"Process interuppted");
-				System.exit(1);
-				return continueRun;
-			}	
+			ID = getJobID(name);
 		}
 		else {
 			log.log(Level.SEVERE,"Process interuppted");
 			System.exit(1);
-			return false;
 		}
+		return ID;
 	}
-	public void getJobID(){
+	public int getJobID(String name){
+		int jobID = 0;
 		ArrayList<String> cmd= new ArrayList<String>();
 		cmd.add("squeue");
 		cmd.add("-u");
@@ -135,14 +124,18 @@ public class ProcessExecutor {
 		    	 	BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			    String line;
 			    while ((line = br.readLine()) != null) {
-			    			System.out.println(line);
-			    }
+			    		if(line.contains(name)) {
+			    			String[] parts = line.split(" ");
+			    			jobID = Integer.parseInt(parts[0]);
+			    		}
+			    }	
 			   process.waitFor();
 		    }
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return jobID;
 	}
 	public boolean run(ArrayList<String> command,Logger log){
 		if(command!=null&&command.size()!=0) {

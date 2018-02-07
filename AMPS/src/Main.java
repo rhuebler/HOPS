@@ -34,13 +34,14 @@ public class Main {
 			if(processor.useSlurm()){
 				//run(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem)
 				switch(inputProcessor.getAMPS_Mode()){
+			//TODO test	
 				case ALL:{
 					ProcessExecutor executor = new ProcessExecutor();
-					boolean MALTfinished = executor.run(processor.getMALTCommandLine(), log, processor.getOutDir(), 
+					boolean MALTfinished = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir(), 
 							processor.getThreads(), processor.getMaxmMemory());
 					if(MALTfinished){
-						boolean MALTExFinished = executor.run(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
-								processor.getThreads(), processor.getMaxmMemory());
+						boolean MALTExFinished = executor.runDependendSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
+								processor.getThreads(), processor.getMaxmMemory(),1);
 						if(MALTExFinished){
 							boolean PostProcessing = executor.run(processor.getPostProcessingLine(), log);
 							if( !PostProcessing){
@@ -58,7 +59,7 @@ public class Main {
 				}
 				case MALT:{
 					ProcessExecutor executor = new ProcessExecutor();
-					boolean MALTfinished = executor.run(processor.getMALTCommandLine(), log, processor.getOutDir(), 
+					boolean MALTfinished = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
 							processor.getThreads(), processor.getMaxmMemory());
 					if(!MALTfinished){
 						log.log(Level.SEVERE,"MALT interuppted");
@@ -67,7 +68,7 @@ public class Main {
 				}
 				case MALTEX:{
 					ProcessExecutor executor = new ProcessExecutor();
-					boolean MALTExFinished = executor.run(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
+					boolean MALTExFinished = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
 							processor.getThreads(), processor.getMaxmMemory());
 					if(!MALTExFinished){
 						log.log(Level.SEVERE,"MALTExtract interupted");

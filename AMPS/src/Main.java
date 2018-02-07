@@ -1,6 +1,5 @@
 import CommandLineReader.InputParameterProcessor;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +14,7 @@ public class Main {
 	 * Main method of AMPS pipeline read in command line and config file and execute parts of the pipeline
 	 */
 	private static final Logger log = Logger.getLogger(Main.class.getName());
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) {
 		try {
 			InputParameterProcessor inputProcessor = new InputParameterProcessor(args);
 			new File(inputProcessor.getOutDir()).mkdir();// make amps dir 

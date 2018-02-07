@@ -17,13 +17,14 @@ public class ParameterProcessor {
 	private AMPS_Mode ampsMode;
 	private ArrayList<String> input; 
 	private String output;
-	private int threads;
 	private Logger log;
-	private int maxMemory=500;
-	private boolean useSlurm = false;
-	private String partition;
+	private boolean useSlurm = true;
+	
 	
 	//MALT Parameters
+	private int threadsMalt;
+	private int maxMemoryMalt=500;
+	private String partitionMalt;
 	private ArrayList<String> MALTCommandLine;
 	private String pathToMalt;
 	private String index;
@@ -38,6 +39,9 @@ public class ParameterProcessor {
 	private ArrayList<String> additionalMALTParameters;
 	
 	//MaltExtract Parameters
+	private int threadsMex;
+	private int maxMemoryMex=500;
+	private String partitionMex;
 	private ArrayList<String> MALTExtractCommandLine;
 	private String pathToMaltExtract;
 	private String filter = "defAnc";
@@ -72,40 +76,30 @@ public class ParameterProcessor {
 			out+="/";
 		output = out;
 		ampsMode = aMode;
-		if(Config.entryExists("threads")) {
-			threads = Config.getInt("threads");
-		}else {
-			log.log(Level.SEVERE, "Using AMPS with default 1 core highly discouraged use threads XX in config file");
-			threads = 1;
-		}
-		if(Config.entryExists("useSlurm")) {
-			useSlurm = Config.getBoolean("useSlurm");
-			log.log(Level.INFO, "Using AMPS in Slurm Mode");
-		}else {
-			log.log(Level.INFO, "Using AMPS in Default Mode");
-			threads = 1;
-		}
-		if(Config.entryExists("maxMemory")){
-			maxMemory = Config.getInt("maxMemory");
-			log.log(Level.INFO, "Set maximum Memory for AMPS to "+maxMemory);
-		}
-		if(Config.entryExists("partition")){
-			partition = Config.getString("partition");
-			log.log(Level.INFO, "Set Partition for AMPS to "+maxMemory);
-		}
-	}
-	public String getPartition(){
-		return partition;
-	}
-	public int getThreads() {
-		return threads;
 	}
 	public boolean useSlurm() {
 		return useSlurm;
 	}
-	public int getMaxmMemory() {
-		return maxMemory;
+	public String getPartitionMalt(){
+		return partitionMalt;
 	}
+	public int getThreadsMalt() {
+		return threadsMalt;
+	}
+	public int getMaxMemoryMalt() {
+		return maxMemoryMalt;
+	}
+	
+	public int getMaxMemoryMaltEx() {
+		return maxMemoryMalt;
+	}
+	public String getPartitionMaltEx(){
+		return partitionMalt;
+	}
+	public int getThreadsMaltEx() {
+		return threadsMalt;
+	}	
+
 	public String getOutDir() {
 		return output;
 	}
@@ -237,6 +231,27 @@ public class ParameterProcessor {
 					additionalMALTParameters.add(s);
 				}
 			}
+		 	
+		 	if(Config.entryExists("threadsMalt")) {
+		 		threadsMalt = Config.getInt("threadsMalt");
+			}else {
+				log.log(Level.SEVERE, "Using MALT with default Of 1 core highly discouraged use threads XX in config file");
+				threadsMalt = 1;
+			}
+			if(Config.entryExists("maxMemoryMalt")){
+				maxMemoryMalt = Config.getInt("maxMemoryMalt");
+				log.log(Level.INFO, "Set maximum Memory for Malt to "+ maxMemoryMalt +" GB");
+			}else {
+				maxMemoryMalt = 300;
+				log.log(Level.INFO, "Set Maximum Memorry for Malt to "+maxMemoryMalt +" GB");
+			}
+			if(Config.entryExists("partitionMalt")){
+				partitionMalt = Config.getString("partitionMalt");
+				log.log(Level.INFO, "Set Partition for Malt to "+partitionMalt);
+			}else {
+				partitionMalt = "batch";
+				log.log(Level.INFO, "Set Partition for Malt to "+partitionMalt);
+			}
 	}
 	private void generatePostProcessingLine(String inputLine){//TODO rework
 		ArrayList<String> line = new ArrayList<String>();
@@ -257,14 +272,14 @@ public class ParameterProcessor {
 		ArrayList<String> maltLine= new ArrayList<String>();
 		maltLine.add(pathToMalt);//malt location
 		
-		maltLine.add("-J-Xmx"+maxMemory+"G");
+		maltLine.add("-J-Xmx"+maxMemoryMalt+"G");
 		maltLine.add("-d");				maltLine.add(index);//index
 		maltLine.add("-i"); 				maltLine.addAll(inputME);//inputfiles
 		maltLine.add("-o");			 	maltLine.add(outputME);//output
 		maltLine.add("-m"); 				maltLine.add(mode);//maltMode
 		maltLine.add("-at");				maltLine.add(alignmentType);//AlignmentType
 		maltLine.add("--memoryMode");	maltLine.add(memoryMode);//memoryMode
-		maltLine.add("-t");				maltLine.add(""+threads);//number of threads
+		maltLine.add("-t");				maltLine.add(""+threadsMalt);//number of threads
 		maltLine.add("-sup");			maltLine.add(""+sup);//minimum supportedNumber
 		maltLine.add("-mq") ;			maltLine.add(""+mq);//maximumum query
 		maltLine.add("-top");			maltLine.add(""+topMalt);//toppercent
@@ -348,13 +363,33 @@ public class ParameterProcessor {
 				additionalMaltExtractParameters.add(s);
 			}
 		}
+		if(Config.entryExists("threadsMaltEx")) {
+	 		threadsMex = Config.getInt("threadsMaltEx");
+		}else {
+			log.log(Level.SEVERE, "Using MALT with default of 16");
+			threadsMex = 16;
+		}
+		if(Config.entryExists("maxMemoryMaltEx")){
+			maxMemoryMex = Config.getInt("maxMemoryMaltEx");
+			log.log(Level.INFO, "Set maximum Memory for MaltExtact to "+ maxMemoryMex +" GB");
+		}else {
+			maxMemoryMex = 150;
+			log.log(Level.INFO, "Set Maximum Memorry for MaltExtract to "+maxMemoryMex +" GB");
+		}
+		if(Config.entryExists("partitionMaltEx")){
+			partitionMex = Config.getString("partitionMaltEx");
+			log.log(Level.INFO, "Set Partition for MaltExtract to "+partitionMex);
+		}else {
+			partitionMex = "batch";
+			log.log(Level.INFO, "Set Partition for MaltExtract to "+partitionMex);
+		}
 	}
 	private void generateMALTExtractCommandLine(String inputME, String outputME){
 		ArrayList<String> meLine = new ArrayList<String>();
-		meLine.add("java");			meLine.add("-jar");meLine.add("Xmx"+maxMemory+"G");meLine.add(pathToMaltExtract);//start java process
+		meLine.add("java");			meLine.add("-jar");meLine.add("Xmx"+maxMemoryMex+"G");meLine.add(pathToMaltExtract);//start java process
 		meLine.add("-i");			meLine.add(inputME);//Input
 		meLine.add("-o");			meLine.add(outputME);//output
-		meLine.add("-p");			meLine.add(""+threads);//threads
+		meLine.add("-p");			meLine.add(""+threadsMex);//threads
 		meLine.add("-t")	;			meLine.addAll(taxas);//taxas
 		meLine.add("-f");			meLine.add(filter);//filter
 		meLine.add("--resources");	meLine.add(resources);//resources
@@ -396,10 +431,10 @@ public class ParameterProcessor {
 	}
 	private void generateMALTExtractCommandLine(ArrayList<String> inputME, String outputME){
 		ArrayList<String> meLine = new ArrayList<String>();
-		meLine.add("java");			meLine.add("-jar");meLine.add("Xmx"+maxMemory+"G");meLine.add(pathToMaltExtract);// start MaltExtract
+		meLine.add("java");			meLine.add("-jar");meLine.add("Xmx"+maxMemoryMex+"G");meLine.add(pathToMaltExtract);// start MaltExtract
 		meLine.add("-i");			meLine.addAll(inputME);// input
 		meLine.add("-o");			meLine.add(outputME);//output
-		meLine.add("-p");			meLine.add(""+threads);//threads
+		meLine.add("-p");			meLine.add(""+threadsMex);//threads
 		meLine.add("-t");			meLine.addAll(taxas);//taxas
 		meLine.add("-f");			meLine.add(filter);//filter
 		meLine.add("--resources");	meLine.add(resources);//resources

@@ -37,10 +37,10 @@ public class AMPS_Main {
 				case ALL:{
 					ProcessExecutor executor = new ProcessExecutor();
 					int MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir(), 
-							processor.getThreads(), processor.getMaxmMemory(),"malt");
+							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt());
 					if(MALT_ID>0){
 						int MALTExID = executor.runDependendSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
-								processor.getThreads(), processor.getMaxmMemory(),"maltEx",MALT_ID);
+								processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"maltEx",MALT_ID, processor.getPartitionMaltEx());
 						if(MALTExID>0){
 //							boolean PostProcessing = executor.run(processor.getPostProcessingLine(), log);
 //							if( !PostProcessing){
@@ -59,7 +59,7 @@ public class AMPS_Main {
 				case MALT:{
 					ProcessExecutor executor = new ProcessExecutor();
 						int MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
-							processor.getThreads(), processor.getMaxmMemory(),"malt");
+							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt",processor.getPartitionMalt());
 					if(MALT_ID == 0){
 						log.log(Level.SEVERE,"MALT interuppted");
 					}
@@ -68,7 +68,7 @@ public class AMPS_Main {
 				case MALTEX:{
 					ProcessExecutor executor = new ProcessExecutor();
 					int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
-							processor.getThreads(), processor.getMaxmMemory(),"maltEx");
+							processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"maltEx", processor.getPartitionMaltEx());
 					if(MALTExID == 0){
 						log.log(Level.SEVERE,"MALTExtract interupted");
 					}

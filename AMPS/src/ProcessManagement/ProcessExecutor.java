@@ -15,7 +15,7 @@ public class ProcessExecutor {
 	 * @return
 	 * @throws
 	 */
-	public Integer runSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, String name){
+	public Integer runSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, String name, String partition){
 		int ID = 0;
 		name = "AMPS"+name;
 		if(command!=null&&command.size()!=0) {
@@ -28,9 +28,13 @@ public class ProcessExecutor {
 			com.add("sbatch");
 			com.add("-o");com.add(outDir+"s.log");
 			com.add("-c");com.add(""+threads);
-			com.add("--mem");com.add(""+(maxMem*1000));
-			com.add("-job-name");com.add(name);
+			com.add("--mem="+(maxMem*1000));
+			com.add("--job-name");com.add(name);
+			com.add("-p");com.add(partition);
 			com.add("--wrap=\""+l+"\"");
+			l="";
+			for(String s : com)
+				l+=s+" ";
 			log.log(Level.INFO,l);
 			ProcessBuilder builder = new ProcessBuilder (com);
 			//Map<String, String> environ = builder.environment();
@@ -55,6 +59,7 @@ public class ProcessExecutor {
 				e.printStackTrace();
 			}
 			ID = getJobID(name);
+			log.log(Level.INFO,"Submitted Job: "+name+" with ID: "+ID+" for User: "+System.getProperty("user.name"));
 		}
 		else {
 			log.log(Level.SEVERE,"Process interuppted");
@@ -63,22 +68,27 @@ public class ProcessExecutor {
 		return ID;
 	}
 	public int runDependendSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, 
-			String name, int dependency){
+			String name, int dependency, String partition){
 		int ID = 0;
 		name = "AMPS"+name;
 		if(command!=null&&command.size()!=0) {
 			String l ="";
 			for(String s : command){
-				log.log(Level.INFO,s);
 				l+=s+" ";
 			}
 			ArrayList<String> com = new ArrayList<String>(); 
 			com.add("sbatch");
 			com.add("-o");com.add(outDir+"s.log");
 			com.add("-c");com.add(""+threads);
-			com.add("--mem");com.add(""+(maxMem*1000));
+			com.add("--mem="+(maxMem*1000));
 			com.add("-job-name");com.add(name);
+			com.add("--dependency=afterok:"+dependency);
+			com.add("-p");com.add(partition);
 			com.add("--wrap=\""+l+"\"");
+			log.log(Level.INFO,l);
+			l="";
+			for(String s : com)
+				l+=s+" ";
 			log.log(Level.INFO,l);
 			ProcessBuilder builder = new ProcessBuilder (com);
 			//Map<String, String> environ = builder.environment();
@@ -103,6 +113,7 @@ public class ProcessExecutor {
 				e.printStackTrace();
 			}
 			ID = getJobID(name);
+			log.log(Level.INFO,"Submitted Job: "+name+" with ID: "+ID+" for User: "+System.getProperty("user.name"));
 		}
 		else {
 			log.log(Level.SEVERE,"Process interuppted");
@@ -125,7 +136,7 @@ public class ProcessExecutor {
 			    String line;
 			    while ((line = br.readLine()) != null) {
 			    		if(line.contains(name)) {
-			    			String[] parts = line.split(" ");
+			    			String[] parts = line.trim().split("\\s++");
 			    			jobID = Integer.parseInt(parts[0]);
 			    		}
 			    }	

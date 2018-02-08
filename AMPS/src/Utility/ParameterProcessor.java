@@ -137,13 +137,13 @@ public class ParameterProcessor {
 				 log.log(Level.SEVERE,"MALTExtract not found");
 				 System.exit(1);
 			 }	 
-			 if(Config.entryExists("pathToPostProcessing")){
-				 pathToPostProcessing=Config.getString("pathToPostProcessin");
-				 generatePostProcessingLine(output+"maltExtract/");
-			 }else{
-				 log.log(Level.SEVERE,"Postprocessing not found");
-				 System.exit(1);
-			 }	 	 
+//			 if(Config.entryExists("pathToPostProcessing")){
+//				 pathToPostProcessing=Config.getString("pathToPostProcessin");
+//				 generatePostProcessingLine(output+"maltExtract/");
+//			 }else{
+//				 log.log(Level.SEVERE,"Postprocessing not found");
+//				 System.exit(1);
+//			 }	 	 
 			 break;
 		case MALT:	
 			if(Config.entryExists("pathToMalt")){
@@ -431,7 +431,7 @@ public class ParameterProcessor {
 	}
 	private void generateMALTExtractCommandLine(ArrayList<String> inputME, String outputME){
 		ArrayList<String> meLine = new ArrayList<String>();
-		meLine.add("java");			meLine.add("-jar");meLine.add("Xmx"+maxMemoryMex+"G");meLine.add(pathToMaltExtract);// start MaltExtract
+		/*meLine.add("java");*/meLine.add("/projects1/tools/java/jdk-9.0.4/bin/java");			meLine.add("-jar");meLine.add("-Xmx"+maxMemoryMex+"G");meLine.add(pathToMaltExtract);// start MaltExtract
 		meLine.add("-i");			meLine.addAll(inputME);// input
 		meLine.add("-o");			meLine.add(outputME);//output
 		meLine.add("-p");			meLine.add(""+threadsMex);//threads

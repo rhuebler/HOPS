@@ -11,6 +11,7 @@ import java.util.Scanner;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -78,8 +79,9 @@ public class InputParameterProcessor {
     	 	// Short Flags Are necessary parameters that are necessary for any run
     	    Option option_Input = Option.builder("i").longOpt("input").argName("Path/to/inDir or RMA6Files").hasArgs().desc("Specify input directory or files").build();
     	    Option option_Output = Option.builder("o").longOpt("output").argName("Path/to/outDir").hasArg().desc("Specify out directory").build();
-    	    Option optionConfigFile = Option.builder("").longOpt("configFile").argName("").hasArgs().desc("Path to Config File").build();
-    	    Option optionMode = Option.builder("m").longOpt("mode").argName("").hasArgs().desc("AMPS Mode to run").build();
+    	    Option optionConfigFile = Option.builder("c").longOpt("configFile").argName("").hasArg().desc("Path to Config File").build();
+    	    Option optionMode = Option.builder("m").longOpt("mode").argName("").hasArg().desc("AMPS Mode to run accpeted full, malt, maltex, post").build();
+    	    Option option_Help = Option.builder("h").longOpt("help").optionalArg(true).desc("Print Help").build();
     	    Options options = new Options();
     	    
     	    // add all parameters to the parser
@@ -89,6 +91,7 @@ public class InputParameterProcessor {
     	    options.addOption(option_Output);
     	    options.addOption(optionMode);
     	    options.addOption(optionConfigFile);
+    	    options.addOption(option_Help);
 
 
     	        commandLine = parser.parse(options, parameters);
@@ -210,6 +213,14 @@ public class InputParameterProcessor {
     	        if(commandLine.hasOption("configFile")){//set config File
     	        	String line = commandLine.getOptionValue("configFile");
     	        	configFile = line;
+    	        }
+    	        if(commandLine.hasOption("h")){////help
+    	        	String header = "AMPS version 0.1";
+    	    	    String footer = "In case you encounter an error drop an email to huebler@shh.mpg.de with a useful description";
+    	    	    HelpFormatter formatter = new HelpFormatter();
+    	    	    formatter.setWidth(500);
+    	    	    formatter.printHelp("AMPS", header, options, footer, true);   
+    	    	    System.exit(0);
     	        }
     	    }
     }

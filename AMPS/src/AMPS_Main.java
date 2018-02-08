@@ -36,12 +36,13 @@ public class AMPS_Main {
 			//TODO test	
 				case ALL:{
 					ProcessExecutor executor = new ProcessExecutor();
-					int MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir(), 
+					int MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt", 
 							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt());
 					if(MALT_ID>0){
-						int MALTExID = executor.runDependendSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
-								processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"maltEx",MALT_ID, processor.getPartitionMaltEx());
+						int MALTExID = executor.runDependendSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltEx", 
+								processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME",MALT_ID, processor.getPartitionMaltEx());
 						if(MALTExID>0){
+							log.log(Level.INFO, "Here Post processing would start with dependency "+ MALTExID);
 //							boolean PostProcessing = executor.run(processor.getPostProcessingLine(), log);
 //							if( !PostProcessing){
 //								log.log(Level.SEVERE,"Postprocessing interuppted");

@@ -3,15 +3,41 @@
 ### AMPS Summary ###
 
 AMPS is a java pipeline which focus is to screen MALT data for the presence of a user specified 
-list of target species. 
+list of target species. The pipeline essentially exists to make it easier to use MALT and MaltExtract 
+in uniso. To use AMPS you will need a config file, which speciefies some key parameters for Malt and 
+MaltExtract. You can have multiple config files to quickly redo a previous analysis or archive them 
+to remember parameters you used in an analysis. If you want to use it with an schedular system like slurm
+you should clone the SHH branch and use a similiar solution to communicate with a schedular system.
+
 
 ### How do I get set up? ###
 
-In order to run AMPS you need Java version 9 or higher and a version of Malt 036 or higher a
-nd a version of MALTExtract 1.2 or higher. 
+In order to run AMPS you need Java version 9 or higher and a version of Malt 036 or higher 
+and a version of MALTExtract 1.2 or higher. 
 The pipleine assumes a post processing step after MaltExtract is executed, therefore a postprocessing 
 script should be included as well.
+Input files in fasta and fastq format which can be gzipped. 
+
 ### Command Line Parameters ###
+
+-i --input Path to input files or directory depending on which mode you use. 
+for full or malt specify a directory with input fa, fasta , fastq or fq files 
+which can also be gzipped or just list the files.
+for the maltex mode only rma6 files will be accepted as input
+for the post mode (still underdevelopment) a folder containing the MaltExtract output
+has to be used as input
+
+-m --mode which mode to use for the pipeline. Accepted values are full, which runs malt, 
+malt extract and postprocessing, malt, tp only execute malt, maltex to run malt extract and
+post to run the postprocessing
+ 
+-c --configFile specify the path to a valif config file for amps which values are mandetory 
+is explained in the config file section of this manual
+
+-o --output specify a valid path to the output directory best avoid all characters reserved for
+unix prompts
+
+-h --help print help
 
 ### Config File Parameters###
 To use this as an example config file the explanitions have to be removed or 
@@ -76,7 +102,8 @@ set maximum Memory for MALT in GB!!! to use with slurm
 partitionMalt=batch 
 Set Optional partition for malt optional default will use batch
 
-## MaltExtract Specific Parameters ##
+## MaltExtract Specific Parameters ## 
+For more information on parameters use the MaltExtract Manual
 
 filter=def_anc
 filter mode uses def_anc, default, ancient, scan or crawl if in doubt use def_anc

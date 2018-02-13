@@ -35,13 +35,13 @@ public class InputParameterProcessor {
 	private String outDir;
 	private String configFile;
 	private AMPS_Mode ampsMode =AMPS_Mode.ALL;
+	
 	// constructor
-
 	public InputParameterProcessor(String[] params) throws IOException, ParseException{
 		process(params);	
 	}
-	// getters for parameters
 	
+	// read all files a file containing input filesnames and check if they match the correct extension
 	private void readFileList(File f, String fileExtension) throws IOException{
 		try {
 			 Scanner	in = new Scanner(f.getCanonicalFile());
@@ -55,6 +55,7 @@ public class InputParameterProcessor {
 		
 		}		
 	}	
+	// getters for parameters
 	public AMPS_Mode getAMPS_Mode(){
 		return ampsMode;
 	}
@@ -77,6 +78,7 @@ public class InputParameterProcessor {
 	private void process(String[] parameters) throws IOException, ParseException{	
     	 CommandLine commandLine;
     	 	// Short Flags Are necessary parameters that are necessary for any run
+    	 	// here we describe all CLI options
     	    Option option_Input = Option.builder("i").longOpt("input").argName("Path/to/inDir or RMA6Files").hasArgs().desc("Specify input directory or files").build();
     	    Option option_Output = Option.builder("o").longOpt("output").argName("Path/to/outDir").hasArg().desc("Specify out directory").build();
     	    Option optionConfigFile = Option.builder("c").longOpt("configFile").argName("").hasArg().desc("Path to Config File").build();
@@ -93,9 +95,10 @@ public class InputParameterProcessor {
     	    options.addOption(optionConfigFile);
     	    options.addOption(option_Help);
 
-
+    	    //parse arguments into the comandline parser
     	        commandLine = parser.parse(options, parameters);
-
+ 
+    	        //check if mode is set and if allowed values are set
     	        if(commandLine.hasOption('m')){
     	        	String m = commandLine.getOptionValue("m");
     	        	if(m.equals("full")){
@@ -111,26 +114,25 @@ public class InputParameterProcessor {
     	        		System.exit(1);
     	        	}
     	        }
-    	        if (commandLine.hasOption("input"))//evaluate input directorty
+    	        if (commandLine.hasOption("input"))//evaluate input files and directory
     	        {
-    	        
     	            for(String arg :commandLine.getOptionValues("input")){
     	            		File inFile = null;
     	            		if(new File(arg).getParent()!=null){//get Path of inFile either by getting the canonical Path from the parent
     	            			inFile = new File(new File(arg).getParentFile().getCanonicalPath()+"/"+ new File(arg).getName());
-    	            		}else {// or by pathching together the Path
+    	            		}else {// or by patching together the Path
     	            			inFile = new File(System.getProperty("user.dir")+"/"+arg);
     	            		}
-    	            		if(inFile.isDirectory()){ //TODO add fileextension check for malt and all if the file is an directory
-    	            			switch(ampsMode){
+    	            		if(inFile.isDirectory()){ //TODO add file extension check for malt and all if the file is an directory
+    	            			switch(ampsMode){ //if directory provided as input
     	            			case ALL:
     	            				for(String name : inFile.list())//if file ends with RMA6 or is as a soft link at to files
-    	            					if(name.endsWith("fa")||name.endsWith("fq")||name.endsWith("fasta")||name.endsWith("fastq"))
+    	            					if(name.endsWith("fa")||name.endsWith("fq")||name.endsWith("fasta")||name.endsWith("fastq")||arg.endsWith("gz"))
         	            				this.fileNames.add(inFile.getPath()+"/" + name);
     	            				break;
     	            			case MALT:
     	            				for(String name : inFile.list())//if file ends with RMA6 or is as a soft link at to files
-    	            					if(name.endsWith("fa")||name.endsWith("fq")||name.endsWith("fasta")||name.endsWith("fastq"))
+    	            					if(name.endsWith("fa")||name.endsWith("fq")||name.endsWith("fasta")||name.endsWith("fastq")||arg.endsWith("gz"))
     	            					this.fileNames.add(inFile.getPath()+"/" + name);
     	            				break;
     	            			case MALTEX:	
@@ -143,20 +145,20 @@ public class InputParameterProcessor {
     	            				break;
     	            			}
     	            			
-    	            		}else if(inFile.isFile()){// is File
-    	             			switch(ampsMode){//TODO add fileextension check for malt and all
+    	            		}else if(inFile.isFile()){// if file is provided as input
+    	             			switch(ampsMode){
     	            			case ALL:
-    	            				if(arg.endsWith("fa")||arg.endsWith("fq")||arg.endsWith("fasta")||arg.endsWith("fastq")||arg.endsWith("gz")){ // test if file can be read as if text file that contains names
+    	            				if(arg.endsWith("fa")||arg.endsWith("fq")||arg.endsWith("fasta")||arg.endsWith("fastq")||arg.endsWith("gz")){ 
     	            					fileNames.add(inFile.getPath());
     	            				}
     	            				break;
     	            			case MALT:
-    	            				if(arg.endsWith("fa")||arg.endsWith("fq")||arg.endsWith("fasta")||arg.endsWith("fastq")||arg.endsWith("gz")){ // test if file can be read as if text file that contains names
+    	            				if(arg.endsWith("fa")||arg.endsWith("fq")||arg.endsWith("fasta")||arg.endsWith("fastq")||arg.endsWith("gz")){ 
     	            					fileNames.add(inFile.getPath());
     	            				}
     	            				break;
     	            			case MALTEX:
-    	            				if(arg.endsWith("rma6")||Files.isSymbolicLink(new File(inFile.getPath()).toPath())){ // test if file can be read as if text file that contains names
+    	            				if(arg.endsWith("rma6")||Files.isSymbolicLink(new File(inFile.getPath()).toPath())){ 
     	            					fileNames.add(inFile.getPath());
     	            				}
     	            				break;
@@ -166,8 +168,8 @@ public class InputParameterProcessor {
     	            			
     	            				
     	            			}
-    	             		}else{
-    	             			switch(ampsMode){//TODO add fileextension check for malt and all
+    	             		}else{ // read file names from text file
+    	             			switch(ampsMode){
     	            			case ALL:
     	            				readFileList(inFile,"fa");
     	            				readFileList(inFile,"fg");
@@ -199,20 +201,26 @@ public class InputParameterProcessor {
     	        	
     	        	try{
     	        		String path = commandLine.getOptionValue("output");
-    	        		if(path.contains("\n")||path.contains("$")||path.contains("\'")||path.contains("=")|| path.contains("\"")){
+    	        		if(path.contains("\n")||path.contains("$")||path.contains("\'")||path.contains("=")|| path.contains("\"")){ // check if path contains illegal characters
     	        			System.err.println("Illegal Character detected");
     	        			System.exit(1);
     	        		}
-    	        		File f = new File(path);
+    	        		File f = new File(path); // get canonical path
     	        		f.isDirectory();
     	        		this.outDir = f.getCanonicalPath()+"/";
     	        		}catch(IOException io){
-    	        			
+    	        			System.err.println(io);
     	        		}
     	        }
     	        if(commandLine.hasOption("configFile")){//set config File
     	        	String line = commandLine.getOptionValue("configFile");
-    	        	configFile = line;
+    	        	File f = new File(line);
+	    	        	if(f.isFile())
+	    	        		configFile = line;
+	    	        	else {
+	    	        		System.err.println("Config File is not a valid file shutting down!!!");
+	    	        		System.exit(1);
+	    	        	}
     	        }
     	        if(commandLine.hasOption("h")){////help
     	        	String header = "AMPS version 0.1";
@@ -221,6 +229,10 @@ public class InputParameterProcessor {
     	    	    formatter.setWidth(500);
     	    	    formatter.printHelp("AMPS", header, options, footer, true);   
     	    	    System.exit(0);
+    	        }
+    	        if(commandLine.hasOption("o")||commandLine.hasOption("i")||commandLine.hasOption("m")||commandLine.hasOption("c")) {
+	    	        	System.err.println("input, output, mode and configFile have to be imlemented to run AMPS sue -h for help \n Shutting down");
+	    	        	System.exit(1);
     	        }
     	    }
     }

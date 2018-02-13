@@ -230,7 +230,7 @@ public class InputParameterProcessor {
     	    	    formatter.printHelp("AMPS", header, options, footer, true);   
     	    	    System.exit(0);
     	        }
-    	        if(commandLine.hasOption("o")||commandLine.hasOption("i")||commandLine.hasOption("m")||commandLine.hasOption("c")) {
+    	        if(!commandLine.hasOption("o")||!commandLine.hasOption("i")||!commandLine.hasOption("m")||!commandLine.hasOption("c")) {
 	    	        	System.err.println("input, output, mode and configFile have to be imlemented to run AMPS sue -h for help \n Shutting down");
 	    	        	System.exit(1);
     	        }

@@ -27,7 +27,7 @@ public class ParameterProcessor {
 	private String partitionMalt="batch";
 	private ArrayList<String> MALTCommandLine;
 	private String pathToMalt = "/projects1/malt/versions/malt040/malt-run";
-	private String index = "/Users/huebler/mount2/malt/databases/indexed/index040";
+	private String index = "/projects1/malt/databases/indexed/index040";
 	private double id=90.00;
 	private String mode="BlastN";
 	private String alignmentType="SemiGlobal"; 
@@ -46,7 +46,7 @@ public class ParameterProcessor {
 	private String pathToMaltExtract = "/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jarsRMAExtractorBeta1.3.jar";
 	private String filter = "defAnc";
 	private ArrayList<String> taxas = new ArrayList<String>();	
-	private String resources;
+	private String resources = "/projects1/clusterhomes/huebler/RMASifter/RMA_Extractor_Resources";
 	private double top=0.01; 
 	private int maxLength=0;
 	private double minPIdent=0.0;

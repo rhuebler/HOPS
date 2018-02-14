@@ -134,7 +134,9 @@ public class ParameterProcessor {
 					log.log(Level.SEVERE,"MALT not found");
 				 	System.exit(1);
 				 }
-			 }else{
+			 }else{				 
+				 processMALTParameters();
+				 generateMALTCommandLine(input, output+"malt");
 				 log.log(Level.INFO,"use default version MALT40");
 			 }
 		
@@ -144,7 +146,8 @@ public class ParameterProcessor {
 				 generateMALTExtractCommandLine(output+"malt/", output+"maltExtract/");
 			 }else{
 				 log.log(Level.INFO,"Use default MaltExtract verion 1.3");
-				
+				 processMALTExtractParameters();
+				 generateMALTExtractCommandLine(output+"malt/", output+"maltExtract/");
 			 }	 
 //			 if(Config.entryExists("pathToPostProcessing")){
 //				 pathToPostProcessing=Config.getString("pathToPostProcessin");
@@ -164,6 +167,8 @@ public class ParameterProcessor {
 				 	System.exit(1);
 				 }
 			 }else{
+				 processMALTParameters();
+				 generateMALTCommandLine(input, output+"malt");
 				 log.log(Level.INFO,"use default version MALT40");
 			 }
 			 break;
@@ -173,6 +178,8 @@ public class ParameterProcessor {
 				 processMALTExtractParameters();
 				 generateMALTExtractCommandLine(input, output+"maltExtract/");
 			 }else{
+				 processMALTExtractParameters();
+				 generateMALTExtractCommandLine(input, output+"maltExtract/");
 				 log.log(Level.INFO,"Use default MaltExtract verion 1.3");
 			 }	 
 			 break;
@@ -181,6 +188,7 @@ public class ParameterProcessor {
 				 pathToPostProcessing=Config.getString("pathToPostProcessin");
 				 generatePostProcessingLine(input);
 			 }else{
+				 generatePostProcessingLine(input);
 				 log.log(Level.SEVERE,"Postprocessing not found");
 				 System.exit(1);
 			 }

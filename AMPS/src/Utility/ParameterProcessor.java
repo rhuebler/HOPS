@@ -21,27 +21,27 @@ public class ParameterProcessor {
 	private boolean useSlurm = true;
 	
 	
-	//MALT Parameters
-	private int threadsMalt;
-	private int maxMemoryMalt=500;
-	private String partitionMalt;
+	//Specific MALT Parameters
+	private int threadsMalt = 32;
+	private int maxMemoryMalt=400;
+	private String partitionMalt="batch";
 	private ArrayList<String> MALTCommandLine;
-	private String pathToMalt;
-	private String index;
-	private double id=85.00;
+	private String pathToMalt = "/projects1/malt/versions/malt040/malt-run";
+	private String index = "/Users/huebler/mount2/malt/databases/indexed/index040";
+	private double id=90.00;
 	private String mode="BlastN";
 	private String alignmentType="SemiGlobal"; 
 	private int	topMalt = 1;
 	private int sup=1; 
 	private int mq=100;
-	private String memoryMode;
-	private boolean verboseMalt;
+	private String memoryMode = "load";
+	private boolean verboseMalt = true;
 	private ArrayList<String> additionalMALTParameters;
 	
-	//MaltExtract Parameters
-	private int threadsMex;
-	private int maxMemoryMex=500;
-	private String partitionMex;
+	//MaltExtract Parameters set to default values
+	private int threadsMex = 16;
+	private int maxMemoryMex = 150;
+	private String partitionMex = "batch";
 	private ArrayList<String> MALTExtractCommandLine;
 	private String pathToMaltExtract;
 	private String filter = "defAnc";
@@ -77,6 +77,15 @@ public class ParameterProcessor {
 		output = out;
 		ampsMode = aMode;
 	}
+	public ParameterProcessor(ArrayList<String> in, String out,Logger log, AMPS_Mode aMode){
+		this.log = log;
+		input = in;
+		if(!out.endsWith("/"))
+			out+="/";
+		output = out;
+		ampsMode = aMode;
+	}
+	//getters
 	public boolean useSlurm() {
 		return useSlurm;
 	}
@@ -112,6 +121,7 @@ public class ParameterProcessor {
 	public ArrayList<String> getPostProcessingLine(){
 		return commandLinePost;
 	}
+	// process config file when used on configfile
 	public void process(){	
 		switch(ampsMode){
 		case ALL:
@@ -125,8 +135,7 @@ public class ParameterProcessor {
 				 	System.exit(1);
 				 }
 			 }else{
-				 log.log(Level.SEVERE,"MALT not found");
-				 System.exit(1);
+				 log.log(Level.INFO,"use default version MALT40");
 			 }
 		
 			 if(Config.entryExists("pathToMaltExtract")){
@@ -134,8 +143,8 @@ public class ParameterProcessor {
 				 processMALTExtractParameters();
 				 generateMALTExtractCommandLine(output+"malt/", output+"maltExtract/");
 			 }else{
-				 log.log(Level.SEVERE,"MALTExtract not found");
-				 System.exit(1);
+				 log.log(Level.INFO,"Use default MaltExtract verion 1.3");
+				
 			 }	 
 //			 if(Config.entryExists("pathToPostProcessing")){
 //				 pathToPostProcessing=Config.getString("pathToPostProcessin");
@@ -155,8 +164,7 @@ public class ParameterProcessor {
 				 	System.exit(1);
 				 }
 			 }else{
-				 log.log(Level.SEVERE,"MALT not found");
-				 System.exit(1);
+				 log.log(Level.INFO,"use default version MALT40");
 			 }
 			 break;
 		case MALTEX:	
@@ -165,8 +173,7 @@ public class ParameterProcessor {
 				 processMALTExtractParameters();
 				 generateMALTExtractCommandLine(input, output+"maltExtract/");
 			 }else{
-				 log.log(Level.SEVERE,"MALTExtract not found");
-				 System.exit(1);
+				 log.log(Level.INFO,"Use default MaltExtract verion 1.3");
 			 }	 
 			 break;
 		case POST:	
@@ -185,42 +192,48 @@ public class ParameterProcessor {
 		 if(Config.entryExists("index")){
 			 index=Config.getString("index");
 		 }else{
-			 log.log(Level.SEVERE,"Missing MALT Index! Shutting down!");
-			 System.exit(1);
+			 log.log(Level.INFO,"Using default index /projects1/malt/databases/indexed/index040");
 		 }
 		 if(Config.entryExists("id")){
 			 id=Config.getDouble("id");
+		 }else {
+			 log.log(Level.INFO,"Using default ID of "+90);
 		 }
 		 if(Config.entryExists("m")){
 			mode=Config.getString("m");
 		 }else{
-			 log.log(Level.SEVERE,"MALT Mode unspecified! Shutting down!");
-			 System.exit(1);
+			 log.log(Level.INFO,"Use BlastN");
 		 }
 		 if(Config.entryExists("at")){
 			 alignmentType=Config.getString("at");
 		 }else{
-			 log.log(Level.SEVERE,"Alignment Type unspecified! Shutting down!");
-			 System.exit(1);
+			 log.log(Level.INFO,"Use default SemiGlobal");
 		 }	
 		 if(Config.entryExists("topMalt")){
 			 topMalt=Config.getInt("topMalt");
+		 }else {
+			 log.log(Level.INFO,"Set topscoring percent");
 		 }
 		 if(Config.entryExists("sup")){
 			 sup=Config.getInt("sup");
+		 }else {
+			 log.log(Level.INFO,"Require one supporting read per node");
 		 }	
 		 if(Config.entryExists("mq")){
 			 mq=Config.getInt("mq");
-		 }	
+		 }else {
+			 log.log(Level.INFO,"Set max query to 100");
+		 }
 		 if(Config.entryExists("memoryMode")){
 			 memoryMode=Config.getString("memoryMode");
 		 }else{
-			 log.log(Level.SEVERE,"Memory Mode unspecified! Shutting down!");
-			 System.exit(1);
+			 log.log(Level.INFO,"Set memoryMode to load");
 		 }	
 		 if(Config.entryExists("verboseMalt")){
 			 verboseMalt=Config.getBoolean("verboseMalt");
-		 }	
+		 }	else {
+			 log.log(Level.INFO, "Verbose output for MALT set to true");
+		 }
 		 if(Config.entryExists("additionalMaltParameters")){
 				additionalMALTParameters = new ArrayList<String>();
 				String s = Config.getString("additionalMaltParameters");
@@ -235,21 +248,16 @@ public class ParameterProcessor {
 		 	if(Config.entryExists("threadsMalt")) {
 		 		threadsMalt = Config.getInt("threadsMalt");
 			}else {
-				log.log(Level.SEVERE, "Using MALT with default Of 1 core highly discouraged use threads XX in config file");
-				threadsMalt = 1;
+				log.log(Level.SEVERE, "Using MALT with default of 32 threads");
 			}
 			if(Config.entryExists("maxMemoryMalt")){
 				maxMemoryMalt = Config.getInt("maxMemoryMalt");
 				log.log(Level.INFO, "Set maximum Memory for Malt to "+ maxMemoryMalt +" GB");
 			}else {
-				maxMemoryMalt = 300;
 				log.log(Level.INFO, "Set Maximum Memorry for Malt to "+maxMemoryMalt +" GB");
 			}
 			if(Config.entryExists("partitionMalt")){
 				partitionMalt = Config.getString("partitionMalt");
-				log.log(Level.INFO, "Set Partition for Malt to "+partitionMalt);
-			}else {
-				partitionMalt = "batch";
 				log.log(Level.INFO, "Set Partition for Malt to "+partitionMalt);
 			}
 	}
@@ -294,6 +302,8 @@ public class ParameterProcessor {
 	private void processMALTExtractParameters(){
 		if(Config.entryExists("filter")){
 			filter = Config.getString("filter"); 
+		}else {
+			log.log(Level.INFO,"set filter to default of defAnc");
 		}
 		if(Config.entryExists("taxas")){
 			String s = Config.getString("taxas");
@@ -305,18 +315,15 @@ public class ParameterProcessor {
 						taxas.add(t);
 			}
 		}else{
-			log.log(Level.SEVERE,"A taxa List has to be specified in order to use MaltExtract"
-					+ " either write taxas=/driectory/to/taxas/list.txt or"
-					+ "taxas = species1 species 2 species 3");
+			log.log(Level.INFO, "use defautl species List");
+			taxas.add("path/to/species/list");
 		}
 		if(Config.entryExists("resources")){
 			resources = Config.getString("resources");
 			if(!resources.endsWith("/"))
 				resources+="/";
 		}else{
-			log.log(Level.SEVERE,"Resources has to be specified in order to use MaltExtract"
-					+" provide path to folder with ncbi.map and ncbi.tre file");
-			System.exit(1);
+			log.log(Level.INFO, "use resource file at ");
 		}
 		if(Config.entryExists("top")){
 			top= Config.getDouble("top");
@@ -367,20 +374,17 @@ public class ParameterProcessor {
 	 		threadsMex = Config.getInt("threadsMaltEx");
 		}else {
 			log.log(Level.SEVERE, "Using MALT with default of 16");
-			threadsMex = 16;
 		}
 		if(Config.entryExists("maxMemoryMaltEx")){
 			maxMemoryMex = Config.getInt("maxMemoryMaltEx");
 			log.log(Level.INFO, "Set maximum Memory for MaltExtact to "+ maxMemoryMex +" GB");
 		}else {
-			maxMemoryMex = 150;
 			log.log(Level.INFO, "Set Maximum Memorry for MaltExtract to "+maxMemoryMex +" GB");
 		}
 		if(Config.entryExists("partitionMaltEx")){
 			partitionMex = Config.getString("partitionMaltEx");
 			log.log(Level.INFO, "Set Partition for MaltExtract to "+partitionMex);
 		}else {
-			partitionMex = "batch";
 			log.log(Level.INFO, "Set Partition for MaltExtract to "+partitionMex);
 		}
 	}

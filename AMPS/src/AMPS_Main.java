@@ -27,7 +27,12 @@ public class AMPS_Main {
 			log.log(Level.INFO,"Process Config File");
 			//figure out Mode
 			//check if stuff is mandatory
-			ParameterProcessor processor = new ParameterProcessor(config, inputProcessor.getInputFiles(), inputProcessor.getOutDir(),log,inputProcessor.getAMPS_Mode());
+			ParameterProcessor processor;
+			if(inputProcessor.getConfigFile()!=null) {
+				processor = new ParameterProcessor(config, inputProcessor.getInputFiles(), inputProcessor.getOutDir(),log,inputProcessor.getAMPS_Mode());
+			}else {
+				processor = new ParameterProcessor(inputProcessor.getInputFiles(), inputProcessor.getOutDir(),log,inputProcessor.getAMPS_Mode());
+			}
 			processor.process();
 			log.log(Level.INFO,"Run Mode " +  inputProcessor.getAMPS_Mode());
 			if(processor.useSlurm()){

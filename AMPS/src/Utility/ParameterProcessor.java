@@ -386,7 +386,7 @@ public class ParameterProcessor {
 	}
 	private void generateMALTExtractCommandLine(String inputME, String outputME){
 		ArrayList<String> meLine = new ArrayList<String>();
-		meLine.add("java");			meLine.add("-jar");meLine.add("-Xmx"+maxMemoryMex+"G");meLine.add(pathToMaltExtract);//start java process
+		/*meLine.add("java");*/		meLine.add("/projects1/tools/java/jdk-9.0.4/bin/java");	meLine.add("-jar");meLine.add("-Xmx"+maxMemoryMex+"G");meLine.add(pathToMaltExtract);//start java process
 		meLine.add("-i");			meLine.add(inputME);//Input
 		meLine.add("-o");			meLine.add(outputME);//output
 		meLine.add("-p");			meLine.add(""+threadsMex);//threads

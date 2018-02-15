@@ -27,7 +27,7 @@ public class ParameterProcessor {
 	private String partitionMalt="batch";
 	private ArrayList<String> MALTCommandLine;
 	private String pathToMalt = "/projects1/malt/versions/malt040/malt-run";
-	private String index = "/projects1/malt/databases/indexed/index040";
+	private String index = "/projects1/malt/databases/indexed/index040/full-bac-full-vir-etal-nov_2017";
 	private double id=90.00;
 	private String mode="BlastN";
 	private String alignmentType="SemiGlobal"; 

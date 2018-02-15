@@ -79,10 +79,10 @@ public class InputParameterProcessor {
     	 CommandLine commandLine;
     	 	// Short Flags Are necessary parameters that are necessary for any run
     	 	// here we describe all CLI options
-    	    Option option_Input = Option.builder("i").longOpt("input").argName("Path/to/inDir or RMA6Files").hasArgs().desc("Specify input directory or files").build();
-    	    Option option_Output = Option.builder("o").longOpt("output").argName("Path/to/outDir").hasArg().desc("Specify out directory").build();
-    	    Option optionConfigFile = Option.builder("c").longOpt("configFile").argName("").hasArg().desc("Path to Config File").build();
-    	    Option optionMode = Option.builder("m").longOpt("mode").argName("").hasArg().desc("AMPS Mode to run accpeted full, malt, maltex, post").build();
+    	    Option option_Input = Option.builder("i").longOpt("input").argName("String").hasArgs().desc("Specify input directory or files valid option depend on mode").build();
+    	    Option option_Output = Option.builder("o").longOpt("output").argName("String").hasArg().desc("Specify out directory").build();
+    	    Option optionConfigFile = Option.builder("c").longOpt("configFile").argName("String").hasArg().desc("Path to Config File").build();
+    	    Option optionMode = Option.builder("m").longOpt("mode").argName("String").hasArg().desc("AMPS Mode to run accpeted full, malt, maltex, post").build();
     	    Option option_Help = Option.builder("h").longOpt("help").optionalArg(true).desc("Print Help").build();
     	    Options options = new Options();
     	    

@@ -100,19 +100,21 @@ public class InputParameterProcessor {
  
     	        //check if mode is set and if allowed values are set
     	        if(commandLine.hasOption('m')){
-    	        	String m = commandLine.getOptionValue("m");
-    	        	if(m.equals("full")){
+	    	        	String m = commandLine.getOptionValue("m");
+	    	        	if(m.equals("full")){
+	    	        		ampsMode =AMPS_Mode.ALL;
+	    	        	}else if(m.equals("malt")){
+	    	        		ampsMode =AMPS_Mode.MALT;
+	    	        	}else if(m.equals("maltex")){
+	    	        		ampsMode =AMPS_Mode.MALTEX;
+	    	        	}else if(m.equals("post")){
+	    	        		ampsMode =AMPS_Mode.POST;
+	    	        	}else{
+	    	        		System.err.println("Unspecified Mode use either full, malt, maltex or post");
+	    	        		System.exit(1);
+	    	        	}
+    	        }else {
     	        		ampsMode =AMPS_Mode.ALL;
-    	        	}else if(m.equals("malt")){
-    	        		ampsMode =AMPS_Mode.MALT;
-    	        	}else if(m.equals("maltex")){
-    	        		ampsMode =AMPS_Mode.MALTEX;
-    	        	}else if(m.equals("post")){
-    	        		ampsMode =AMPS_Mode.POST;
-    	        	}else{
-    	        		System.err.println("Unspecified Mode use either all. malt, maltex or post");
-    	        		System.exit(1);
-    	        	}
     	        }
     	        if (commandLine.hasOption("input"))//evaluate input files and directory
     	        {
@@ -224,14 +226,14 @@ public class InputParameterProcessor {
     	        }
     	        if(commandLine.hasOption("h")){////help
     	        	String header = "AMPS version 0.1";
-    	    	    String footer = "In case you encounter an error drop an email to huebler@shh.mpg.de with a useful description";
+    	    	    String footer = "In case you encounter an error drop an email with a useful description to huebler@shh.mpg.de";
     	    	    HelpFormatter formatter = new HelpFormatter();
     	    	    formatter.setWidth(500);
     	    	    formatter.printHelp("AMPS", header, options, footer, true);   
     	    	    System.exit(0);
     	        }
-    	        if(!commandLine.hasOption("o")||!commandLine.hasOption("i")||!commandLine.hasOption("m")) {
-	    	        	System.err.println("input, output, mode and configFile have to be imlemented to run AMPS sue -h for help \n Shutting down");
+    	        if(!commandLine.hasOption("o")||!commandLine.hasOption("i")) {
+	    	        	System.err.println("input and output ave to be specified to run AMPS use -h for help \n Shutting down");
 	    	        	System.exit(1);
     	        }
     	    }

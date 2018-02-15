@@ -323,8 +323,9 @@ public class ParameterProcessor {
 						taxas.add(t);
 			}
 		}else{
-			log.log(Level.INFO, "use defautl species List");
-			taxas.add("path/to/species/list");
+			String list = "/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt";
+			log.log(Level.INFO, "use defautl species List: " +list);
+			taxas.add(list);
 		}
 		if(Config.entryExists("resources")){
 			resources = Config.getString("resources");

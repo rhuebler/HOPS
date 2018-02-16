@@ -23,7 +23,7 @@ public class ParameterProcessor {
 	
 	//Specific MALT Parameters
 	private int threadsMalt = 32;
-	private int maxMemoryMalt=550;
+	private int maxMemoryMalt=600;
 	private String partitionMalt="batch";
 	private ArrayList<String> MALTCommandLine;
 	private String pathToMalt = "/projects1/malt/versions/malt040/malt-run";
@@ -40,13 +40,13 @@ public class ParameterProcessor {
 	
 	//MaltExtract Parameters set to default values
 	private int threadsMex = 16;
-	private int maxMemoryMex = 150;
+	private int maxMemoryMex = 200;
 	private String partitionMex = "batch";
 	private ArrayList<String> MALTExtractCommandLine;
-	private String pathToMaltExtract = "/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jarsRMAExtractorBeta1.3.jar";
+	private String pathToMaltExtract = "/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jars/MaltExtract1.3.jar";
 	private String filter = "defAnc";
 	private ArrayList<String> taxas = new ArrayList<String>();	
-	private String resources = "/projects1/clusterhomes/huebler/RMASifter/RMA_Extractor_Resources";
+	private String resources = "/projects1/clusterhomes/huebler/RMASifter/RMA_Extractor_Resources/";
 	private double top=0.01; 
 	private int maxLength=0;
 	private double minPIdent=0.0;

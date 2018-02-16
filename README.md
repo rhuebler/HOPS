@@ -32,7 +32,7 @@ malt extract and postprocessing, malt, tp only execute malt, maltex to run malt 
 post to run the postprocessing
  
 -c --configFile specify the path to a valif config file for amps which values are mandetory 
-is explained in the config file section of this manual
+is explained in the config file section of this manual this optional and only necessary to overwrite default values.
 
 -o --output specify a valid path to the output directory best avoid all characters reserved for
 unix prompts

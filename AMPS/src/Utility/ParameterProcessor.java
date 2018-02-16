@@ -399,12 +399,13 @@ public class ParameterProcessor {
 	}
 	private void generateMALTExtractCommandLine(String inputME, String outputME){
 		ArrayList<String> meLine = new ArrayList<String>();
-		/*meLine.add("java");*/		meLine.add("/projects1/tools/java/jdk-9.0.4/bin/java");	meLine.add("-jar");meLine.add("-Xmx"+maxMemoryMex+"G");meLine.add(pathToMaltExtract);//start java process
+		meLine.add("/projects1/tools/java/jdk-9.0.4/bin/java");	meLine.add("-jar");// start MaltExtract
+		meLine.add("-Xmx"+maxMemoryMex+"G");	meLine.add(pathToMaltExtract);//max memory
+		meLine.add("--filter");		meLine.add(filter);//filter
 		meLine.add("-i");			meLine.add(inputME);//Input
 		meLine.add("-o");			meLine.add(outputME);//output
 		meLine.add("-p");			meLine.add(""+threadsMex);//threads
 		meLine.add("-t")	;			meLine.addAll(taxas);//taxas
-		meLine.add("-f");			meLine.add(filter);//filter
 		meLine.add("--resources");	meLine.add(resources);//resources
 		if(top>0)
 			meLine.add("--top");		meLine.add(""+top);//top percent
@@ -444,12 +445,13 @@ public class ParameterProcessor {
 	}
 	private void generateMALTExtractCommandLine(ArrayList<String> inputME, String outputME){
 		ArrayList<String> meLine = new ArrayList<String>();
-		/*meLine.add("java");*/meLine.add("/projects1/tools/java/jdk-9.0.4/bin/java");			meLine.add("-jar");meLine.add("-Xmx"+maxMemoryMex+"G");meLine.add(pathToMaltExtract);// start MaltExtract
+		meLine.add("/projects1/tools/java/jdk-9.0.4/bin/java");	meLine.add("-jar");// start MaltExtract
+		meLine.add("-Xmx"+maxMemoryMex+"G");meLine.add(pathToMaltExtract);//max memory
+		meLine.add("--filter");		meLine.add(filter);//filter
 		meLine.add("-i");			meLine.addAll(inputME);// input
 		meLine.add("-o");			meLine.add(outputME);//output
 		meLine.add("-p");			meLine.add(""+threadsMex);//threads
 		meLine.add("-t");			meLine.addAll(taxas);//taxas
-		meLine.add("-f");			meLine.add(filter);//filter
 		meLine.add("--resources");	meLine.add(resources);//resources
 		if(top>0)
 			meLine.add("--top");		meLine.add(""+top);//top percent

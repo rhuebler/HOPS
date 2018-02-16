@@ -44,7 +44,7 @@ public class ParameterProcessor {
 	private String partitionMex = "batch";
 	private ArrayList<String> MALTExtractCommandLine;
 	private String pathToMaltExtract = "/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jars/MaltExtract1.3.jar";
-	private String filter = "defAnc";
+	private String filter = "complete";
 	private ArrayList<String> taxas = new ArrayList<String>();	
 	private String resources = "/projects1/clusterhomes/huebler/RMASifter/RMA_Extractor_Resources/";
 	private double top=0.01; 
@@ -100,13 +100,13 @@ public class ParameterProcessor {
 	}
 	
 	public int getMaxMemoryMaltEx() {
-		return maxMemoryMalt;
+		return maxMemoryMex;
 	}
 	public String getPartitionMaltEx(){
-		return partitionMalt;
+		return partitionMex;
 	}
 	public int getThreadsMaltEx() {
-		return threadsMalt;
+		return threadsMex;
 	}	
 
 	public String getOutDir() {

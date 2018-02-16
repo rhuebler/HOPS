@@ -73,8 +73,8 @@ public class AMPS_Main {
 				}
 				case MALTEX:{
 					ProcessExecutor executor = new ProcessExecutor();
-					int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir(), 
-							processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"maltEx", processor.getPartitionMaltEx());
+					int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltEx", 
+							processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx());
 					if(MALTExID == 0){
 						log.log(Level.SEVERE,"MALTExtract interupted");
 					}

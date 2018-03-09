@@ -131,7 +131,29 @@ public class ParameterProcessor {
 	public ArrayList<String> getPostProcessingLine(){
 		return commandLinePost;
 	}
-	// process config file when used on configfile
+	// process config file when used on configfile	
+	private void processPostProcessingParameters() {
+		if(Config.entryExists("pathToList"))
+			pathToList = Config.getString("pathToList");
+		else {
+			log.log(Level.INFO, "Use default List /projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt");
+		}
+		if(Config.entryExists("threadsPost"))
+			threadsPost = Config.getInt("threadsPost");
+		else
+			log.log(Level.INFO, "Using Default of 2 threads for Postprocessing");
+		
+		if(Config.entryExists("partitionPost"))
+			partitionPost = Config.getString("partitionPost");
+		else
+			log.log(Level.INFO, "Using batch Parition for Postprocessing");
+		
+		if(Config.entryExists("maxMemoryPost"))
+			partitionPost = Config.getString("maxMemoryPost");
+		else
+			log.log(Level.INFO, "Using max Memory of 10G");
+	
+	}
 	public void process(){	
 		switch(ampsMode){
 		case ALL:

@@ -62,10 +62,11 @@ public class ParameterProcessor {
 	
 	//POSTPROCESSING Parameters
 	private ArrayList<String> commandLinePost;
-	private String pathToList;
-	private String pathToPostProcessing;
-	
-	
+	private String pathToList="/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt";
+	private String pathToPostProcessing ="/Users/huebler/mount2/clusterhomes/huebler/RMASifter/AMPS/PostProcessing/amps-master/postprocessing.AMPS.r";
+	private int threadsPost =2;
+	private String partitionPost;
+	private int maxMemoryPost;
 
 	//Constructor
 	public ParameterProcessor(String config, ArrayList<String> in, String out,Logger log, AMPS_Mode aMode){
@@ -86,6 +87,15 @@ public class ParameterProcessor {
 		ampsMode = aMode;
 	}
 	//getters
+	public String getPartitionPost(){
+		return partitionPost;
+	}
+	public int getMaxMemoryPost() {
+		return maxMemoryPost;
+	}
+	public int getMaxThreadsPost(){
+		return threadsPost;
+	}
 	public boolean useSlurm() {
 		return useSlurm;
 	}
@@ -149,13 +159,13 @@ public class ParameterProcessor {
 				 processMALTExtractParameters();
 				 generateMALTExtractCommandLine(output+"malt/", output+"maltExtract/");
 			 }	 
-//			 if(Config.entryExists("pathToPostProcessing")){
-//				 pathToPostProcessing=Config.getString("pathToPostProcessin");
-//				 generatePostProcessingLine(output+"maltExtract/");
-//			 }else{
-//				 log.log(Level.SEVERE,"Postprocessing not found");
-//				 System.exit(1);
-//			 }	 	 
+			 if(Config.entryExists("pathToPostProcessing")){
+				 pathToPostProcessing=Config.getString("pathToPostProcessin");
+				 generatePostProcessingLine(output+"maltExtract/");
+			 }else{
+				 log.log(Level.SEVERE,"Postprocessing not found");
+				 System.exit(1);
+			 }	 	 
 			 break;
 		case MALT:	
 			if(Config.entryExists("pathToMalt")){
@@ -188,7 +198,6 @@ public class ParameterProcessor {
 				 pathToPostProcessing=Config.getString("pathToPostProcessin");
 				 generatePostProcessingLine(input);
 			 }else{
-				 generatePostProcessingLine(input);
 				 log.log(Level.SEVERE,"Postprocessing not found");
 				 System.exit(1);
 			 }
@@ -271,16 +280,38 @@ public class ParameterProcessor {
 	}
 	private void generatePostProcessingLine(String inputLine){//TODO rework
 		ArrayList<String> line = new ArrayList<String>();
+		String mode="";
+		if(filter=="def_anc"||filter=="default"||filter=="complete")
+			mode =filter;
+		else
+			mode = "def_anc";
 		line.add(pathToPostProcessing);
+		line.add("-m");
+		line.add(mode);
+		line.add("-r");
 		line.add(inputLine);
+		line.add("-t");
+		line.add(""+threadsPost);
+		line.add("-n");
 		line.add(pathToList);
 		commandLinePost = line;
 	}
 	private void generatePostProcessingLine(ArrayList<String> input){//TODO rework
 		ArrayList<String> line = new ArrayList<String>();
 		String inputLine = input.get(0);
+		String mode="";
+		if(filter=="def_anc"||filter=="default"||filter=="complete")
+			mode =filter;
+		else
+			mode = "def_anc";
 		line.add(pathToPostProcessing);
+		line.add("-m");
+		line.add(mode);
+		line.add("-r");
 		line.add(inputLine);
+		line.add("-t");
+		line.add(""+threadsPost);
+		line.add("-n");
 		line.add(pathToList);
 		commandLinePost = line;
 	}

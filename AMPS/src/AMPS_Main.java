@@ -47,11 +47,12 @@ public class AMPS_Main {
 						int MALTExID = executor.runDependendSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltEx", 
 								processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME",MALT_ID, processor.getPartitionMaltEx());
 						if(MALTExID>0){
-							log.log(Level.INFO, "Here Post processing would start with dependency "+ MALTExID);
-//							boolean PostProcessing = executor.run(processor.getPostProcessingLine(), log);
-//							if( !PostProcessing){
-//								log.log(Level.SEVERE,"Postprocessing interuppted");
-//							}
+							//log.log(Level.INFO, "Here Post processing would start with dependency "+ MALTExID);
+							int postID = executor.runDependendSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post",processor.getMaxThreadsPost(),
+									processor.getMaxMemoryPost(),"PO", MALTExID,processor.getPartitionPost());
+							if( postID==0){
+								log.log(Level.SEVERE,"Postprocessing interuppted");
+							}
 						}else{
 							log.log(Level.SEVERE,"MALTExtract interupted");
 						}

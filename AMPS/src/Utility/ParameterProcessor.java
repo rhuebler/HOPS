@@ -63,10 +63,10 @@ public class ParameterProcessor {
 	//POSTPROCESSING Parameters
 	private ArrayList<String> commandLinePost;
 	private String pathToList="/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt";
-	private String pathToPostProcessing ="/Users/huebler/mount2/clusterhomes/huebler/RMASifter/AMPS/PostProcessing/amps-master/postprocessing.AMPS.r";
-	private int threadsPost =2;
-	private String partitionPost;
-	private int maxMemoryPost;
+	private String pathToPostProcessing ="/projects1/clusterhomes/huebler/RMASifter/AMPS/PostProcessing/amps-master/postprocessing.AMPS.r";
+	private int threadsPost = 4;
+	private String partitionPost = "batch";
+	private int maxMemoryPost=10;
 
 	//Constructor
 	public ParameterProcessor(String config, ArrayList<String> in, String out,Logger log, AMPS_Mode aMode){
@@ -183,6 +183,7 @@ public class ParameterProcessor {
 			 }	 
 			 if(Config.entryExists("pathToPostProcessing")){
 				 pathToPostProcessing=Config.getString("pathToPostProcessin");
+				 processPostProcessingParameters();
 				 generatePostProcessingLine(output+"maltExtract/");
 			 }else{
 				 log.log(Level.SEVERE,"Postprocessing not found");
@@ -218,6 +219,7 @@ public class ParameterProcessor {
 		case POST:	
 			if(Config.entryExists("pathToPostProcessing")){
 				 pathToPostProcessing=Config.getString("pathToPostProcessin");
+				 processPostProcessingParameters();
 				 generatePostProcessingLine(input);
 			 }else{
 				 log.log(Level.SEVERE,"Postprocessing not found");
@@ -307,6 +309,7 @@ public class ParameterProcessor {
 			mode =filter;
 		else
 			mode = "def_anc";
+		line.add("Rscript");
 		line.add(pathToPostProcessing);
 		line.add("-m");
 		line.add(mode);
@@ -326,6 +329,7 @@ public class ParameterProcessor {
 			mode =filter;
 		else
 			mode = "def_anc";
+		line.add("Rscript");
 		line.add(pathToPostProcessing);
 		line.add("-m");
 		line.add(mode);

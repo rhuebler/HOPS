@@ -182,7 +182,7 @@ public class ParameterProcessor {
 				 generateMALTExtractCommandLine(output+"malt/", output+"maltExtract/");
 			 }	 
 			 if(Config.entryExists("pathToPostProcessing")){
-				 pathToPostProcessing=Config.getString("pathToPostProcessin");
+				 pathToPostProcessing=Config.getString("pathToPostProcessing");
 				 processPostProcessingParameters();
 				 generatePostProcessingLine(output+"maltExtract/");
 			 }else{
@@ -218,7 +218,7 @@ public class ParameterProcessor {
 			 break;
 		case POST:	
 			if(Config.entryExists("pathToPostProcessing")){
-				 pathToPostProcessing=Config.getString("pathToPostProcessin");
+				 pathToPostProcessing=Config.getString("pathToPostProcessing");
 				 processPostProcessingParameters();
 				 generatePostProcessingLine(input);
 			 }else{
@@ -302,7 +302,7 @@ public class ParameterProcessor {
 				log.log(Level.INFO, "Set Partition for Malt to "+partitionMalt);
 			}
 	}
-	private void generatePostProcessingLine(String inputLine){//TODO rework
+	private void generatePostProcessingLine(String inputDirectory){//TODO rework
 		ArrayList<String> line = new ArrayList<String>();
 		String mode="";
 		if(filter=="def_anc"||filter=="default"||filter=="complete")
@@ -314,7 +314,7 @@ public class ParameterProcessor {
 		line.add("-m");
 		line.add(mode);
 		line.add("-r");
-		line.add(inputLine);
+		line.add(inputDirectory);
 		line.add("-t");
 		line.add(""+threadsPost);
 		line.add("-n");
@@ -325,7 +325,7 @@ public class ParameterProcessor {
 		ArrayList<String> line = new ArrayList<String>();
 		String inputLine = input.get(0);
 		String mode="";
-		if(filter=="def_anc"||filter=="default"||filter=="complete")
+		if(filter=="def_anc"||filter=="default")
 			mode =filter;
 		else
 			mode = "def_anc";
@@ -380,9 +380,10 @@ public class ParameterProcessor {
 						taxas.add(t);
 			}
 		}else{
-			String list = "/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt";
-			log.log(Level.INFO, "use defautl species List: " +list);
-			taxas.add(list);
+			if(!pathToList.isEmpty()) {
+			log.log(Level.INFO, "use defautl species List: " +pathToList);
+			taxas.add(pathToList);
+			}
 		}
 		if(Config.entryExists("resources")){
 			resources = Config.getString("resources");

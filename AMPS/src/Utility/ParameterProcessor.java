@@ -23,7 +23,7 @@ public class ParameterProcessor {
 	
 	//Specific MALT Parameters
 	private int threadsMalt = 32;
-	private int maxMemoryMalt=600;
+	private int maxMemoryMalt=650;
 	private String partitionMalt="batch";
 	private ArrayList<String> MALTCommandLine;
 	private String pathToMalt = "/projects1/malt/versions/malt040/malt-run";

@@ -38,10 +38,19 @@ public class AMPS_Main {
 			if(processor.useSlurm()){
 				//run(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem)
 				switch(inputProcessor.getAMPS_Mode()){
-			//TODO test	
 				case ALL:{
 					ProcessExecutor executor = new ProcessExecutor();
-					int MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt", 
+					int MALT_ID = 0;
+					if(processor.wantPreprocessing()) {
+						int Pre_ID = executor.runSlurmJob(processor.getPreProcessingCommand(), log, processor.getOutDir()+"pre", 
+								32, processor.getMaxMemoryMalt(),"pre", "batch");
+						if(Pre_ID>0) {
+							MALT_ID = executor.runDependendSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt", 
+								processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt",Pre_ID, processor.getPartitionMalt());
+						}
+					}
+					
+					MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt", 
 							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt());
 					if(MALT_ID>0){
 						int MALTExID = executor.runDependendSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltEx", 

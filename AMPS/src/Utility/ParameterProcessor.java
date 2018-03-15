@@ -19,8 +19,11 @@ public class ParameterProcessor {
 	private String output;
 	private Logger log;
 	private boolean useSlurm = true;
+	private boolean preProcess = false;
+	//PreProceesing
 	
-	
+	private String pathToPreProcessing = "/projects/clusterhomes/huebler/RMASifter/AMPS/RemoveHumanReads.sh";
+	private ArrayList<String> commandPrePreprocessing =  new ArrayList<String>();
 	//Specific MALT Parameters
 	private int threadsMalt = 32;
 	private int maxMemoryMalt=650;
@@ -37,7 +40,7 @@ public class ParameterProcessor {
 	private String memoryMode = "load";
 	private boolean verboseMalt = true;
 	private ArrayList<String> additionalMALTParameters;
-	
+	private boolean replciateQueryCache = true;
 	//MaltExtract Parameters set to default values
 	private int threadsMex = 16;
 	private int maxMemoryMex = 200;
@@ -59,7 +62,6 @@ public class ParameterProcessor {
 	private boolean dupRemOff=false;
 	private boolean	downSampOff=false;
 	private ArrayList<String> additionalMaltExtractParameters;
-	
 	//POSTPROCESSING Parameters
 	private ArrayList<String> commandLinePost;
 	private String pathToList="/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt";
@@ -87,6 +89,12 @@ public class ParameterProcessor {
 		ampsMode = aMode;
 	}
 	//getters
+	public ArrayList<String> getPreProcessingCommand(){
+		return commandPrePreprocessing;
+	}
+	public boolean wantPreprocessing() {
+		return preProcess;
+	}	
 	public String getPartitionPost(){
 		return partitionPost;
 	}
@@ -157,7 +165,13 @@ public class ParameterProcessor {
 	public void process(){	
 		switch(ampsMode){
 		case ALL:
-			
+			if(Config.entryExists("preProcess")) {
+				if(Config.entryExists("pathToPreProcessing")){
+					pathToPreProcessing = Config.getString("pathToPreProcessing");
+				}
+				preProcess=Config.getBoolean("preProcess");
+				generatePreProcessingLine(input,output+"pre");
+			}
 			 if(Config.entryExists("pathToMalt")){
 				 pathToMalt=Config.getString("pathToMalt");
 				 processMALTParameters();
@@ -229,6 +243,14 @@ public class ParameterProcessor {
 		}	
 		
 	}
+	private void generatePreProcessingLine(ArrayList<String> input, String output){//TODO rework
+		ArrayList<String> line = new ArrayList<String>();
+		line.add("bash");
+		line.add(pathToPreProcessing);
+		line.addAll(input);
+		line.add(output);
+		commandPrePreprocessing = line;
+	}
 	private void processMALTParameters(){
 		 if(Config.entryExists("index")){
 			 index=Config.getString("index");
@@ -285,7 +307,9 @@ public class ParameterProcessor {
 					additionalMALTParameters.add(s);
 				}
 			}
-		 	
+		 	if(Config.entryExists("replciateQueryCache")){
+		 		replciateQueryCache = Config.getBoolean("replciateQueryCache");
+		 	}
 		 	if(Config.entryExists("threadsMalt")) {
 		 		threadsMalt = Config.getInt("threadsMalt");
 			}else {
@@ -341,14 +365,21 @@ public class ParameterProcessor {
 		line.add(pathToList);
 		commandLinePost = line;
 	}
-	private void generateMALTCommandLine(ArrayList<String> inputME, String outputME){
+	private void generateMALTCommandLine(ArrayList<String> input, String output){
+		if(preProcess) {//in case of preprocssing we replace the path of the input files
+			for(int i = 0; i<input.size();i++) {
+			String s=this.output+"pre/"+new File(input.get(i)).getName().split(".")[0]+".fq.gz";
+			input.set(i, s);
+			}
+		}
+		
 		ArrayList<String> maltLine= new ArrayList<String>();
 		maltLine.add(pathToMalt);//malt location
 		
 		maltLine.add("-J-Xmx"+maxMemoryMalt+"G");
 		maltLine.add("-d");				maltLine.add(index);//index
-		maltLine.add("-i"); 				maltLine.addAll(inputME);//inputfiles
-		maltLine.add("-o");			 	maltLine.add(outputME);//output
+		maltLine.add("-i"); 				maltLine.addAll(input);//inputfiles
+		maltLine.add("-o");			 	maltLine.add(output);//output
 		maltLine.add("-m"); 				maltLine.add(mode);//maltMode
 		maltLine.add("-at");				maltLine.add(alignmentType);//AlignmentType
 		maltLine.add("--memoryMode");	maltLine.add(memoryMode);//memoryMode
@@ -359,11 +390,14 @@ public class ParameterProcessor {
 		maltLine.add("-mpi");			maltLine.add(""+id);//minimum percentID
 		if(verboseMalt)
 			maltLine.add("-v");
+		if(replciateQueryCache)
+			maltLine.add("--replciateQueryCache");
 		if(additionalMALTParameters!=null && additionalMALTParameters.size()>0)
 			maltLine.addAll(additionalMALTParameters);//addtionalMaltParameters
 		MALTCommandLine = maltLine;
-		new File(outputME).mkdir();
+		new File(output).mkdir();
 	}
+	
 	private void processMALTExtractParameters(){
 		if(Config.entryExists("filter")){
 			filter = Config.getString("filter"); 
@@ -455,12 +489,12 @@ public class ParameterProcessor {
 			log.log(Level.INFO, "Set Partition for MaltExtract to "+partitionMex);
 		}
 	}
-	private void generateMALTExtractCommandLine(String inputME, String outputME){
+	private void generateMALTExtractCommandLine(String input, String outputME){
 		ArrayList<String> meLine = new ArrayList<String>();
 		meLine.add("/projects1/tools/java/jdk-9.0.4/bin/java");	meLine.add("-jar");// start MaltExtract
 		meLine.add("-Xmx"+maxMemoryMex+"G");	meLine.add(pathToMaltExtract);//max memory
 		meLine.add("--filter");		meLine.add(filter);//filter
-		meLine.add("-i");			meLine.add(inputME);//Input
+		meLine.add("-i");			meLine.add(input);//Input
 		meLine.add("-o");			meLine.add(outputME);//output
 		meLine.add("-p");			meLine.add(""+threadsMex);//threads
 		meLine.add("-t")	;			meLine.addAll(taxas);//taxas
@@ -501,12 +535,12 @@ public class ParameterProcessor {
 		MALTExtractCommandLine = meLine;
 		new File(outputME).mkdir();
 	}
-	private void generateMALTExtractCommandLine(ArrayList<String> inputME, String outputME){
+	private void generateMALTExtractCommandLine(ArrayList<String> input, String outputME){
 		ArrayList<String> meLine = new ArrayList<String>();
 		meLine.add("/projects1/tools/java/jdk-9.0.4/bin/java");	meLine.add("-jar");// start MaltExtract
 		meLine.add("-Xmx"+maxMemoryMex+"G");meLine.add(pathToMaltExtract);//max memory
 		meLine.add("--filter");		meLine.add(filter);//filter
-		meLine.add("-i");			meLine.addAll(inputME);// input
+		meLine.add("-i");			meLine.addAll(input);// input
 		meLine.add("-o");			meLine.add(outputME);//output
 		meLine.add("-p");			meLine.add(""+threadsMex);//threads
 		meLine.add("-t");			meLine.addAll(taxas);//taxas

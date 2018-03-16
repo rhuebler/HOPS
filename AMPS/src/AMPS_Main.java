@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import ProcessManagement.ProcessExecutor;
 import Utility.ParameterProcessor;
-//TODO MALT works now set memory requirements for it.... still not integreated well with slurm maybe create second version
 public class AMPS_Main {
 	/**
 	 * @author huebler 
@@ -25,8 +24,7 @@ public class AMPS_Main {
 			log.log(Level.INFO, inputProcessor.getAllOptions());
 			String config = inputProcessor.getConfigFile();
 			log.log(Level.INFO,"Process Config File");
-			//figure out Mode
-			//check if stuff is mandatory
+			//Go through config file if Provided and overwrite default values where necessary than generate commandLine for all included function
 			ParameterProcessor processor;
 			if(inputProcessor.getConfigFile()!=null) {
 				processor = new ParameterProcessor(config, inputProcessor.getInputFiles(), inputProcessor.getOutDir(),log,inputProcessor.getAMPS_Mode());
@@ -35,8 +33,7 @@ public class AMPS_Main {
 			}
 			processor.process();
 			log.log(Level.INFO,"Run Mode " +  inputProcessor.getAMPS_Mode());
-			if(processor.useSlurm()){
-				//run(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem)
+			if(processor.useSlurm()){// want to use the slurm schedular
 				switch(inputProcessor.getAMPS_Mode()){
 				case ALL:{
 					ProcessExecutor executor = new ProcessExecutor();
@@ -100,6 +97,7 @@ public class AMPS_Main {
 				}
 			}
 			}else{
+				//we can use this to run a job without a specific schedular and without preprocessing
 				switch(inputProcessor.getAMPS_Mode()){
 					case ALL:{
 						ProcessExecutor executor = new ProcessExecutor();

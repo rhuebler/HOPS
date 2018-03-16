@@ -40,7 +40,7 @@ public class ParameterProcessor {
 	private String memoryMode = "load";
 	private boolean verboseMalt = true;
 	private ArrayList<String> additionalMALTParameters;
-	private boolean replciateQueryCache = true;
+	private boolean replicateQueryCache = true;
 	//MaltExtract Parameters set to default values
 	private int threadsMex = 16;
 	private int maxMemoryMex = 200;
@@ -307,8 +307,8 @@ public class ParameterProcessor {
 					additionalMALTParameters.add(s);
 				}
 			}
-		 	if(Config.entryExists("replciateQueryCache")){
-		 		replciateQueryCache = Config.getBoolean("replciateQueryCache");
+		 	if(Config.entryExists("replicateQueryCache")){
+		 		replicateQueryCache = Config.getBoolean("replicateQueryCache");
 		 	}
 		 	if(Config.entryExists("threadsMalt")) {
 		 		threadsMalt = Config.getInt("threadsMalt");
@@ -390,8 +390,8 @@ public class ParameterProcessor {
 		maltLine.add("-mpi");			maltLine.add(""+id);//minimum percentID
 		if(verboseMalt)
 			maltLine.add("-v");
-		if(replciateQueryCache)
-			maltLine.add("--replciateQueryCache");
+		if(replicateQueryCache)
+			maltLine.add("--replicateQueryCache");
 		if(additionalMALTParameters!=null && additionalMALTParameters.size()>0)
 			maltLine.addAll(additionalMALTParameters);//addtionalMaltParameters
 		MALTCommandLine = maltLine;

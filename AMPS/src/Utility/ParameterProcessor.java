@@ -234,7 +234,7 @@ public class ParameterProcessor {
 			if(Config.entryExists("pathToPostProcessing")){
 				 pathToPostProcessing=Config.getString("pathToPostProcessing");
 				 processPostProcessingParameters();
-				 generatePostProcessingLine(input);
+				 generatePostProcessingLine(input.get(0));
 			 }else{
 				 log.log(Level.SEVERE,"Postprocessing not found");
 				 System.exit(1);
@@ -345,26 +345,7 @@ public class ParameterProcessor {
 		line.add(pathToList);
 		commandLinePost = line;
 	}
-	private void generatePostProcessingLine(ArrayList<String> input){//TODO rework
-		ArrayList<String> line = new ArrayList<String>();
-		String inputLine = input.get(0);
-		String mode="";
-		if(filter=="def_anc"||filter=="default")
-			mode =filter;
-		else
-			mode = "def_anc";
-		line.add("Rscript");
-		line.add(pathToPostProcessing);
-		line.add("-m");
-		line.add(mode);
-		line.add("-r");
-		line.add(inputLine);
-		line.add("-t");
-		line.add(""+threadsPost);
-		line.add("-n");
-		line.add(pathToList);
-		commandLinePost = line;
-	}
+
 	private void generateMALTCommandLine(ArrayList<String> input, String output){
 		if(preProcess) {//in case of preprocssing we replace the path of the input files
 			for(int i = 0; i<input.size();i++) {

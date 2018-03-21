@@ -89,8 +89,9 @@ public class AMPS_Main {
 				}
 				case POST:{
 					ProcessExecutor executor = new ProcessExecutor();
-					boolean PostProcessing = executor.run(processor.getPostProcessingLine(), log);
-					if( !PostProcessing){
+					int postProcessinID = executor.runSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post",processor.getMaxThreadsPost(),
+							processor.getMaxMemoryPost(),"PO",processor.getPartitionPost());
+					if( postProcessinID>0){
 						log.log(Level.SEVERE,"Postprocessing interuppted");
 					}
 					break;

@@ -201,6 +201,8 @@ public class ParameterProcessor {
 				 generatePostProcessingLine(output+"maltExtract/");
 			 }else{
 				 log.log(Level.INFO,"Using Default PostProcessing script");
+				 processPostProcessingParameters();
+				 generatePostProcessingLine(input.get(0));
 			 }	 	 
 			 break;
 		case MALT:	
@@ -236,6 +238,8 @@ public class ParameterProcessor {
 				 generatePostProcessingLine(input.get(0));
 			 }else{
 				 log.log(Level.INFO,"Using Default PostProcessing Script");
+				 processPostProcessingParameters();
+				 generatePostProcessingLine(input.get(0));
 			 }
 			break;
 		}	
@@ -327,7 +331,7 @@ public class ParameterProcessor {
 	private void generatePostProcessingLine(String inputDirectory){//TODO rework
 		ArrayList<String> line = new ArrayList<String>();
 		String mode="";
-		if(filter=="def_anc"||filter=="default"||filter=="full")
+		if(filter=="def_anc"||filter=="default")
 			mode =filter;
 		else
 			mode = "def_anc";

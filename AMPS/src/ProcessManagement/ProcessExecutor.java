@@ -32,7 +32,7 @@ public class ProcessExecutor {
 			com.add("--mem");com.add(""+(maxMem*1000));
 			com.add("--job-name");com.add(name);
 			com.add("-p");com.add(partition);
-			com.add("--wrap");com.add(l);
+			com.add("--wrap=");com.add("\""+l+"\"");
 			l="";
 			for(String s : com)
 				l+=s+" ";
@@ -86,7 +86,7 @@ public class ProcessExecutor {
 			com.add("--job-name");com.add(name);
 			com.add("--dependency=afterok:"+dependency);
 			com.add("-p");com.add(partition);
-			com.add("--wrap");com.add(l);
+			com.add("--wrap=");com.add("\""+l+"\"");
 			log.log(Level.INFO,l);
 			l="";
 			for(String s : com)

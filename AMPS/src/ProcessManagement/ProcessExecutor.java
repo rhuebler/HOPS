@@ -19,12 +19,12 @@ public class ProcessExecutor {
 		int ID = 0;
 		name = "AMPS"+name;
 		if(command!=null&&command.size()!=0) {
-			String l ="";
-			for(String s : command){
-				log.log(Level.INFO,s);
-				l+=s+" ";
+			String line ="";
+			for(String part : command){
+				log.log(Level.INFO,part);
+				line += part+" ";
 			}
-			l.trim();
+			line.trim();
 			ArrayList<String> com = new ArrayList<String>(); 
 			com.add("sbatch");
 			com.add("-o");com.add(outDir+name+".log");
@@ -32,18 +32,18 @@ public class ProcessExecutor {
 			com.add("--mem");com.add(""+(maxMem*1000));
 			com.add("--job-name");com.add(name);
 			com.add("-p");com.add(partition);
-			com.add("--wrap");com.add("\""+l.trim()+"\"");
-			l="";
-			for(String s : com)
-				l+=s+" ";
-			log.log(Level.INFO,l);
+			com.add("--wrap");com.add("\""+line.trim()+"\"");
+			line="";
+			for(String part : com)
+				line += part+" ";
+			log.log(Level.INFO,line);
 			ProcessBuilder builder = new ProcessBuilder (com);
 			//Map<String, String> environ = builder.environment();
 			try {
 				final Process process = builder.start();//get JobID here
 			    if(process.isAlive()){
 			    	 	BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-				    String line;
+				    line = null;
 				    while ((line = br.readLine()) != null) {
 				      log.log(Level.INFO,line);
 				    }
@@ -73,11 +73,11 @@ public class ProcessExecutor {
 		int ID = 0;
 		name = "AMPS"+name;
 		if(command!=null&&command.size()!=0) {
-			String l ="";
-			for(String s : command){
-				l+=s+" ";
+			String line ="";
+			for(String part : command){
+				line += part+" ";
 			}
-			l.trim();
+			line.trim();
 			ArrayList<String> com = new ArrayList<String>(); 
 			com.add("sbatch");
 			com.add("-o");com.add(outDir+name+".log");
@@ -86,19 +86,19 @@ public class ProcessExecutor {
 			com.add("--job-name");com.add(name);
 			com.add("--dependency=afterok:"+dependency);
 			com.add("-p");com.add(partition);
-			com.add("--wrap");com.add("\""+l.trim()+"\"");
-			log.log(Level.INFO,l);
-			l="";
-			for(String s : com)
-				l+=s+" ";
-			log.log(Level.INFO,l);
+			com.add("--wrap");com.add("\""+line.trim()+"\"");
+			log.log(Level.INFO,line);
+			line="";
+			for(String part : com)
+				line += part+" ";
+			log.log(Level.INFO,line);
 			ProcessBuilder builder = new ProcessBuilder (com);
 			//Map<String, String> environ = builder.environment();
 			try {
 				final Process process = builder.start();//get JobID here
 			    if(process.isAlive()){
 			    	 	BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-				    String line;
+			    	 	line = null;
 				    while ((line = br.readLine()) != null) {
 				      log.log(Level.INFO,line);
 				    }

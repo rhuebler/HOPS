@@ -18,7 +18,7 @@ public class ProcessExecutor {
 	public Integer runSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, String name, String partition){
 		int ID = 0;
 		name = "AMPS"+name;
-		if(command!=null&&command.size()!=0) {
+		if(command != null && command.size() != 0) {
 			String line ="";
 			for(String part : command){
 				log.log(Level.INFO,part);
@@ -56,7 +56,6 @@ public class ProcessExecutor {
 					log.log(Level.INFO,"Process Exited with status: " + status);
 			    }
 			} catch (IOException | InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			ID = getJobID(name);
@@ -72,7 +71,7 @@ public class ProcessExecutor {
 			String name, int dependency, String partition){
 		int ID = 0;
 		name = "AMPS"+name;
-		if(command!=null&&command.size()!=0) {
+		if(command != null && command.size() != 0) {
 			String line ="";
 			for(String part : command){
 				line += part+" ";

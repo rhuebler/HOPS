@@ -200,8 +200,7 @@ public class ParameterProcessor {
 				 processPostProcessingParameters();
 				 generatePostProcessingLine(output+"maltExtract/");
 			 }else{
-				 log.log(Level.SEVERE,"Postprocessing not found");
-				 System.exit(1);
+				 log.log(Level.INFO,"Using Default PostProcessing script");
 			 }	 	 
 			 break;
 		case MALT:	
@@ -236,8 +235,7 @@ public class ParameterProcessor {
 				 processPostProcessingParameters();
 				 generatePostProcessingLine(input.get(0));
 			 }else{
-				 log.log(Level.SEVERE,"Postprocessing not found");
-				 System.exit(1);
+				 log.log(Level.INFO,"Using Default PostProcessing Script");
 			 }
 			break;
 		}	
@@ -319,7 +317,7 @@ public class ParameterProcessor {
 				maxMemoryMalt = Config.getInt("maxMemoryMalt");
 				log.log(Level.INFO, "Set maximum Memory for Malt to "+ maxMemoryMalt +" GB");
 			}else {
-				log.log(Level.INFO, "Set Maximum Memorry for Malt to "+maxMemoryMalt +" GB");
+				log.log(Level.INFO, "Set Maximum Memory for Malt to default value of "+maxMemoryMalt +" GB");
 			}
 			if(Config.entryExists("partitionMalt")){
 				partitionMalt = Config.getString("partitionMalt");

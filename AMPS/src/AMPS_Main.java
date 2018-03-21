@@ -39,22 +39,22 @@ public class AMPS_Main {
 					ProcessExecutor executor = new ProcessExecutor();
 					int MALT_ID = 0;
 					if(processor.wantPreprocessing()) {
-						int Pre_ID = executor.runSlurmJob(processor.getPreProcessingCommand(), log, processor.getOutDir()+"pre", 
+						int Pre_ID = executor.runSlurmJob(processor.getPreProcessingCommand(), log, processor.getOutDir()+"pre/", 
 								32, processor.getMaxMemoryMalt(),"pre", "batch");
 						if(Pre_ID>0) {
-							MALT_ID = executor.runDependendSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt", 
+							MALT_ID = executor.runDependendSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
 								processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt",Pre_ID, processor.getPartitionMalt());
 						}
 					}
 					
-					MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt", 
+					MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
 							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt());
 					if(MALT_ID>0){
-						int MALTExID = executor.runDependendSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltEx", 
+						int MALTExID = executor.runDependendSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltEx/", 
 								processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME",MALT_ID, processor.getPartitionMaltEx());
 						if(MALTExID>0){
 							//log.log(Level.INFO, "Here Post processing would start with dependency "+ MALTExID);
-							int postID = executor.runDependendSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post",processor.getMaxThreadsPost(),
+							int postID = executor.runDependendSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post/",processor.getMaxThreadsPost(),
 									processor.getMaxMemoryPost(),"PO", MALTExID,processor.getPartitionPost());
 							if( postID==0){
 								log.log(Level.SEVERE,"Postprocessing interuppted");
@@ -80,7 +80,7 @@ public class AMPS_Main {
 				}
 				case MALTEX:{
 					ProcessExecutor executor = new ProcessExecutor();
-					int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltEx", 
+					int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltEx/", 
 							processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx());
 					if(MALTExID == 0){
 						log.log(Level.SEVERE,"MALTExtract interupted");
@@ -89,9 +89,9 @@ public class AMPS_Main {
 				}
 				case POST:{
 					ProcessExecutor executor = new ProcessExecutor();
-					int postProcessinID = executor.runSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post",processor.getMaxThreadsPost(),
+					int postProcessinID = executor.runSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post/",processor.getMaxThreadsPost(),
 							processor.getMaxMemoryPost(),"PO",processor.getPartitionPost());
-					if( postProcessinID>0){
+					if( postProcessinID==0){
 						log.log(Level.SEVERE,"Postprocessing interuppted");
 					}
 					break;

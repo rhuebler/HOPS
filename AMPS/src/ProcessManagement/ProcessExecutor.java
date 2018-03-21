@@ -27,12 +27,12 @@ public class ProcessExecutor {
 			l.trim();
 			ArrayList<String> com = new ArrayList<String>(); 
 			com.add("sbatch");
-			com.add("-o");com.add(outDir+"s.log");
+			com.add("-o");com.add(outDir+name+".log");
 			com.add("-c");com.add(""+threads);
 			com.add("--mem");com.add(""+(maxMem*1000));
 			com.add("--job-name");com.add(name);
 			com.add("-p");com.add(partition);
-			com.add("--wrap=");com.add("\""+l+"\"");
+			com.add("--wrap");com.add("\""+l.trim()+"\"");
 			l="";
 			for(String s : com)
 				l+=s+" ";
@@ -80,13 +80,13 @@ public class ProcessExecutor {
 			l.trim();
 			ArrayList<String> com = new ArrayList<String>(); 
 			com.add("sbatch");
-			com.add("-o");com.add(outDir+"s.log");
+			com.add("-o");com.add(outDir+name+".log");
 			com.add("-c");com.add(""+threads);
 			com.add("--mem");com.add(""+(maxMem*1000));
 			com.add("--job-name");com.add(name);
 			com.add("--dependency=afterok:"+dependency);
 			com.add("-p");com.add(partition);
-			com.add("--wrap=");com.add("\""+l+"\"");
+			com.add("--wrap");com.add("\""+l.trim()+"\"");
 			log.log(Level.INFO,l);
 			l="";
 			for(String s : com)

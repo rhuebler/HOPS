@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import ProcessManagement.ProcessExecutor;
+import Utility.AMPS_Mode;
 import Utility.ParameterProcessor;
 public class AMPS_Main {
 	/**
@@ -40,22 +41,23 @@ public class AMPS_Main {
 					int MALT_ID = 0;
 					if(processor.wantPreprocessing()) {
 						int Pre_ID = executor.runSlurmJob(processor.getPreProcessingCommand(), log, processor.getOutDir()+"pre/", 
-								32, processor.getMaxMemoryMalt(),"pre", "batch");
+								32, processor.getMaxMemoryMalt(),"pre", "batch", AMPS_Mode.PRE, 0);
 						if(Pre_ID>0) {
-							MALT_ID = executor.runDependendSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
-								processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt",Pre_ID, processor.getPartitionMalt());
+							MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
+								processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt(),
+								inputProcessor.getAMPS_Mode(), Pre_ID);
 						}
 					}
 					
 					MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
-							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt());
+							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt(), inputProcessor.getAMPS_Mode(), 0);
 					if(MALT_ID>0){
-						int MALTExID = executor.runDependendSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltEx/", 
-								processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME",MALT_ID, processor.getPartitionMaltEx());
+						int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltEx/", 
+								processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(), inputProcessor.getAMPS_Mode(), MALT_ID);
 						if(MALTExID>0){
 							//log.log(Level.INFO, "Here Post processing would start with dependency "+ MALTExID);
-							int postID = executor.runDependendSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post/",processor.getMaxThreadsPost(),
-									processor.getMaxMemoryPost(),"PO", MALTExID,processor.getPartitionPost());
+							int postID = executor.runSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post/",processor.getMaxThreadsPost(),
+									processor.getMaxMemoryPost(),"PO", processor.getPartitionPost(), inputProcessor.getAMPS_Mode(), MALTExID);
 							if( postID==0){
 								log.log(Level.SEVERE,"Postprocessing interuppted");
 							}
@@ -72,7 +74,7 @@ public class AMPS_Main {
 				case MALT:{
 					ProcessExecutor executor = new ProcessExecutor();
 						int MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
-							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt",processor.getPartitionMalt());
+							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt",processor.getPartitionMalt(), inputProcessor.getAMPS_Mode(), 0);
 					if(MALT_ID == 0){
 						log.log(Level.SEVERE,"MALT interuppted");
 					}
@@ -81,7 +83,7 @@ public class AMPS_Main {
 				case MALTEX:{
 					ProcessExecutor executor = new ProcessExecutor();
 					int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltEx/", 
-							processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx());
+							processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(), inputProcessor.getAMPS_Mode(), 0);
 					if(MALTExID == 0){
 						log.log(Level.SEVERE,"MALTExtract interupted");
 					}
@@ -90,12 +92,14 @@ public class AMPS_Main {
 				case POST:{
 					ProcessExecutor executor = new ProcessExecutor();
 					int postProcessinID = executor.runSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post/",processor.getMaxThreadsPost(),
-							processor.getMaxMemoryPost(),"PO",processor.getPartitionPost());
+							processor.getMaxMemoryPost(),"PO",processor.getPartitionPost(), inputProcessor.getAMPS_Mode(), 0);
 					if( postProcessinID==0){
 						log.log(Level.SEVERE,"Postprocessing interuppted");
 					}
 					break;
 				}
+				default:
+					break;
 			}
 			}else{
 				//we can use this to run a job without a specific schedular and without preprocessing
@@ -144,6 +148,9 @@ public class AMPS_Main {
 						}
 						break;
 					}
+				default:
+					log.log(Level.WARNING,"Unsupported AMPS Mode!");
+					break;
 				}
 			}	
 			log.log(Level.INFO,"AMPS run finished!");

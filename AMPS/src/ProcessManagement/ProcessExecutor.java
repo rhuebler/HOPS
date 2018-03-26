@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import Utility.AMPS_Mode;
+
 public class ProcessExecutor {
 	/**
 	 * @author huebler
@@ -15,7 +17,7 @@ public class ProcessExecutor {
 	 * @return
 	 * @throws
 	 */
-	public Integer runSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, String name, String partition){
+	public Integer runSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, String name, String partition,  AMPS_Mode mode, int dependency){
 		int ID = 0;
 		name = "AMPS"+name;
 		if(command != null && command.size() != 0) {
@@ -25,17 +27,31 @@ public class ProcessExecutor {
 				line += part+" ";
 			}
 			line.trim();
+			
+		
 			ArrayList<String> com = new ArrayList<String>(); 
 			com.add("sbatch");
 			com.add("-o");com.add(outDir+name+".log");
 			com.add("-c");com.add(""+threads);
 			com.add("--mem");com.add(""+(maxMem*1000));
+			if(dependency > 0) {
+				com.add("--dependency=afterok:"+dependency);
+			}	
 			com.add("--job-name");com.add(name);
 			com.add("-p");com.add(partition);
-			com.add("--wrap");com.add("\""+line.trim()+"\"");
+			switch(mode){
+			default: com.add("--wrap");com.add(line.trim());
+				break;
+			case POST:
+				com.add("--wrap");com.add("\""+line.trim()+"\"");
+			case PRE:
+				com.add("--wrap");com.add("\""+line.trim()+"\"");
+				break;
+			}
 			line="";
 			for(String part : com)
 				line += part+" ";
+			
 			log.log(Level.INFO,line);
 			ProcessBuilder builder = new ProcessBuilder (com);
 			//Map<String, String> environ = builder.environment();
@@ -67,61 +83,7 @@ public class ProcessExecutor {
 		}
 		return ID;
 	}
-	public int runDependendSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, 
-			String name, int dependency, String partition){
-		int ID = 0;
-		name = "AMPS"+name;
-		if(command != null && command.size() != 0) {
-			String line ="";
-			for(String part : command){
-				line += part+" ";
-			}
-			line.trim();
-			ArrayList<String> com = new ArrayList<String>(); 
-			com.add("sbatch");
-			com.add("-o");com.add(outDir+name+".log");
-			com.add("-c");com.add(""+threads);
-			com.add("--mem");com.add(""+(maxMem*1000));
-			com.add("--job-name");com.add(name);
-			com.add("--dependency=afterok:"+dependency);
-			com.add("-p");com.add(partition);
-			com.add("--wrap");com.add("\""+line.trim()+"\"");
-			log.log(Level.INFO,line);
-			line="";
-			for(String part : com)
-				line += part+" ";
-			log.log(Level.INFO,line);
-			ProcessBuilder builder = new ProcessBuilder (com);
-			//Map<String, String> environ = builder.environment();
-			try {
-				final Process process = builder.start();//get JobID here
-			    if(process.isAlive()){
-			    	 	BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			    	 	line = null;
-				    while ((line = br.readLine()) != null) {
-				      log.log(Level.INFO,line);
-				    }
-				    BufferedReader be = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-				    while ((line = be.readLine()) != null) {
-					      log.log(Level.WARNING,line);
-				    }
-
-				    int status = process.waitFor();
-					log.log(Level.INFO,"Process Exited with status: " + status);
-			    }
-			} catch (IOException | InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			ID = getJobID(name);
-			log.log(Level.INFO,"Submitted Job: "+name+" with ID: "+ID+" for User: "+System.getProperty("user.name"));
-		}
-		else {
-			log.log(Level.SEVERE,"Process interuppted");
-			System.exit(1);
-		}
-		return ID;
-	}
+	
 	public int getJobID(String name){
 		int jobID = 0;
 		ArrayList<String> cmd= new ArrayList<String>();

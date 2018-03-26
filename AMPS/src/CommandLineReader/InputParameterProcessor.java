@@ -145,6 +145,8 @@ public class InputParameterProcessor {
     	            			case POST:
     	            				fileNames.add(inFile.getPath());
     	            				break;
+								default:
+									break;
     	            			}
     	            			
     	            		}else if(inFile.isFile()){// if file is provided as input
@@ -167,6 +169,8 @@ public class InputParameterProcessor {
     	            			case POST:
     	            				fileNames.add(inFile.getPath());
     	            				break;
+								default:
+									break;
     	            			
     	            				
     	            			}
@@ -192,6 +196,8 @@ public class InputParameterProcessor {
     	            			case POST:
     	            				System.err.println("File List not egilable for mode postprocessing");
     	            				break;
+								default:
+									break;
     	             			}	
     	             			
     	             		}

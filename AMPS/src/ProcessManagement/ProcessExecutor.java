@@ -44,8 +44,6 @@ public class ProcessExecutor {
 				break;
 			case POST:
 				com.add("--wrap");com.add("\""+line.trim()+"\"");
-			case PRE:
-				com.add("--wrap");com.add("\""+line.trim()+"\"");
 				break;
 			}
 			line="";

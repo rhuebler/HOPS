@@ -41,7 +41,7 @@ public class AMPS_Main {
 					int MALT_ID = 0;
 					if(processor.wantPreprocessing()) {
 						int Pre_ID = executor.runSlurmJob(processor.getPreProcessingCommand(), log, processor.getOutDir()+"pre/", 
-								32, processor.getMaxMemoryMalt(),"pre", "batch", AMPS_Mode.PRE, 0);
+								32, processor.getMaxMemoryMalt(),"pre", "batch", AMPS_Mode.POST, 0);
 						if(Pre_ID>0) {
 							MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
 								processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt(),

@@ -1,5 +1,5 @@
 package Utility;
 
 public enum AMPS_Mode {
-	ALL, MALT, MALTEX, POST, PRE
+	ALL, MALT, MALTEX, POST
 }

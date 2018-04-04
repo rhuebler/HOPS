@@ -52,7 +52,7 @@ public class AMPS_Main {
 					MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
 							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt(), inputProcessor.getAMPS_Mode(), 0);
 					if(MALT_ID>0){
-						int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltEx/", 
+						int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltExtract/", 
 								processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(), inputProcessor.getAMPS_Mode(), MALT_ID);
 						if(MALTExID>0){
 							//log.log(Level.INFO, "Here Post processing would start with dependency "+ MALTExID);
@@ -82,7 +82,7 @@ public class AMPS_Main {
 				}
 				case MALTEX:{
 					ProcessExecutor executor = new ProcessExecutor();
-					int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltEx/", 
+					int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltExtract/", 
 							processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(), inputProcessor.getAMPS_Mode(), 0);
 					if(MALTExID == 0){
 						log.log(Level.SEVERE,"MALTExtract interupted");

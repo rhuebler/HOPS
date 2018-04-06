@@ -1,6 +1,7 @@
 package ProcessManagement;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -28,7 +29,9 @@ public class ProcessExecutor {
 			}
 			line.trim();
 			
-		
+			File f = new File(outDir);
+			if(!f.isDirectory())
+				f.mkdir();
 			ArrayList<String> com = new ArrayList<String>(); 
 			com.add("sbatch");
 			com.add("-o");com.add(outDir+name+".log");

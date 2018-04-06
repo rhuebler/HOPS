@@ -157,7 +157,7 @@ public class ParameterProcessor {
 			log.log(Level.INFO, "Using batch Parition for Postprocessing");
 		
 		if(Config.entryExists("maxMemoryPost"))
-			partitionPost = Config.getString("maxMemoryPost");
+			maxMemoryPost = Config.getInt("maxMemoryPost");
 		else
 			log.log(Level.INFO, "Using max Memory of 10G");
 	

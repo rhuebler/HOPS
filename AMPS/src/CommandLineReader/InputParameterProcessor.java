@@ -129,12 +129,12 @@ public class InputParameterProcessor {
     	            			switch(ampsMode){ //if directory provided as input
     	            			case ALL:
     	            				for(String name : inFile.list())//if file ends with RMA6 or is as a soft link at to files
-    	            					if(name.endsWith("fa")||name.endsWith("fq")||name.endsWith("fasta")||name.endsWith("fastq")||arg.endsWith("gz"))
+    	            					if(name.endsWith("fa")||name.endsWith("fq")||name.endsWith("fasta")||name.endsWith("fastq")||name.endsWith("gz"))
         	            				this.fileNames.add(inFile.getPath()+"/" + name);
     	            				break;
     	            			case MALT:
     	            				for(String name : inFile.list())//if file ends with RMA6 or is as a soft link at to files
-    	            					if(name.endsWith("fa")||name.endsWith("fq")||name.endsWith("fasta")||name.endsWith("fastq")||arg.endsWith("gz"))
+    	            					if(name.endsWith("fa")||name.endsWith("fq")||name.endsWith("fasta")||name.endsWith("fastq")||name.endsWith("gz"))
     	            					this.fileNames.add(inFile.getPath()+"/" + name);
     	            				break;
     	            			case MALTEX:	

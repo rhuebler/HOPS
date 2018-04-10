@@ -42,13 +42,7 @@ public class ProcessExecutor {
 			}	
 			com.add("--job-name");com.add(name);
 			com.add("-p");com.add(partition);
-			switch(mode){
-			default: com.add("--wrap");com.add(line.trim());
-				break;
-			case POST:
-				com.add("--wrap");com.add("\""+line.trim()+"\"");
-				break;
-			}
+			com.add("--wrap");com.add(line.trim());
 			line="";
 			for(String part : com)
 				line += part+" ";

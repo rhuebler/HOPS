@@ -42,8 +42,8 @@ public class ParameterProcessor {
 	private ArrayList<String> additionalMALTParameters;
 	private boolean replicateQueryCache = true;
 	//MaltExtract Parameters set to default values
-	private int threadsMex = 16;
-	private int maxMemoryMex = 200;
+	private int threadsMex = 20;
+	private int maxMemoryMex = 300;
 	private String partitionMex = "batch";
 	private ArrayList<String> MALTExtractCommandLine;
 	private String pathToMaltExtract = "/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jars/MaltExtract1.3.jar";

@@ -41,6 +41,7 @@ public class ParameterProcessor {
 	private boolean verboseMalt = true;
 	private ArrayList<String> additionalMALTParameters;
 	private boolean replicateQueryCache = true;
+	
 	//MaltExtract Parameters set to default values
 	private int threadsMex = 20;
 	private int maxMemoryMex = 300;

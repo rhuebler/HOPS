@@ -39,7 +39,7 @@ unix prompts
 
 -h --help print help
 
-### Config File Parameters###
+### Config File Parameters ###
 To use this as an example config file the explanitions have to be removed or 
 use the example file from the resources folder
 ## Generalparameters ##
@@ -170,7 +170,7 @@ set maximum Memory in GB!!!! for MALT Extract required for use Slurm
 partitionMaltEx=batch
 optional set partition for maltExtract
 
-## Post Processing Specific Parameters##
+## Post Processing Specific Parameters ##
 pathToList=/path/to/speciesList
 specify a list with each node to target in F.M. Keys Postprocessing script
 

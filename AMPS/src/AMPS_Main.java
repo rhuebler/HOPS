@@ -41,25 +41,33 @@ public class AMPS_Main {
 					int MALT_ID = 0;
 					if(processor.wantPreprocessing()) {
 						int Pre_ID = executor.runSlurmJob(processor.getPreProcessingCommand(), log, processor.getOutDir()+"pre/", 
-								32, processor.getMaxMemoryMalt(),"pre", "batch", AMPS_Mode.POST, 0);
+								32, processor.getMaxMemoryMalt(),"pre", "batch", 0);
 						if(Pre_ID>0) {
 							MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
 								processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt(),
-								inputProcessor.getAMPS_Mode(), Pre_ID);
+								 Pre_ID);
 						}
 					}
 					
 					MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
-							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt(), inputProcessor.getAMPS_Mode(), 0);
+							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt(),  0);
 					if(MALT_ID>0){
 						int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltExtract/", 
-								processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(), inputProcessor.getAMPS_Mode(), MALT_ID);
+								processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(), MALT_ID);
 						if(MALTExID>0){
 							//log.log(Level.INFO, "Here Post processing would start with dependency "+ MALTExID);
 							int postID = executor.runSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post/",processor.getMaxThreadsPost(),
-									processor.getMaxMemoryPost(),"PO", processor.getPartitionPost(), inputProcessor.getAMPS_Mode(), MALTExID);
+									processor.getMaxMemoryPost(),"PO", processor.getPartitionPost(), MALTExID);
 							if( postID==0){
 								log.log(Level.SEVERE,"Postprocessing interuppted");
+							}else{
+								if(processor.wantCleaningUp()) {
+									log.log(Level.INFO,"Commencing Cleanup Step");
+									int cleaningID = executor.runSlurmJob(processor.getCleaningLine(), log,processor.getOutDir(),1,
+											20,"CLEAN", "batch", postID);
+									if(cleaningID==0)
+										log.log(Level.SEVERE,"Cleaning interuppted");
+								}
 							}
 						}else{
 							log.log(Level.SEVERE,"MALTExtract interupted");
@@ -74,7 +82,7 @@ public class AMPS_Main {
 				case MALT:{
 					ProcessExecutor executor = new ProcessExecutor();
 						int MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
-							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt",processor.getPartitionMalt(), inputProcessor.getAMPS_Mode(), 0);
+							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt",processor.getPartitionMalt(), 0);
 					if(MALT_ID == 0){
 						log.log(Level.SEVERE,"MALT interuppted");
 					}
@@ -83,7 +91,7 @@ public class AMPS_Main {
 				case MALTEX:{
 					ProcessExecutor executor = new ProcessExecutor();
 					int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltExtract/", 
-							processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(), inputProcessor.getAMPS_Mode(), 0);
+							processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(),  0);
 					if(MALTExID == 0){
 						log.log(Level.SEVERE,"MALTExtract interupted");
 					}
@@ -92,7 +100,7 @@ public class AMPS_Main {
 				case POST:{
 					ProcessExecutor executor = new ProcessExecutor();
 					int postProcessinID = executor.runSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post/",processor.getMaxThreadsPost(),
-							processor.getMaxMemoryPost(),"PO",processor.getPartitionPost(), inputProcessor.getAMPS_Mode(), 0);
+							processor.getMaxMemoryPost(),"PO",processor.getPartitionPost(), 0);
 					if( postProcessinID==0){
 						log.log(Level.SEVERE,"Postprocessing interuppted");
 					}

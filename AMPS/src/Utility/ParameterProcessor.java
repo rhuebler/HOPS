@@ -20,6 +20,7 @@ public class ParameterProcessor {
 	private Logger log;
 	private boolean useSlurm = true;
 	private boolean preProcess = false;
+	private boolean cleanUp = false;
 	//PreProceesing
 	
 	private String pathToPreProcessing = "/projects/clusterhomes/huebler/RMASifter/AMPS/RemoveHumanReads.sh";
@@ -71,6 +72,7 @@ public class ParameterProcessor {
 	private String partitionPost = "batch";
 	private int maxMemoryPost=10;
 
+	private ArrayList<String> cleaningCommand = new ArrayList<String>();
 	//Constructor
 	public ParameterProcessor(String config, ArrayList<String> in, String out,Logger log, AMPS_Mode aMode){
 		this.log = log;
@@ -90,6 +92,12 @@ public class ParameterProcessor {
 		ampsMode = aMode;
 	}
 	//getters
+	public boolean wantCleaningUp() {
+		return cleanUp;
+	}
+	public ArrayList<String> getCleaningLine(){
+		return cleaningCommand;
+	}
 	public ArrayList<String> getPreProcessingCommand(){
 		return commandPrePreprocessing;
 	}
@@ -204,8 +212,20 @@ public class ParameterProcessor {
 				 log.log(Level.INFO,"Using Default PostProcessing script");
 				 processPostProcessingParameters();
 				 generatePostProcessingLine(input.get(0));
-			 }	 	 
+			 }	 
+			 //TODO test
+			 if(Config.entryExists("cleaningUp")&&Config.getBoolean("cleaningUp"))
+			 {
+				  ArrayList<String> command = new  ArrayList<String>();
+				  command.add("rm");
+				  command.add(output+"malt/*rma6");
+				  if(preProcess) {
+					  command.add(output+"pre/fa.gz");
+				  }
+				  cleaningCommand = command;
+			 }
 			 break;
+			
 		case MALT:	
 			if(Config.entryExists("pathToMalt")){
 				 pathToMalt=Config.getString("pathToMalt");

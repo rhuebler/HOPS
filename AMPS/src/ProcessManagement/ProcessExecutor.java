@@ -18,7 +18,7 @@ public class ProcessExecutor {
 	 * @return
 	 * @throws
 	 */
-	public Integer runSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, String name, String partition,  AMPS_Mode mode, int dependency){
+	public Integer runSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, String name, String partition, int dependency){
 		int ID = 0;
 		name = "AMPS"+name;
 		if(command != null && command.size() != 0) {

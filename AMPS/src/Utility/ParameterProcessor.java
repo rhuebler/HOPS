@@ -356,6 +356,8 @@ public class ParameterProcessor {
 			mode =filter;
 		else
 			mode = "def_anc";
+		line.add("export");
+		line.add("R_LIBS_USER=/projects1/tools/r-environment/3.4.3");
 		line.add("Rscript");
 		line.add(pathToPostProcessing);
 		line.add("-m");

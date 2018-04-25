@@ -215,7 +215,7 @@ public class ParameterProcessor {
 			 }else{
 				 log.log(Level.INFO,"Using Default PostProcessing script");
 				 processPostProcessingParameters();
-				 generatePostProcessingLine(input.get(0));
+				 generatePostProcessingLine(output+"maltExtract/");
 			 }	 
 			 //TODO test
 			 if(Config.entryExists("cleaningUp")&&Config.getBoolean("cleaningUp"))

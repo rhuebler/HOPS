@@ -5,7 +5,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import ProcessManagement.ProcessExecutor;
-import Utility.AMPS_Mode;
 import Utility.ParameterProcessor;
 public class AMPS_Main {
 	/**

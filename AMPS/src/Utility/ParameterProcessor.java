@@ -28,7 +28,7 @@ public class ParameterProcessor {
 	//Specific MALT Parameters
 	private int threadsMalt = 32;
 	private int maxMemoryMalt=650;
-	private String partitionMalt="batch";
+	private String partitionMalt="batch";//"long"
 	private ArrayList<String> MALTCommandLine;
 	private String pathToMalt = "/projects1/malt/versions/malt040/malt-run";
 	private String index = "/projects1/malt/databases/indexed/index040/full-bac-full-vir-etal-nov_2017";
@@ -46,7 +46,7 @@ public class ParameterProcessor {
 	//MaltExtract Parameters set to default values
 	private int threadsMex = 20;
 	private int maxMemoryMex = 300;
-	private String partitionMex = "batch";
+	private String partitionMex = "batch";//"medium"
 	private ArrayList<String> MALTExtractCommandLine;
 	private String pathToMaltExtract = "/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jars/MaltExtract1.3.jar";
 	private String filter = "full";
@@ -64,12 +64,16 @@ public class ParameterProcessor {
 	private boolean dupRemOff=false;
 	private boolean	downSampOff=false;
 	private ArrayList<String> additionalMaltExtractParameters;
+	private String wallTimeME ="48:00:00";// see if we can lower to 24
+	
 	//POSTPROCESSING Parameters
 	private ArrayList<String> commandLinePost;
 	private String pathToList="/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt";
 	private String pathToPostProcessing ="/projects1/clusterhomes/huebler/RMASifter/AMPS/PostProcessing/amps-master/postprocessing.AMPS.r";
 	private int threadsPost = 4;
-	private String partitionPost = "batch";
+	private String partitionPost = "batch";//"short";
+	private String wallTimePost ="1:00:00";
+
 	private int maxMemoryPost=10;
 
 	private ArrayList<String> cleaningCommand = new ArrayList<String>();

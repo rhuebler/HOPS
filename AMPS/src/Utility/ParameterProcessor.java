@@ -42,6 +42,7 @@ public class ParameterProcessor {
 	private boolean verboseMalt = true;
 	private ArrayList<String> additionalMALTParameters;
 	private boolean replicateQueryCache = true;
+	private String wallTimeMalt="48:00:00"; //if necessary
 	
 	//MaltExtract Parameters set to default values
 	private int threadsMex = 20;
@@ -96,6 +97,12 @@ public class ParameterProcessor {
 		ampsMode = aMode;
 	}
 	//getters
+	public String getWallTimeMaltEx() {
+		return wallTimeME;
+	}
+	public String getWallTimePost() {
+		return wallTimePost;
+	}
 	public boolean wantCleaningUp() {
 		return cleanUp;
 	}
@@ -173,6 +180,11 @@ public class ParameterProcessor {
 			maxMemoryPost = Config.getInt("maxMemoryPost");
 		else
 			log.log(Level.INFO, "Using max Memory of 10G");
+		if(Config.entryExists("wallTimePost"))
+			wallTimePost = Config.getString("wallTimePost");
+		else
+			log.log(Level.INFO, "Set wallTime to" +wallTimePost);
+		
 	
 	}
 	public void process(){	
@@ -352,6 +364,10 @@ public class ParameterProcessor {
 				partitionMalt = Config.getString("partitionMalt");
 				log.log(Level.INFO, "Set Partition for Malt to "+partitionMalt);
 			}
+			if(Config.entryExists("wallTimeMalt")){
+				wallTimeMalt = Config.getString("wallTimeMalt");
+				log.log(Level.INFO, "Set Partition for Malt to "+wallTimeMalt);
+			}
 	}
 	private void generatePostProcessingLine(String inputDirectory){//TODO rework
 		ArrayList<String> line = new ArrayList<String>();
@@ -360,9 +376,6 @@ public class ParameterProcessor {
 			mode =filter;
 		else
 			mode = "def_anc";
-		line.add("export");
-		line.add("R_LIBS_USER=/projects1/tools/r-environment/3.4.3");
-		line.add("Rscript");
 		line.add(pathToPostProcessing);
 		line.add("-m");
 		line.add(mode);
@@ -497,6 +510,10 @@ public class ParameterProcessor {
 			log.log(Level.INFO, "Set Partition for MaltExtract to "+partitionMex);
 		}else {
 			log.log(Level.INFO, "Set Partition for MaltExtract to "+partitionMex);
+		}
+		if(Config.entryExists("wallTimeMaltExtract")){
+			wallTimeME = Config.getString("wallTimeMaltExtract");
+			log.log(Level.INFO, "Set Walltime for MaltExtract to "+wallTimeME);
 		}
 	}
 	private void generateMALTExtractCommandLine(String input, String outputME){

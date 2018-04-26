@@ -87,6 +87,7 @@ public class ProcessExecutor {
 		ProcessBuilder builder = new ProcessBuilder (cmd);
 		builder.redirectErrorStream();
 		try {
+			ArrayList<Integer>jobIds= new ArrayList<Integer>();
 			final Process process = builder.start();//get JobID here
 		    if(process.isAlive()){
 		    	 	BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -94,11 +95,14 @@ public class ProcessExecutor {
 			    while ((line = br.readLine()) != null) {
 			    		if(line.contains(name)) {
 			    			String[] parts = line.trim().split("\\s++");
-			    			jobID = Integer.parseInt(parts[0]);
+			    			jobIds.add(Integer.parseInt(parts[0]));
 			    		}
 			    }	
 			   process.waitFor();
 		    }
+		    for(int id: jobIds)
+		    	if(id>jobID)
+		    		jobID =id;
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

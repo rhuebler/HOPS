@@ -1,6 +1,5 @@
 import CommandLineReader.InputParameterProcessor;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,10 +55,9 @@ public class AMPS_Main {
 								processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(), MALT_ID);
 						if(MALTExID>0){
 							//log.log(Level.INFO, "Here Post processing would start with dependency "+ MALTExID);
-							ArrayList<String> line = 	new ArrayList<String>();
-							line.add("export");
-							line.add("R_LIBS_USER=/projects1/tools/r-environment/3.4.3");
-							executor.run(line, log);
+//							ArrayList<String> line = 	new ArrayList<String>();
+//							line.add("export R_LIBS_USER=/projects1/tools/r-environment/3.4.3");
+//							executor.run(line, log);
 							int postID = executor.runSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post/",processor.getMaxThreadsPost(),
 									processor.getMaxMemoryPost(),"PO", processor.getPartitionPost(), MALTExID);
 							if( postID==0){
@@ -103,10 +101,9 @@ public class AMPS_Main {
 				}
 				case POST:{
 					ProcessExecutor executor = new ProcessExecutor();
-					ArrayList<String> line = 	new ArrayList<String>();
-					line.add("export");
-					line.add("R_LIBS_USER=/projects1/tools/r-environment/3.4.3");
-					executor.run(line, log);
+//					ArrayList<String> line = 	new ArrayList<String>();
+//					line.add("export R_LIBS_USER=/projects1/tools/r-environment/3.4.3");
+//					executor.run(line, log);
 					int postProcessinID = executor.runSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post/",processor.getMaxThreadsPost(),
 							processor.getMaxMemoryPost(),"PO",processor.getPartitionPost(), 0);
 					if( postProcessinID==0){

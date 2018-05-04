@@ -17,7 +17,7 @@ public class ProcessExecutor {
 	 * @return
 	 * @throws
 	 */
-	public Integer runSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, String name, String partition, int dependency){
+	public Integer runSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, String name, String partition, int dependency, String walltime){
 		int ID = 0;
 		name = "AMPS"+name;
 		if(command != null && command.size() != 0) {
@@ -36,6 +36,9 @@ public class ProcessExecutor {
 			com.add("-o");com.add(outDir+name+".log");
 			com.add("-c");com.add(""+threads);
 			com.add("--mem");com.add(""+(maxMem*1000));
+			if(partition!="long") {
+				com.add("-t");com.add(walltime);
+			}
 			if(dependency > 0) {
 				com.add("--dependency=afterok:"+dependency);
 			}	

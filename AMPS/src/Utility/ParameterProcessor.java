@@ -21,6 +21,10 @@ public class ParameterProcessor {
 	private boolean useSlurm = true;
 	private boolean preProcess = false;
 	private boolean cleanUp = false;
+	private String wallTimePreProcessing="48:00:00";
+	private String partitionPreProcessing="long";
+	private int threadsPreProcessing=32;
+	private int memoryPreProcessing =500;
 	//PreProceesing
 	
 	private String pathToPreProcessing = "/projects/clusterhomes/huebler/RMASifter/AMPS/RemoveHumanReads.sh";
@@ -28,7 +32,7 @@ public class ParameterProcessor {
 	//Specific MALT Parameters
 	private int threadsMalt = 32;
 	private int maxMemoryMalt=650;
-	private String partitionMalt="batch";//"long"
+	private String partitionMalt="long";//"long"
 	private ArrayList<String> MALTCommandLine;
 	private String pathToMalt = "/projects1/malt/versions/malt040/malt-run";
 	private String index = "/projects1/malt/databases/indexed/index040/full-bac-full-vir-etal-nov_2017";
@@ -47,7 +51,7 @@ public class ParameterProcessor {
 	//MaltExtract Parameters set to default values
 	private int threadsMex = 20;
 	private int maxMemoryMex = 300;
-	private String partitionMex = "batch";//"medium"
+	private String partitionMex = "medium";//"medium"
 	private ArrayList<String> MALTExtractCommandLine;
 	private String pathToMaltExtract = "/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jars/MaltExtract1.3.jar";
 	private String filter = "full";
@@ -72,7 +76,7 @@ public class ParameterProcessor {
 	private String pathToList="/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt";
 	private String pathToPostProcessing ="/projects1/clusterhomes/huebler/RMASifter/AMPS/PostProcessing/amps-master/postprocessing.AMPS.r";
 	private int threadsPost = 4;
-	private String partitionPost = "batch";//"short";
+	private String partitionPost = "short";//"short";
 	private String wallTimePost ="1:00:00";
 
 	private int maxMemoryPost=10;
@@ -97,11 +101,27 @@ public class ParameterProcessor {
 		ampsMode = aMode;
 	}
 	//getters
+	
+	public int getMemoryPreProcessing() {
+		return memoryPreProcessing;
+	}
+	public int getThreadsPreprocessing() {
+		return threadsPreProcessing;
+	}
+	public String getPartitionPreProcessing() {
+		return partitionPreProcessing;
+	}
+	public String getWallTimePreProcessing() {
+		return wallTimePreProcessing;
+	}
 	public String getWallTimeMaltEx() {
 		return wallTimeME;
 	}
 	public String getWallTimePost() {
 		return wallTimePost;
+	}
+	public String getWallTimeMalt() {
+		return wallTimeMalt;
 	}
 	public boolean wantCleaningUp() {
 		return cleanUp;
@@ -193,6 +213,18 @@ public class ParameterProcessor {
 			if(Config.entryExists("preProcess")) {
 				if(Config.entryExists("pathToPreProcessing")){
 					pathToPreProcessing = Config.getString("pathToPreProcessing");
+				}
+				if(Config.entryExists("wallTimePreProcessing")){
+					wallTimePreProcessing = Config.getString("wallTimePreProcessing");
+				}
+				if(Config.entryExists("partitionPreProcessing")){
+					wallTimePreProcessing = Config.getString("partitionPreProcessing");
+				}
+				if(Config.entryExists("threadsPreProcessing")){
+					wallTimePreProcessing = Config.getString("threadsPreProcessing");
+				}
+				if(Config.entryExists("memoryPreProcessing")){
+					wallTimePreProcessing = Config.getString("memoryPreProcessing");
 				}
 				preProcess=Config.getBoolean("preProcess");
 				generatePreProcessingLine(input,output+"pre");

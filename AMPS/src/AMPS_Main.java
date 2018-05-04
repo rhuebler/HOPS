@@ -40,33 +40,35 @@ public class AMPS_Main {
 					int MALT_ID = 0;
 					if(processor.wantPreprocessing()) {
 						int Pre_ID = executor.runSlurmJob(processor.getPreProcessingCommand(), log, processor.getOutDir()+"pre/", 
-								32, processor.getMaxMemoryMalt(),"pre", "batch", 0);
+								processor.getThreadsPreprocessing(), processor.getMemoryPreProcessing(),"pre", processor.getPartitionPreProcessing(), 0, processor.getWallTimePreProcessing());
 						if(Pre_ID>0) {
 							MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
 								processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt(),
-								 Pre_ID);
+								 Pre_ID, processor.getWallTimeMalt());
 						}
+					}else {
+						MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
+								processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt(),  0, 
+								processor.getWallTimeMalt());
 					}
 					
-					MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
-							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt", processor.getPartitionMalt(),  0);
 					if(MALT_ID>0){
 						int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltExtract/", 
-								processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(), MALT_ID);
+								processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(), MALT_ID, processor.getWallTimeMaltEx());
 						if(MALTExID>0){
 							//log.log(Level.INFO, "Here Post processing would start with dependency "+ MALTExID);
 //							ArrayList<String> line = 	new ArrayList<String>();
 //							line.add("export R_LIBS_USER=/projects1/tools/r-environment/3.4.3");
 //							executor.run(line, log);
 							int postID = executor.runSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post/",processor.getMaxThreadsPost(),
-									processor.getMaxMemoryPost(),"PO", processor.getPartitionPost(), MALTExID);
+									processor.getMaxMemoryPost(),"PO", processor.getPartitionPost(), MALTExID,processor.getWallTimePost());
 							if( postID==0){
 								log.log(Level.SEVERE,"Postprocessing interuppted");
 							}else{
 								if(processor.wantCleaningUp()) {
 									log.log(Level.INFO,"Commencing Cleanup Step");
 									int cleaningID = executor.runSlurmJob(processor.getCleaningLine(), log,processor.getOutDir(),1,
-											20,"CLEAN", "batch", postID);
+											20,"CLEAN", "short", postID,"1:00:00");
 									if(cleaningID==0)
 										log.log(Level.SEVERE,"Cleaning interuppted");
 								}
@@ -84,7 +86,7 @@ public class AMPS_Main {
 				case MALT:{
 					ProcessExecutor executor = new ProcessExecutor();
 						int MALT_ID = executor.runSlurmJob(processor.getMALTCommandLine(), log, processor.getOutDir()+"malt/", 
-							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt",processor.getPartitionMalt(), 0);
+							processor.getThreadsMalt(), processor.getMaxMemoryMalt(),"malt",processor.getPartitionMalt(), 0,processor.getWallTimeMalt());
 					if(MALT_ID == 0){
 						log.log(Level.SEVERE,"MALT interuppted");
 					}
@@ -93,7 +95,7 @@ public class AMPS_Main {
 				case MALTEX:{
 					ProcessExecutor executor = new ProcessExecutor();
 					int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltExtract/", 
-							processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(),  0);
+							processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(),  0,processor.getWallTimeMaltEx());
 					if(MALTExID == 0){
 						log.log(Level.SEVERE,"MALTExtract interupted");
 					}
@@ -105,7 +107,7 @@ public class AMPS_Main {
 //					line.add("export R_LIBS_USER=/projects1/tools/r-environment/3.4.3");
 //					executor.run(line, log);
 					int postProcessinID = executor.runSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post/",processor.getMaxThreadsPost(),
-							processor.getMaxMemoryPost(),"PO",processor.getPartitionPost(), 0);
+							processor.getMaxMemoryPost(),"PO",processor.getPartitionPost(), 0, processor.getWallTimePost());
 					if( postProcessinID==0){
 						log.log(Level.SEVERE,"Postprocessing interuppted");
 					}

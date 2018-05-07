@@ -21,6 +21,7 @@ public class ParameterProcessor {
 	private boolean useSlurm = true;
 	private boolean preProcess = false;
 	private boolean cleanUp = false;
+	//Preprocessing
 	private String wallTimePreProcessing="48:00:00";
 	private String partitionPreProcessing="long";
 	private int threadsPreProcessing=32;
@@ -33,6 +34,7 @@ public class ParameterProcessor {
 	private int threadsMalt = 32;
 	private int maxMemoryMalt=650;
 	private String partitionMalt="long";//"long"
+	private String wallTimeMalt="48:00:00"; //if necessary
 	private ArrayList<String> MALTCommandLine;
 	private String pathToMalt = "/projects1/malt/versions/malt040/malt-run";
 	private String index = "/projects1/malt/databases/indexed/index040/full-bac-full-vir-etal-nov_2017";
@@ -46,7 +48,7 @@ public class ParameterProcessor {
 	private boolean verboseMalt = true;
 	private ArrayList<String> additionalMALTParameters;
 	private boolean replicateQueryCache = true;
-	private String wallTimeMalt="48:00:00"; //if necessary
+
 	
 	//MaltExtract Parameters set to default values
 	private int threadsMex = 20;

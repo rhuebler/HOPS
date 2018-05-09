@@ -55,7 +55,7 @@ public class ParameterProcessor {
 	private int maxMemoryMex = 300;
 	private String partitionMex = "medium";//"medium"
 	private ArrayList<String> MALTExtractCommandLine;
-	private String pathToMaltExtract = "/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jars/MaltExtract1.3.jar";
+	private String pathToMaltExtract = "/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jars/MaltExtract1.4.jar";
 	private String filter = "full";
 	private ArrayList<String> taxas = new ArrayList<String>();	
 	private String resources = "/projects1/clusterhomes/huebler/RMASifter/RMA_Extractor_Resources/";
@@ -196,7 +196,7 @@ public class ParameterProcessor {
 		if(Config.entryExists("partitionPost"))
 			partitionPost = Config.getString("partitionPost");
 		else
-			log.log(Level.INFO, "Using batch Parition for Postprocessing");
+			log.log(Level.INFO, "Using short Parition for Postprocessing");
 		
 		if(Config.entryExists("maxMemoryPost"))
 			maxMemoryPost = Config.getInt("maxMemoryPost");

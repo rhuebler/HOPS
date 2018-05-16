@@ -546,7 +546,7 @@ public class ParameterProcessor {
 			log.log(Level.INFO, "Set Partition for MaltExtract to "+partitionMex);
 		}
 		if(Config.entryExists("wallTimeMaltExtract")){
-			wallTimeME = Config.getString("wallTimeMaltExtract");
+			wallTimeME = Config.getString("wallTimeME");
 			log.log(Level.INFO, "Set Walltime for MaltExtract to "+wallTimeME);
 		}
 	}

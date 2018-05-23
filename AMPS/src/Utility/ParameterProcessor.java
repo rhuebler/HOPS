@@ -70,6 +70,7 @@ public class ParameterProcessor {
 	private boolean	destackingOff=false;
 	private boolean dupRemOff=false;
 	private boolean	downSampOff=false;
+	private boolean useTopAlignment = false;
 	private ArrayList<String> additionalMaltExtractParameters;
 	private String wallTimeME ="48:00:00";// see if we can lower to 24
 	
@@ -533,6 +534,11 @@ public class ParameterProcessor {
 		}else {
 			log.log(Level.SEVERE, "Using MALT with default of 16");
 		}
+		if(Config.entryExists("useTopAlignment")) {
+			useTopAlignment = Config.getBoolean("useTopAlignment");
+		}else {
+			log.log(Level.SEVERE, "Using MALT with default of 16");
+		}
 		if(Config.entryExists("maxMemoryMaltEx")){
 			maxMemoryMex = Config.getInt("maxMemoryMaltEx");
 			log.log(Level.INFO, "Set maximum Memory for MaltExtact to "+ maxMemoryMex +" GB");
@@ -591,6 +597,8 @@ public class ParameterProcessor {
 		if(downSampOff){// turn off downsampling
 			meLine.add("--downSampOff");
 		}
+		if(useTopAlignment)
+			meLine.add("--useTopAlignment");
 		if(additionalMaltExtractParameters != null && additionalMaltExtractParameters.size()>0)
 			meLine.addAll(additionalMaltExtractParameters);
 		MALTExtractCommandLine = meLine;
@@ -637,6 +645,8 @@ public class ParameterProcessor {
 		if(downSampOff){// turn off downsampling
 			meLine.add("--downSampOff");
 		}
+		if(useTopAlignment)
+			meLine.add("--useTopAlignment");
 		if(additionalMaltExtractParameters != null && additionalMaltExtractParameters.size()>0)
 			meLine.addAll(additionalMaltExtractParameters);
 		MALTExtractCommandLine = meLine;

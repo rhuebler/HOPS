@@ -70,7 +70,7 @@ public class ParameterProcessor {
 	private boolean	destackingOff=false;
 	private boolean dupRemOff=false;
 	private boolean	downSampOff=false;
-	private boolean useTopAlignment = false;
+	private boolean useTopAlignment = true;
 	private ArrayList<String> additionalMaltExtractParameters;
 	private String wallTimeME ="48:00:00";// see if we can lower to 24
 	
@@ -551,8 +551,8 @@ public class ParameterProcessor {
 		}else {
 			log.log(Level.INFO, "Set Partition for MaltExtract to "+partitionMex);
 		}
-		if(Config.entryExists("wallTimeMaltExtract")){
-			wallTimeME = Config.getString("wallTimeME");
+		if(Config.entryExists("wallTimeMaltEx")){
+			wallTimeME = Config.getString("wallTimeMaltEx");
 			log.log(Level.INFO, "Set Walltime for MaltExtract to "+wallTimeME);
 		}
 	}

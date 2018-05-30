@@ -168,7 +168,7 @@ public class AMPS_Main {
 					break;
 				}
 			}	
-			log.log(Level.INFO,"AMPS run finished!");
+			log.log(Level.INFO,"AMPS run submitted to slurm!");
 			System.exit(0);
 		}catch(Exception e) {
 			e.printStackTrace();

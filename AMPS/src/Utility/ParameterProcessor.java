@@ -14,7 +14,7 @@ public class ParameterProcessor {
 	 * parts of the pipeline
 	 */
 	//General Parameters
-	private AMPS_Mode ampsMode;
+	private HOPS_Mode ampsMode;
 	private ArrayList<String> input; 
 	private String output;
 	private Logger log;
@@ -86,7 +86,7 @@ public class ParameterProcessor {
 
 	private ArrayList<String> cleaningCommand = new ArrayList<String>();
 	//Constructor
-	public ParameterProcessor(String config, ArrayList<String> in, String out,Logger log, AMPS_Mode aMode){
+	public ParameterProcessor(String config, ArrayList<String> in, String out,Logger log, HOPS_Mode aMode){
 		this.log = log;
 		Config.readConfigFile(config);
 		input = in;
@@ -95,7 +95,7 @@ public class ParameterProcessor {
 		output = out;
 		ampsMode = aMode;
 	}
-	public ParameterProcessor(ArrayList<String> in, String out,Logger log, AMPS_Mode aMode){
+	public ParameterProcessor(ArrayList<String> in, String out,Logger log, HOPS_Mode aMode){
 		this.log = log;
 		input = in;
 		if(!out.endsWith("/"))
@@ -210,6 +210,7 @@ public class ParameterProcessor {
 		
 	
 	}
+
 	public void process(){	
 		switch(ampsMode){
 		case ALL:

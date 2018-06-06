@@ -16,7 +16,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import Utility.AMPS_Mode;
+import Utility.HOPS_Mode;
 
 /**
  * This class is used To Parse Input Parameters for RMA Extractor to make input more flexible and less error prone
@@ -34,7 +34,7 @@ public class InputParameterProcessor {
 	private ArrayList<String> fileNames = new ArrayList<String>();
 	private String outDir;
 	private String configFile;
-	private AMPS_Mode ampsMode =AMPS_Mode.ALL;
+	private HOPS_Mode ampsMode =HOPS_Mode.ALL;
 	
 	// constructor
 	public InputParameterProcessor(String[] params) throws IOException, ParseException{
@@ -56,7 +56,7 @@ public class InputParameterProcessor {
 		}		
 	}	
 	// getters for parameters
-	public AMPS_Mode getAMPS_Mode(){
+	public HOPS_Mode getAMPS_Mode(){
 		return ampsMode;
 	}
 	public ArrayList<String> getInputFiles(){
@@ -102,19 +102,19 @@ public class InputParameterProcessor {
     	        if(commandLine.hasOption('m')){
 	    	        	String m = commandLine.getOptionValue("m");
 	    	        	if(m.equals("full")){
-	    	        		ampsMode =AMPS_Mode.ALL;
+	    	        		ampsMode =HOPS_Mode.ALL;
 	    	        	}else if(m.equals("malt")){
-	    	        		ampsMode =AMPS_Mode.MALT;
+	    	        		ampsMode =HOPS_Mode.MALT;
 	    	        	}else if(m.equals("maltex")){
-	    	        		ampsMode =AMPS_Mode.MALTEX;
+	    	        		ampsMode =HOPS_Mode.MALTEX;
 	    	        	}else if(m.equals("post")){
-	    	        		ampsMode =AMPS_Mode.POST;
+	    	        		ampsMode =HOPS_Mode.POST;
 	    	        	}else{
 	    	        		System.err.println("Unspecified Mode use either full, malt, maltex or post");
 	    	        		System.exit(1);
 	    	        	}
     	        }else {
-    	        		ampsMode =AMPS_Mode.ALL;
+    	        		ampsMode =HOPS_Mode.ALL;
     	        }
     	        if (commandLine.hasOption("input"))//evaluate input files and directory
     	        {

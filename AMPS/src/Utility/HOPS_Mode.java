@@ -1,5 +1,5 @@
 package Utility;
 
-public enum AMPS_Mode {
+public enum HOPS_Mode {
 	ALL, MALT, MALTEX, POST
 }

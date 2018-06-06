@@ -6,13 +6,13 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import ProcessManagement.ProcessExecutor;
 import Utility.ParameterProcessor;
-public class AMPS_Main {
+public class HOPS_Main {
 	/**
 	 * @author huebler 
 	 * @params String args
 	 * Main method of AMPS pipeline read in command line and config file and execute parts of the pipeline
 	 */
-	private static final Logger log = Logger.getLogger(AMPS_Main.class.getName());
+	private static final Logger log = Logger.getLogger(HOPS_Main.class.getName());
 	public static void main(String[] args) {
 		try {
 			InputParameterProcessor inputProcessor = new InputParameterProcessor(args);

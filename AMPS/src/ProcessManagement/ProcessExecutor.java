@@ -17,9 +17,36 @@ public class ProcessExecutor {
 	 * @return
 	 * @throws
 	 */
+	private void getErrorCommand(String name, String output,String depdendency) {
+		ArrayList<String> command = new ArrayList<String>();
+		switch(name){
+			case "MALT":{
+				command.add("grep");
+				command.add("error|warning|exception");
+				command.add("malt/malt.log");
+				command.add(">>"+ output+"error.log");
+				break;
+				}
+			case "ME":{
+				command.add("grep");
+				command.add("error|warning|exception");
+				command.add("maltExtract/ME.log");
+				command.add(">>"+ output+"error.log");
+				break;
+				}
+			case "PO":{
+				command.add("grep");
+				command.add("error|warning|exception");
+				command.add("post/PO.log");
+				command.add(">>"+ output+"error.log");
+				break;
+				}
+		}
+	}
+	
 	public Integer runSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, String name, String partition, int dependency, String walltime){
 		int ID = 0;
-		name = "AMPS"+name;
+		name = "HOPS"+name;
 		if(command != null && command.size() != 0) {
 			String line ="";
 			for(String part : command){

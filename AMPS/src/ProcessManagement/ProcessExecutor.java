@@ -17,24 +17,44 @@ public class ProcessExecutor {
 	 * @return
 	 * @throws
 	 */
-	private void getErrorCommand(String name, String output,String depdendency) {
+	private void getErrorCommand(String name, String output,int dependency, Logger log) {
 		ArrayList<String> command = new ArrayList<String>();
 		switch(name){
 			case "MALT":{
-				command.add("grep");
-				command.add("error|warning|exception");
-				command.add("malt/malt.log");
-				command.add(">>"+ output+"error.log");
+				command.add("sbatch");
+				command.add("-o");
+				command.add("-c");command.add(""+1);
+				command.add("--mem");command.add("1G");
+				command.add("-p");command.add("short");
+				command.add("-t");command.add("02:00:00");
+				command.add("--dependency=afterok:"+dependency);
+				command.add("--job-name");command.add(name+"_error");
+				command.add("--wrap");command.add("grep error|warning|exception malt/malt.log>>"+output+"error.log");
+				
 				break;
 				}
 			case "ME":{
-				command.add("grep");
-				command.add("error|warning|exception");
-				command.add("maltExtract/ME.log");
-				command.add(">>"+ output+"error.log");
+				command.add("sbatch");
+				command.add("-o");
+				command.add("-c");command.add(""+1);
+				command.add("--mem");command.add("1G");
+				command.add("-p");command.add("short");
+				command.add("-t");command.add("02:00:00");
+				command.add("--dependency=afterok:"+dependency);
+				command.add("--job-name");command.add(name+"_error");
+				command.add("--wrap");command.add("grep error|warning|exception maltExtract/ME.log>>"+output+"error.log");
 				break;
 				}
 			case "PO":{
+				command.add("sbatch");
+				command.add("-o");
+				command.add("-c");command.add(""+1);
+				command.add("--mem");command.add("1G");
+				command.add("-p");command.add("short");
+				command.add("-t");command.add("02:00:00");
+				command.add("--dependency=afterok:"+dependency);
+				command.add("--job-name");command.add(name+"_error");
+				command.add("--wrap");command.add("grep error|warning|exception maltExtract/ME.log>>"+output+"error.log");
 				command.add("grep");
 				command.add("error|warning|exception");
 				command.add("post/PO.log");
@@ -42,6 +62,30 @@ public class ProcessExecutor {
 				break;
 				}
 		}
+		//Map<String, String> environ = builder.environment();
+		ProcessBuilder builder = new ProcessBuilder (command);
+		String line;
+		try {
+			final Process process = builder.start();//get JobID here
+		    if(process.isAlive()){
+		    	 	BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			    line = null;
+			    while ((line = br.readLine()) != null) {
+			      log.log(Level.INFO,line);
+			    }
+			    BufferedReader be = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			    while ((line = be.readLine()) != null) {
+				      log.log(Level.WARNING,line);
+			    }
+
+			    int status = process.waitFor();
+				log.log(Level.INFO,"Process Exited with status: " + status);
+		    }
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		log.log(Level.INFO,"Submitted Job: "+name+" with ID: "+getJobID(name)+" for User: "+System.getProperty("user.name"));
 	}
 	
 	public Integer runSlurmJob(ArrayList<String> command,Logger log,String outDir, int threads, int maxMem, String name, String partition, int dependency, String walltime){

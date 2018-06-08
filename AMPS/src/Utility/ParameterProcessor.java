@@ -500,10 +500,10 @@ public class ParameterProcessor {
 			verboseME = Config.getBoolean("verboseME");
 		}
 		if(Config.entryExists("alignment")){
-			wantReads = Config.getBoolean("alignment");
+			wantAlignment = Config.getBoolean("alignment");
 		}
 		if(Config.entryExists("reads")){
-			wantAlignment = Config.getBoolean("reads");
+			wantReads = Config.getBoolean("reads");
 		}
 		if(Config.entryExists("minComp")){
 			minCompME = Config.getDouble("minComp");

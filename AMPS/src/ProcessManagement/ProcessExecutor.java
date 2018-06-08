@@ -29,7 +29,7 @@ public class ProcessExecutor {
 				command.add("-t");command.add("02:00:00");
 				command.add("--dependency=afterok:"+dependency);
 				command.add("--job-name");command.add(name+"_error");
-				command.add("--wrap");command.add("grep error|warning|exception malt/malt.log>>"+output+"error.log");
+				command.add("--wrap");command.add("grep error|warning|exception" + output + "malt/malt.log>>"+output+"error.log");
 				
 				break;
 				}
@@ -42,7 +42,7 @@ public class ProcessExecutor {
 				command.add("-t");command.add("02:00:00");
 				command.add("--dependency=afterok:"+dependency);
 				command.add("--job-name");command.add(name+"_error");
-				command.add("--wrap");command.add("grep error|warning|exception maltExtract/ME.log>>"+output+"error.log");
+				command.add("--wrap");command.add("grep error|warning|exception"+ output + "maltExtract/ME.log>>"+output+"error.log");
 				break;
 				}
 			case "PO":{
@@ -54,7 +54,7 @@ public class ProcessExecutor {
 				command.add("-t");command.add("02:00:00");
 				command.add("--dependency=afterok:"+dependency);
 				command.add("--job-name");command.add(name+"_error");
-				command.add("--wrap");command.add("grep error|warning|exception maltExtract/ME.log>>"+output+"error.log");
+				command.add("--wrap");command.add("grep error|warning|exception"+ output +"maltExtract/ME.log>>"+output+"error.log");
 				command.add("grep");
 				command.add("error|warning|exception");
 				command.add("post/PO.log");
@@ -149,6 +149,8 @@ public class ProcessExecutor {
 			log.log(Level.SEVERE,"Process interuppted");
 			System.exit(1);
 		}
+		//String output = new File(outDir).getParent();
+		//getErrorCommand(name, output, dependency, log);
 		return ID;
 	}
 	

@@ -71,6 +71,7 @@ public class ParameterProcessor {
 	private boolean dupRemOff=false;
 	private boolean	downSampOff=false;
 	private boolean useTopAlignment = true;
+	private boolean singleStranded = false;
 	private ArrayList<String> additionalMaltExtractParameters;
 	private String wallTimeME ="48:00:00";// see if we can lower to 24
 	
@@ -556,6 +557,10 @@ public class ParameterProcessor {
 			wallTimeME = Config.getString("wallTimeMaltEx");
 			log.log(Level.INFO, "Set Walltime for MaltExtract to "+wallTimeME);
 		}
+		if(Config.entryExists("singleStranded")) {
+			singleStranded = Config.getBoolean("Single Stranded");
+			log.log(Level.INFO, "Set MaltExtract Single Stranded damamge pattern to "+singleStranded);
+		}
 	}
 	private void generateMALTExtractCommandLine(String input, String outputME){
 		ArrayList<String> meLine = new ArrayList<String>();
@@ -598,10 +603,13 @@ public class ParameterProcessor {
 		if(downSampOff){// turn off downsampling
 			meLine.add("--downSampOff");
 		}
+		if(singleStranded)
+			meLine.add("--singleStranded");
 		if(useTopAlignment)
 			meLine.add("--useTopAlignment");
 		if(additionalMaltExtractParameters != null && additionalMaltExtractParameters.size()>0)
 			meLine.addAll(additionalMaltExtractParameters);
+		
 		MALTExtractCommandLine = meLine;
 		new File(outputME).mkdir();
 	}
@@ -648,6 +656,8 @@ public class ParameterProcessor {
 		}
 		if(useTopAlignment)
 			meLine.add("--useTopAlignment");
+		if(singleStranded)
+			meLine.add("--singleStranded");
 		if(additionalMaltExtractParameters != null && additionalMaltExtractParameters.size()>0)
 			meLine.addAll(additionalMaltExtractParameters);
 		MALTExtractCommandLine = meLine;

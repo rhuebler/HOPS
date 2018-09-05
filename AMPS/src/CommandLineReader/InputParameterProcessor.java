@@ -223,7 +223,7 @@ public class InputParameterProcessor {
     	        if(commandLine.hasOption("configFile")){//set config File
     	        	String line = commandLine.getOptionValue("configFile");
     	        	File f = new File(line);
-	    	        	if(f.isFile())
+	    	        	if(f.isFile()&&f.exists())
 	    	        		configFile = line;
 	    	        	else {
 	    	        		System.err.println("Config File is not a valid file shutting down!!!");
@@ -231,15 +231,15 @@ public class InputParameterProcessor {
 	    	        	}
     	        }
     	        if(commandLine.hasOption("h")){////help
-    	        	String header = "AMPS version 0.1";
+    	        	String header = "HOPS version 0.1";
     	    	    String footer = "In case you encounter an error drop an email with an useful description to huebler@shh.mpg.de";
     	    	    HelpFormatter formatter = new HelpFormatter();
     	    	    formatter.setWidth(500);
-    	    	    formatter.printHelp("AMPS", header, options, footer, true);   
+    	    	    formatter.printHelp("HOPS", header, options, footer, true);   
     	    	    System.exit(0);
     	        }
     	        if(!commandLine.hasOption("o")||!commandLine.hasOption("i")) {
-	    	        	System.err.println("input and output ave to be specified to run AMPS use -h for help \n Shutting down");
+	    	        	System.err.println("input and output ave to be specified to run HOPS use -h for help \n Shutting down");
 	    	        	System.exit(1);
     	        }
     	    }

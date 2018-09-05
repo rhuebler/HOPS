@@ -107,7 +107,9 @@ public class ProcessExecutor {
 			com.add("-o");com.add(outDir+name+".log");
 			com.add("-c");com.add(""+threads);
 			com.add("--mem");com.add(""+(maxMem*1000));
-			if(partition.equals("long") && partition.equals("supercruncher")) {
+			if(partition=="long" || partition=="supercruncher") {
+				com.add("-t");com.add(walltime);
+			}else {
 				com.add("-t");com.add(walltime);
 			}
 			if(dependency > 0) {

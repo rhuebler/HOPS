@@ -82,7 +82,7 @@ public class InputParameterProcessor {
     	    Option option_Input = Option.builder("i").longOpt("input").argName("String").hasArgs().desc("Specify input directory or files valid option depend on mode").build();
     	    Option option_Output = Option.builder("o").longOpt("output").argName("String").hasArg().desc("Specify out directory").build();
     	    Option optionConfigFile = Option.builder("c").longOpt("configFile").argName("String").hasArg().desc("Path to Config File").build();
-    	    Option optionMode = Option.builder("m").longOpt("mode").argName("String").hasArg().desc("AMPS Mode to run accpeted full, malt, maltex, post").build();
+    	    Option optionMode = Option.builder("m").longOpt("mode").argName("String").hasArg().desc("HOPS Mode to run accpeted full, malt, maltex, post").build();
     	    Option option_Help = Option.builder("h").longOpt("help").optionalArg(true).desc("Print Help").build();
     	    Options options = new Options();
     	    

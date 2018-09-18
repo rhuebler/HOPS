@@ -55,7 +55,7 @@ public class ParameterProcessor {
 	private int maxMemoryMex = 300;
 	private String partitionMex = "medium";//"medium"
 	private ArrayList<String> MALTExtractCommandLine;
-	private String pathToMaltExtract = "/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jars/MaltExtract1.4.jar";
+	private String pathToMaltExtract = "/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jars/MaltExtract1.5.jar";
 	private String filter = "full";
 	private ArrayList<String> taxas = new ArrayList<String>();	
 	private String resources = "/projects1/clusterhomes/huebler/RMASifter/RMA_Extractor_Resources/";

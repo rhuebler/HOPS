@@ -77,7 +77,7 @@ public class ParameterProcessor {
 	
 	//POSTPROCESSING Parameters
 	private ArrayList<String> commandLinePost;
-	private String pathToList="/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt";
+	private String pathToList="/projects1/clusterhomes/huebler/RMASifter/AMPS/reworkedPathogenListwVirusesFMK_KB_RH_1.txt";
 	private String pathToPostProcessing ="/projects1/clusterhomes/huebler/RMASifter/AMPS/PostProcessing/amps-master/postprocessing.AMPS.r";
 	private int threadsPost = 4;
 	private String partitionPost = "short";//"short";

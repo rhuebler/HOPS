@@ -213,6 +213,9 @@ public class ParameterProcessor {
 	}
 
 	public void process(){	
+		if(Config.entryExists("useSlurm")){
+			useSlurm = Config.getBoolean("useSlurm");
+		}
 		switch(ampsMode){
 		case ALL:
 			if(Config.entryExists("preProcess")) {

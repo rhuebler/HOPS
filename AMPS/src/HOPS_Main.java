@@ -17,7 +17,7 @@ public class HOPS_Main {
 		try {
 			InputParameterProcessor inputProcessor = new InputParameterProcessor(args);
 			new File(inputProcessor.getOutDir()).mkdir();// make amps dir 
-			FileHandler fh = new FileHandler(inputProcessor.getOutDir()+"amps.log", false);   // true forces append mode
+			FileHandler fh = new FileHandler(inputProcessor.getOutDir()+"hops.log", false);   // true forces append mode
 			SimpleFormatter sf = new SimpleFormatter();
 			fh.setFormatter(sf);
 			log.addHandler(fh);

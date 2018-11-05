@@ -26,6 +26,7 @@ public class ParameterProcessor {
 	private String partitionPreProcessing="long";
 	private int threadsPreProcessing=32;
 	private int memoryPreProcessing =500;
+	private String pathToJava = "/projects1/tools/java/jdk-9.0.4/bin/java";
 	//PreProceesing
 	
 	private String pathToPreProcessing = "/projects/clusterhomes/huebler/RMASifter/AMPS/RemoveHumanReads.sh";
@@ -219,6 +220,9 @@ public class ParameterProcessor {
 		switch(ampsMode){
 		case ALL:
 			if(Config.entryExists("preProcess")) {
+				if(Config.entryExists("pathToJava")) {
+					pathToJava = Config.getString("pathToJava");
+				}
 				if(Config.entryExists("pathToPreProcessing")){
 					pathToPreProcessing = Config.getString("pathToPreProcessing");
 				}
@@ -567,7 +571,7 @@ public class ParameterProcessor {
 	}
 	private void generateMALTExtractCommandLine(String input, String outputME){
 		ArrayList<String> meLine = new ArrayList<String>();
-		meLine.add("/projects1/tools/java/jdk-9.0.4/bin/java");	meLine.add("-jar");// start MaltExtract
+		meLine.add(pathToJava);	meLine.add("-jar");// start MaltExtract
 		meLine.add("-Xmx"+maxMemoryMex+"G");	meLine.add(pathToMaltExtract);//max memory
 		meLine.add("--filter");		meLine.add(filter);//filter
 		meLine.add("-i");			meLine.add(input);//Input
@@ -618,7 +622,7 @@ public class ParameterProcessor {
 	}
 	private void generateMALTExtractCommandLine(ArrayList<String> input, String outputME){
 		ArrayList<String> meLine = new ArrayList<String>();
-		meLine.add("/projects1/tools/java/jdk-9.0.4/bin/java");	meLine.add("-jar");// start MaltExtract
+		meLine.add(pathToJava);	meLine.add("-jar");// start MaltExtract
 		meLine.add("-Xmx"+maxMemoryMex+"G");meLine.add(pathToMaltExtract);//max memory
 		meLine.add("--filter");		meLine.add(filter);//filter
 		meLine.add("-i");			meLine.addAll(input);// input

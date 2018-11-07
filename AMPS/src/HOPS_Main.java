@@ -164,11 +164,11 @@ public class HOPS_Main {
 						break;
 					}
 				default:
-					log.log(Level.WARNING,"Unsupported AMPS Mode!");
+					log.log(Level.WARNING,"Unsupported HOPS Mode!");
 					break;
 				}
 			}	
-			log.log(Level.INFO,"AMPS run submitted to slurm!");
+			log.log(Level.INFO,"HOPS run submitted to slurm!");
 			System.exit(0);
 		}catch(Exception e) {
 			e.printStackTrace();

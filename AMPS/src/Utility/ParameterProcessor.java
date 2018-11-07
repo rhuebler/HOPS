@@ -219,10 +219,10 @@ public class ParameterProcessor {
 		}
 		switch(ampsMode){
 		case ALL:
+			if(Config.entryExists("pathToJava")) {
+				pathToJava = Config.getString("pathToJava");
+			}
 			if(Config.entryExists("preProcess")) {
-				if(Config.entryExists("pathToJava")) {
-					pathToJava = Config.getString("pathToJava");
-				}
 				if(Config.entryExists("pathToPreProcessing")){
 					pathToPreProcessing = Config.getString("pathToPreProcessing");
 				}

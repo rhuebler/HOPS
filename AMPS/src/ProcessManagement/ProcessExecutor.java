@@ -13,7 +13,7 @@ public class ProcessExecutor {
 	/**
 	 * @author huebler
 	 * @param ArrayList<String> command
-	 * TRhis class is used to execute the different parts of AMPS pipeline and get console output
+	 * TRhis class is used to execute the different parts of HOPS pipeline and get console output
 	 * @return
 	 * @throws
 	 */

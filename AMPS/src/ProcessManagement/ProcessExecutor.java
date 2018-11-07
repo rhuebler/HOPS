@@ -116,7 +116,9 @@ public class ProcessExecutor {
 				com.add("--dependency=afterok:"+dependency);
 			}	
 			com.add("--job-name");com.add(name);
-			com.add("-p");com.add(partition);
+			if(partition != "none") {
+				com.add("-p");com.add(partition);
+			}
 			com.add("--wrap");com.add(line.trim());
 			line="";
 			for(String part : com)

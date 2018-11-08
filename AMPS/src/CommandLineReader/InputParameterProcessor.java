@@ -102,14 +102,17 @@ public class InputParameterProcessor {
     	        if(commandLine.hasOption('m')){
 	    	        	String m = commandLine.getOptionValue("m");
 	    	        	if(m.equals("full")){
-	    	        		ampsMode =HOPS_Mode.ALL;
+	    	        		ampsMode = HOPS_Mode.ALL;
 	    	        	}else if(m.equals("malt")){
-	    	        		ampsMode =HOPS_Mode.MALT;
+	    	        		ampsMode = HOPS_Mode.MALT;
 	    	        	}else if(m.equals("maltex")){
-	    	        		ampsMode =HOPS_Mode.MALTEX;
+	    	        		ampsMode = HOPS_Mode.MALTEX;
 	    	        	}else if(m.equals("post")){
-	    	        		ampsMode =HOPS_Mode.POST;
-	    	        	}else{
+	    	        		ampsMode = HOPS_Mode.POST;
+	    	        	}else if(m.equals("me_po")){
+	    	        		ampsMode = HOPS_Mode.ME_PO;
+	    	        	}
+	    	        	else{
 	    	        		System.err.println("Unspecified Mode use either full, malt, maltex or post");
 	    	        		System.exit(1);
 	    	        	}
@@ -145,6 +148,11 @@ public class InputParameterProcessor {
     	            			case POST:
     	            				fileNames.add(inFile.getPath());
     	            				break;
+    	            			case ME_PO:
+    	            				for(String name : inFile.list())//if file ends with RMA6 or is as a soft link at to files
+        	            				if(name.endsWith("rma6") || Files.isSymbolicLink(new File(inFile.getPath()+"/" + name).toPath()))
+        	            				this.fileNames.add(inFile.getPath()+"/" + name);
+    	            				break;
 								default:
 									break;
     	            			}
@@ -169,6 +177,12 @@ public class InputParameterProcessor {
     	            			case POST:
     	            				fileNames.add(inFile.getPath());
     	            				break;
+    	            			case ME_PO:{
+    	            				if(arg.endsWith("rma6")||Files.isSymbolicLink(new File(inFile.getPath()).toPath())){ 
+    	            					fileNames.add(inFile.getPath());
+    	            				}
+    	            				break;
+    	            			}	
 								default:
 									break;
     	            			
@@ -196,6 +210,9 @@ public class InputParameterProcessor {
     	            			case POST:
     	            				System.err.println("File List not egilable for mode postprocessing");
     	            				break;
+    	            			case ME_PO:{
+    	            				readFileList(inFile,"rma6");
+    	            			}
 								default:
 									break;
     	             			}	

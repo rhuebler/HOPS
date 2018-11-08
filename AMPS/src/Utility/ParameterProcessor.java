@@ -217,11 +217,12 @@ public class ParameterProcessor {
 		if(Config.entryExists("useSlurm")){
 			useSlurm = Config.getBoolean("useSlurm");
 		}
+		
+		if(Config.entryExists("pathToJava")) {
+			pathToJava = Config.getString("pathToJava");
+		}
 		switch(ampsMode){
 		case ALL:
-			if(Config.entryExists("pathToJava")) {
-				pathToJava = Config.getString("pathToJava");
-			}
 			if(Config.entryExists("preProcess")) {
 				if(Config.entryExists("pathToPreProcessing")){
 					pathToPreProcessing = Config.getString("pathToPreProcessing");
@@ -260,7 +261,7 @@ public class ParameterProcessor {
 				 processMALTExtractParameters();
 				 generateMALTExtractCommandLine(output+"malt/", output+"maltExtract/");
 			 }else{
-				 log.log(Level.INFO,"Use default MaltExtract verion 1.3");
+				 log.log(Level.INFO,"Use default MaltExtract verion 1.5");
 				 processMALTExtractParameters();
 				 generateMALTExtractCommandLine(output+"malt/", output+"maltExtract/");
 			 }	 
@@ -309,7 +310,7 @@ public class ParameterProcessor {
 			 }else{
 				 processMALTExtractParameters();
 				 generateMALTExtractCommandLine(input, output+"maltExtract/");
-				 log.log(Level.INFO,"Use default MaltExtract verion 1.3");
+				 log.log(Level.INFO,"Use default MaltExtract verion 1.5");
 			 }	 
 			 break;
 		case POST:	
@@ -323,8 +324,28 @@ public class ParameterProcessor {
 				 generatePostProcessingLine(input.get(0));
 			 }
 			break;
-		}	
-		
+		case ME_PO:
+			if(Config.entryExists("pathToMaltExtract")){
+				 pathToMaltExtract=pathToMalt=Config.getString("pathToMaltExtract");
+				 processMALTExtractParameters();
+				 generateMALTExtractCommandLine(input, output+"maltExtract/");
+			 }else{
+				 processMALTExtractParameters();
+				 generateMALTExtractCommandLine(input, output+"maltExtract/");
+				 log.log(Level.INFO,"Use default MaltExtract verion 1.5");
+			 }	 
+			
+			 if(Config.entryExists("pathToPostProcessing")){
+				 pathToPostProcessing=Config.getString("pathToPostProcessing");
+				 processPostProcessingParameters();
+				 generatePostProcessingLine(output+"maltExtract/");
+			 }else{
+				 log.log(Level.INFO,"Using Default PostProcessing script");
+				 processPostProcessingParameters();
+				 generatePostProcessingLine(output+"maltExtract/");
+			 }
+			 break;
+		}		
 	}
 	private void generatePreProcessingLine(ArrayList<String> input, String output){//TODO rework
 		ArrayList<String> line = new ArrayList<String>();

@@ -113,6 +113,22 @@ public class HOPS_Main {
 					}
 					break;
 				}
+				case ME_PO:{
+					ProcessExecutor executor = new ProcessExecutor();
+					int MALTExID = executor.runSlurmJob(processor.getMALTExtractCommandLine(), log,  processor.getOutDir()+"maltExtract/", 
+							processor.getThreadsMaltEx(), processor.getMaxMemoryMaltEx(),"ME", processor.getPartitionMaltEx(),  0,processor.getWallTimeMaltEx());
+					if(MALTExID == 0){
+						log.log(Level.SEVERE,"MALTExtract interupted");
+					}
+					if(MALTExID>0){
+						int postID = executor.runSlurmJob(processor.getPostProcessingLine(), log,processor.getOutDir()+"post/",processor.getMaxThreadsPost(),
+								processor.getMaxMemoryPost(),"PO", processor.getPartitionPost(), MALTExID,processor.getWallTimePost());
+						if( postID==0){
+							log.log(Level.SEVERE,"Postprocessing interuppted");
+						}
+					}	
+					break;
+				}
 				default:
 					break;
 			}
@@ -160,6 +176,19 @@ public class HOPS_Main {
 						boolean PostProcessing = executor.run(processor.getPostProcessingLine(), log);
 						if( !PostProcessing){
 							log.log(Level.SEVERE,"Postprocessing interuppted");
+						}
+						break;
+					}
+					case ME_PO:{
+						ProcessExecutor executor = new ProcessExecutor();
+						boolean MALTExFinished = executor.run(processor.getMALTExtractCommandLine(), log);
+						if(MALTExFinished){
+							boolean PostProcessing = executor.run(processor.getPostProcessingLine(), log);
+							if( !PostProcessing){
+								log.log(Level.SEVERE,"Postprocessing interuppted");
+							}
+						}else{
+							log.log(Level.SEVERE,"MALTExtract interupted");
 						}
 						break;
 					}

@@ -493,10 +493,12 @@ public class ParameterProcessor {
 			log.log(Level.INFO,"set filter to default of defAnc");
 		}
 		if(Config.entryExists("taxas")){
+		
 			String s = Config.getString("taxas");
 			File  f = new File(s);
 			if(f.exists()&&f.isFile()) {
 				taxas.add(s);
+				pathToList = s;
 			}else {
 				for(String t:s.split(";"))
 						taxas.add(t);

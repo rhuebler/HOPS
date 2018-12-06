@@ -9,7 +9,7 @@ import Utility.ParameterProcessor;
 public class HOPS_Main {
 	/**
 	 * @author huebler 
-	 * @params String comandline
+	 * @params String commandline
 	 * Main method of AMPS pipeline read in command line and config file and execute parts of the pipeline
 	 */
 	private static final Logger log = Logger.getLogger(HOPS_Main.class.getName());

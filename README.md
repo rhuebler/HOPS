@@ -6,11 +6,12 @@ HOPS is a java pipeline which focuses on screening MALT data (see Table of Conte
 
 For MALT check out: https://github.com/danielhuson/malt
 
-For the hacked version we use in the institute: https://github.com/rhuebler/cMALT
+For the hacked version of MALT with some extra functionality: https://github.com/rhuebler/cMALT
+(Please use the oringal version unless you really require some of the added functions)
 
-For the source Code to MaltExtract: https://github.com/rhuebler/MaltExtract
+For the source code to MaltExtract: https://github.com/rhuebler/MaltExtract
 
-For the source Code to the postprocessing scipts: https://github.com/keyfm/amps
+For the source code to the postprocessing scipts: https://github.com/keyfm/amps
 
 
 ===== How do I get set up? ======

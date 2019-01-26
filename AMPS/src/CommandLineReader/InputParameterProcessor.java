@@ -142,7 +142,7 @@ public class InputParameterProcessor {
     	            				break;
     	            			case MALTEX:	
     	            				for(String name : inFile.list())//if file ends with RMA6 or is as a soft link at to files
-        	            				if(name.endsWith("rma6") || Files.isSymbolicLink(new File(inFile.getPath()+"/" + name).toPath()))
+        	            				if(name.endsWith("rma6") || name.endsWith("rma")  || Files.isSymbolicLink(new File(inFile.getPath()+"/" + name).toPath()))
         	            				this.fileNames.add(inFile.getPath()+"/" + name);
     	            				break;
     	            			case POST:

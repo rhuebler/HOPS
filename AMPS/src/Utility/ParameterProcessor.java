@@ -450,6 +450,7 @@ public class ParameterProcessor {
 		line.add(""+threadsPost);
 		line.add("-n");
 		line.add(pathToList);
+		
 		commandLinePost = line;
 	}
 

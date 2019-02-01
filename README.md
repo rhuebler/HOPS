@@ -13,11 +13,11 @@ For the source code to MaltExtract: https://github.com/rhuebler/MaltExtract
 For the source code to the postprocessing scipts: https://github.com/keyfm/amps
 
 
-===== How do I get set up? ======
+## How do I get set up? ##
 
 In order to run HOPS you need Java version 9 or higher and a version of MALT 036 or higher and a version of MaltExtract 1.2 or higher. The most up-to-date versions are available automatically, but if you need to use a previous version you can set these parameters in the config file. ** In our case you have to specify at the moment the Java version from the tools folder **
 
-==== Example ====
+### Example ###
 
 <code bash> /projects1/tools/java/jdk-9.0.4/bin/java -jar /projects1/clusterhomes/huebler/RMASifter/AMPS/hops0.2.jar -input  /path/to/files/*fastq.gz -output /my/output/goes/here -m full </code>
 This command will execute HOPS with default parameters, which means: submit MALT to the long queue, MaltExtract to the medium queue and post processing to the short queue and shutdown. Because this command does not really require any processing power or memory you can probably log in to cruncher1 and execute it there.
@@ -28,7 +28,7 @@ or if you want to do something more specific
 
 This will still only submit jobs to SLURM, but parameters specified in the config file will overwrite default parameters. All parameters not specified in the config file will stay at their default value. To check what the default values are, check the config file section.  These parameters can also change where the job is submitted and how many resources are reserved for it.  
 
-===== Command Line Parameters ======
+## Command Line Parameters ##
 
 **-i --input** Path to input files or directory, depending on which mode you use. For full or malt specify a directory with input fa, fasta , fastq or fq files which can also be gzipped or just list the files. For the maltex mode only rma6 files will be accepted as input for the post mode (still underdevelopment) a folder containing the MaltExtract output has to be used as input
 
@@ -42,11 +42,11 @@ You can use -m me_po to just run MaltExtract and post processing on MALT output
 **-h --help** print help
 
 
-===== HOPS Input Files =====
+### HOPS Input Files ###
 
 To run MALT or the full mode of HOPS in any case you will need *adapter clipped or adapter clipped and merged*(in case of paired-end) data, as input. Not removing the adapter will result MALT in misalignments. [[add EAGER LINK]]
 
-==== Configure your own Screening List for HOPS ====
+### Configure your own Screening List for HOPS ###
 To generate your own screening list you can use the taxas parameter and specify a plain text file
 that has on each line the name of a species you are interested in. To do that you will have to run HOPS with a Config file.
 You can check /projects1/clusterhomes/huebler/RMASifter/AMPS/reworkedPathogenListwVirusesFMK_KB_RH_1.txt for an example.
@@ -68,7 +68,7 @@ taxas="Yersinia pestis;Mycobacterium tuberculosis;Bacterium anthracis"
 ==== HOPS MALT Output ====
 
 The output from MALT are rma6 files found in the ram folder. Those are basically a compressed taxonomic tree, that contains for each Node in the tree, which read is aligned (assigned) to it. You can than inspect the output in MEGAN [[http://megan.informatik.uni-tuebingen.de/]]
-====HOPS MaltExtract Output====
+## HOPS MaltExtract Output ##
 
 Access these files via command line or view it in a text editor. They are located in the ancient and default folders within the amps folder that is generated in the output folder.
 
@@ -93,7 +93,7 @@ Taxon	Reference	AverageCoverage	Coverge_StandardDeviation	percCoveredHigher1	per
 Actinomyces_oris	Actinomyces_oris	0.518	2.027	0.221	0.119	0.068	0.04	0.024
 
 
-=== Damage Patterns ===
+### Damage Patterns ###
 
 _damageMismatch.txt
 Node	C>T_1	C>T_2	C>T_3	C>T_4	C>T_5	C>T_6	C>T_7	C>T_8	C>T_9	C>T_10	G>A_11	G>A_12	G>A_13	G>A_14	G>A_15	G>A_16	G>A_17	G>A_18	G>A_19	G>A_20	D>V(11Substitution)_1	D>V(11Substitution)_2	D>V(11Substitution)_3	D>V(11Substitution)_4	D>V(11Substitution)_5	D>V(11Substitution)_6	D>V(11Substitution)_7	D>V(11Substitution)_8	D>V(11Substitution)_9	D>V(11Substitution)_10	H>B(11Substitution)_11	H>B(11Substitution)_12	H>B(11Substitution)_13	H>B(11Substitution)_14	H>B(11Substitution)_15	H>B(11Substitution)_16	H>B(11Substitution)_17	H>B(11Substitution)_18	H>B(11Substitution)_19	H>B(11Substitution)_20	considered_Matches
@@ -107,7 +107,7 @@ the next 10 values are Non G>A substitutions in 3' direction for all alignments 
 the last node is the number of processed alignments
 
 
-=== Mismatch Distribution ===
+### Mismatch Distribution ###
 
 _editDistance.txt
 Taxon	0	1	2	3	4	5	6	7	8	9	10	higher
@@ -122,7 +122,7 @@ Actinomyces_oris	0	13569	36455	31446	5287
 First Column is the taxonomic Unit and  the next  5
 columns gives the number of top alginments of filtered reads that fall into the set percent identitiy bins
 
-== removed Reads and Alignments ==
+#### removed Reads and Alignments ####
 
 _filterTable.txt
 this file gives some summary statistics for all filtered reads and alignments.
@@ -134,7 +134,7 @@ the next two columns are the number of reads prior to filtering and after filter
 the next two columnsare the number of alignments prior and after filtering, the difference between those aolumns is the number if removed alignments
 the last column gives information on whether destacking was turned on or not (moght be bugged at the moment)
 
-=== Read Distribution ===
+### Read Distribution ###
 
 _additionalNodeEntries.txt
 TargetNode	01	02	03	04	05	06	07	08	09	10
@@ -157,33 +157,33 @@ Taxon	25bp	30bp	35bp	40bp	45bp	50bp	55bp	60bp	65bp	70bp	75bp	80bp	85bp	90bp	95bp
 Actinomyces_oris	0	1917	7111	10570	11733	10835	8965	7580	6250	4657	4811	3022	2273	1835	1117	962	716	655	548	407	277	245	177	94	0	0	0	0	0	0	0	0	0	0	0	0
 the last entry provides for all filtered assinged reads how read length was distributed between 20 and 200 bp 
 
-=== RunSummary ===
+### RunSummary ###
 
 This file returns for all input files how many reads are assinged to the target taxonomic units after filtering
 
-=== TotalCount.txt ===
+### TotalCount.txt ###
 
 contains the total number of assigned reads for all files 
 
-====HOPS Postprocessing Output====
-=== Summary HeatMap ===
+## HOPS Postprocessing Output ##
+#### Summary HeatMap ###
 Contains a colour-coded heatmap for the HOPS input files. For each input file all pathogens are shown that have passed at least one criterion of post-processing. The pathogens found will be listed on the vertical axis, and the samples will be on the horizontal axis.
 
 The colour-coding on the heat map is as follows: grey indicates absence, yellow indicates that the DNA fragment(s) match a given reference genome; orange indicates that the DNA fragment(s) match, but there are nucleotide differences, which can possibly be indicative of DNA damage patterns; red indicates that the DNA fragments match and have nucleotide differences that follow a distribution pattern that is more consistent with aDNA damage. An example heat map is provided below. Click to enlarge.
 
 {{ :pathogens:heatmap_overview_wevid.png?200 |}}
 
-=== pdf Reports===
+### pdf Reports ###
 More detailed information on every 'hit' so that you can review what post-processing decided and make up your mind if you want to follow up on it. For a description of each of the sections of the pdf report, please see [[https://github.com/keyfm/amps/blob/master/profilePDF_explained.pdf]]
 
 
-===== Config File Parameters =====
+## Config File Parameters ##
 
 In this Section all currently accepted parameters are explained. Please note that it is sufficient to only specify the the parameters you want to overwrite in the the config file. There is a ready to use example config file in /projects1/clusterhomes/huebler/RMASifter/amps/
 
 To use this online example as a config file, the explanations have to be removed or be located at a new line. While this is a bit cumbersome, ** please, be aware you only need to specify parameters that you want to overwrite. There is really no need specify every parameter that is listed here!!! ** 
 
-==== Generalparameters ====
+### Generalparameters ###
 **useSlurm** use Slurm for scheduling. I false can be used independend from Slurm HOPS will run each step of the pipeline in succession withput scheduling to a pipeline 
 
 **deleteRMA6=0** remove RMA6 files after running MaltExtract, will only be supported for full mode. optional, use with caution! 0 = false 1 = true **currently not implemented** 
@@ -198,9 +198,9 @@ To use this online example as a config file, the explanations have to be removed
 
 **preProcess=0** want to run preprocessing that removes human reads before MALT. 0 = false, 1 = true
 
-==== MALT Parameters ====
+## MALT Parameters ##
 
-=== MALT SLURM Parameters ===
+### MALT SLURM Parameters ###
 
 **threadsMalt=32** set Threads for MALT when using slrum
 
@@ -210,7 +210,7 @@ To use this online example as a config file, the explanations have to be removed
 
 **wallTimeMalt=48:00:00** A walltime can be set for MALT if the queue is changed from long to medium. Usually this parameter is neither set nor used. Use this only if you are sure your job can finish in 48 hours!
 
-=== General MALT Parameters ===
+### General MALT Parameters ###
 
 **index=/projects1/malt/databases/indexed/index040/full-bac-full-vir-etal-nov_2017** path to chosen Malt DB, has to be constructed with MALT version 38 or higher
 
@@ -232,11 +232,11 @@ To use this online example as a config file, the explanations have to be removed
 
 **additionalMaltParameters=""** add additional parameters separated with ";". Not all Malt parameters can be explicitly set with AMPS, but those parameters can be specified here! use with caution
  
-==== MaltExtract Parameters ====
+## MaltExtract Parameters ##
 
 For more information on parameters use the MaltExtract Manual
 
-=== MaltExtract Slurm Parameters ===
+### MaltExtract Slurm Parameters ###
 
 **threadsMaltEx=20** set number of Threads for MaltExtract. Should never be higher than the number of input files!
 
@@ -246,7 +246,7 @@ For more information on parameters use the MaltExtract Manual
 
 **wallTimeME =48:00:00** While it is possible to decrease the Walltime for MaltExtract this should only be done in very small jobs
 
-=== General MaltExtract Parameters ===
+### General MaltExtract Parameters ###
 
 **filter=def_anc** filter mode uses **def_anc**, **default**, **ancient**, **scan** or **crawl** or **srna** (in development) if in doubt use def_anc, which gives you results for all filtered reads in the default folder and all reads that have at least one damage lesion in their first 5 bases from either end. Default returns statistics for all reads that fullfill all other filter. Ancient requires reads in addition to have one mismatching lesion in their first 5 bases from either end. Scan just returns the number of assigned reads for all nodes without any filtering. runs very fast. Crawl was designed to replace a mapping to a specific reference. Return statistics for all references that match the input species name. For example Yersinia pestis will return statistics for all Yersinia pestis references. This probably the slowest mode. SRNA returns all enrries in terminal nodes it is designed to work with the disable LCA option in cMALT
 
@@ -278,9 +278,9 @@ For more information on parameters use the MaltExtract Manual
 
 **useTopAlignment=0** turn on to only use the top alignment for every statistic, except for those concerning read distribution and coverage
 
-==== PostProcessing Parameters ====
+## PostProcessing Parameters ##
 
-=== PostProcessing Slurm Parameters ===
+### PostProcessing Slurm Parameters ###
 **threadsPost=2** set number of threads to use in postprocessing
 
 **partitionPost=short** set partition for postprocessing
@@ -289,11 +289,11 @@ For more information on parameters use the MaltExtract Manual
 
 **wallTimePost=1:00:00** set walltime for postprocessing
 
-=== PostProcessing GeneralParameters ===
+### PostProcessing GeneralParameters ###
 
 **pathToList=/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt**  specify path to postprocessing node list
 
-=== PreProcessing Slurm Parameters ===
+### PreProcessing Slurm Parameters ###
 **wallTimePreProcessing= 48:00:00** Set walltime for preprocessing will only be used if partition is changed to medium or short but this only a viable option in small jobs
 
 **partitionPreProcessing=long** by default preproceeing will queue in long queue but you can change this

@@ -31,16 +31,16 @@ This will still only submit jobs to SLURM, but parameters specified in the confi
 
 ===== Command Line Parameters ======
 
-** -i --input ** Path to input files or directory, depending on which mode you use. For full or malt specify a directory with input fa, fasta , fastq or fq files which can also be gzipped or just list the files. For the maltex mode only rma6 files will be accepted as input for the post mode (still underdevelopment) a folder containing the MaltExtract output has to be used as input
+**-i --input** Path to input files or directory, depending on which mode you use. For full or malt specify a directory with input fa, fasta , fastq or fq files which can also be gzipped or just list the files. For the maltex mode only rma6 files will be accepted as input for the post mode (still underdevelopment) a folder containing the MaltExtract output has to be used as input
 
-** -m --mode ** which mode to use for the pipeline. Accepted values are ** full **, which runs malt, malt extract and postprocessing, ** malt **, to only execute malt, ** maltex ** to run malt extract and ** post ** to run the postprocessing 
+**-m --mode** which mode to use for the pipeline. Accepted values are **full**, which runs malt, malt extract and postprocessing, **malt**, to only execute malt, **maltex** to run malt extract and **post** to run the postprocessing 
 You can use -m me_po to just run MaltExtract and post processing on MALT output 
 
-** -c --configFile ** specify the path to a valid config file for HOPS which values are mandetory is explained in the config file section of this manual this optional and only necessary to overwrite default values.
+**-c --configFile** specify the path to a valid config file for HOPS which values are mandetory is explained in the config file section of this manual this optional and only necessary to overwrite default values.
 
-** -o --output ** specify a valid path to the output directory best avoid all characters reserved for unix prompts
+**-o --output** specify a valid path to the output directory best avoid all characters reserved for unix prompts
 
-** -h --help ** print help
+**-h --help** print help
 
 
 ===== HOPS Input Files =====
@@ -78,7 +78,7 @@ This is necessary as Malt allows reads to have alignments to mutliple references
 there is a addtional node entries file in the alignment folders to provide some indication on how other files behaved on the same node
 
 If you use --useTopALignment flag in MaltExtract than all output except read distribution will reflect only all topalignments of these nodes,
-that option is currently the default in MAltExtract1.4
+that option is currently the default in MaltExtract1.4
 === Coverage ===
 _coverageHist.txt
 Taxon	Reference	0	1	2	3	4	5	6	7	8	9	10	higher
@@ -185,53 +185,53 @@ In this Section all currently accepted parameters are explained. Please note tha
 To use this online example as a config file, the explanations have to be removed or be located at a new line. While this is a bit cumbersome, ** please, be aware you only need to specify parameters that you want to overwrite. There is really no need specify every parameter that is listed here!!! ** 
 
 ==== Generalparameters ====
-** useSlurm ** use Slurm for scheduling. I false can be used independend from Slurm HOPS will run each step of the pipeline in succession withput scheduling to a pipeline 
+**useSlurm** use Slurm for scheduling. I false can be used independend from Slurm HOPS will run each step of the pipeline in succession withput scheduling to a pipeline 
 
-** deleteRMA6=0 ** remove RMA6 files after running MaltExtract, will only be supported for full mode. optional, use with caution! 0 = false 1 = true ** currently not implemented** 
+**deleteRMA6=0** remove RMA6 files after running MaltExtract, will only be supported for full mode. optional, use with caution! 0 = false 1 = true **currently not implemented** 
 
-** pathToMalt=/projects1/malt/versions/malt040/malt-run ** where to find the malt-run shellscript which comes with all implementations of malt
+**pathToMalt=/projects1/malt/versions/malt040/malt-run** where to find the malt-run shellscript which comes with all implementations of malt
 
-** pathToMaltExtract=/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jars/MaltExtract1.3.jar ** where to find RMAExtractor.jar try to use 1.3 or higher
+**pathToMaltExtract=/projects1/clusterhomes/huebler/MaltExtract1.5.jar** where to find RMAExtractor.jar try to use 1.3 or higher
 
-** pathToPostProcessing=/projects1/clusterhomes/huebler/RMASifter/AMPS/PostProcessing/amps-master/postprocessing.AMPS.r ** where to find the postprocessig script
+**pathToPostProcessing=/projects1/clusterhomes/huebler/RMASifter/AMPS/PostProcessing/amps-master/postprocessing.AMPS.r** where to find the postprocessig script
 
-** pathToPreProcessing=/projects/clusterhomes/huebler/RMASifter/AMPS/RemoveHumanReads.sh ** specify the path of a  preprocessing script. The current one removes reads mapping to human as runtimes in samples with ** high ** endogenous human DNA run a lot longer through the FullBacFullVir database.If you want  to provide your own preprocessing script it has to produce ".fq.gz" at the end
+**pathToPreProcessing=/projects/clusterhomes/huebler/RMASifter/AMPS/RemoveHumanReads.sh** specify the path of a  preprocessing script. The current one removes reads mapping to human as runtimes in samples with **high** endogenous human DNA run a lot longer through the FullBacFullVir database.If you want  to provide your own preprocessing script it has to produce ".fq.gz" at the end
 
-** preProcess=0 ** want to run preprocessing that removes human reads before MALT. 0 = false, 1 = true
+**preProcess=0** want to run preprocessing that removes human reads before MALT. 0 = false, 1 = true
 
 ==== MALT Parameters ====
 
 === MALT SLURM Parameters ===
 
-** threadsMalt=32 ** set Threads for MALT when using slrum
+**threadsMalt=32** set Threads for MALT when using slrum
 
-** maxMemoryMalt=650 ** set maximum Memory for MALT in GB!!! to use with slurm
+**maxMemoryMalt=650** set maximum Memory for MALT in GB!!! to use with slurm
 
-** partitionMalt=long ** Set Optional partition for malt optional default will use batch
+**partitionMalt=long** Set Optional partition for malt optional default will use batch
 
-** wallTimeMalt=48:00:00 ** A walltime can be set for MALT if the queue is changed from long to medium. Usually this parameter is neither set nor used. Use this only if you are sure your job can finish in 48 hours!
+**wallTimeMalt=48:00:00** A walltime can be set for MALT if the queue is changed from long to medium. Usually this parameter is neither set nor used. Use this only if you are sure your job can finish in 48 hours!
 
 === General MALT Parameters ===
 
-** index=/projects1/malt/databases/indexed/index040/full-bac-full-vir-etal-nov_2017 **path to chosen Malt DB, has to be constructed with MALT version 38 or higher
+**index=/projects1/malt/databases/indexed/index040/full-bac-full-vir-etal-nov_2017** path to chosen Malt DB, has to be constructed with MALT version 38 or higher
 
-** id=90.0 ** set minimum percent identity only matches whose PCI value surpasses this filter will be considered. Please consider that you can set a higher Percent Identity value in MaltExtract. So you can Malt with Percent Identity 85, but run MaltExtract twice with percent identity 85 and 95, for example. Which saves hard disk space.
+**id=90.0** set minimum percent identity only matches whose PCI value surpasses this filter will be considered. Please consider that you can set a higher Percent Identity value in MaltExtract. So you can Malt with Percent Identity 85, but run MaltExtract twice with percent identity 85 and 95, for example. Which saves hard disk space.
 
-** m=BlastN ** malt mode for this pipeline. the mode should always be BlastN if you plan to use the whole pipeline. But if you for whatever reason need to run BlastX, I made sure you still can do it from the framework of the pipeline.
+**m=BlastN** malt mode for this pipeline. the mode should always be BlastN if you plan to use the whole pipeline. But if you for whatever reason need to run BlastX, I made sure you still can do it from the framework of the pipeline.
 
-** at=SemiGlobal ** alignmentType! changing the alignment type will probably have *negative effects on the Authenticity criteria calculated* in MaltExtract! This value should only ever be changed by someone who knows what he is doing!
+**at=SemiGlobal** alignmentType! changing the alignment type will probably have *negative effects on the Authenticity criteria calculated* in MaltExtract! This value should only ever be changed by someone who knows what he is doing!
 
-** topMalt=1 ** Only the highest scoring percentage of alignments will be considered for the LCA algorithm. Increasing this value will result in more alignments being used for the LCA algorithm, which means reads will likely be assigned to nodes higher in the taxonomy.
+**topMalt=1** Only the highest scoring percentage of alignments will be considered for the LCA algorithm. Increasing this value will result in more alignments being used for the LCA algorithm, which means reads will likely be assigned to nodes higher in the taxonomy.
 
-** sup=1 ** minimum number of reads to support a node for the LCA algorithm. This means at least one read is necessary to support a node.
+**sup=1** minimum number of reads to support a node for the LCA algorithm. This means at least one read is necessary to support a node.
 
-** mq=100 ** maximum number of alignment that can be assinged to a read. Lowering this value will influence the taxonomic assignment and will only be worth it in a few instances.(For example in my hacked Malt version where the LCA can be disabled)
+**mq=100** maximum number of alignment that can be assinged to a read. Lowering this value will influence the taxonomic assignment and will only be worth it in a few instances.(For example in my hacked Malt version where the LCA can be disabled)
 
-** verboseMalt=1 ** want verbose output for MALT. 0 = false 1 = true
+**verboseMalt=1** want verbose output for MALT. 0 = false 1 = true
 
-** memoryMode=load ** memoryMode, again only change this value when you are very experienced with the malt source code and or your computation infrastructure somehow requires a different malt mode (which is obviously not the case if you work at this institute)
+**memoryMode=load** memoryMode, again only change this value when you are very experienced with the malt source code and or your computation infrastructure somehow requires a different malt mode (which is obviously not the case if you work at this institute)
 
-** additionalMaltParameters="" ** add additional parameters separated with ";". Not all Malt parameters can be explicitly set with AMPS, but those parameters can be specified here! use with caution
+**additionalMaltParameters=""** add additional parameters separated with ";". Not all Malt parameters can be explicitly set with AMPS, but those parameters can be specified here! use with caution
  
 ==== MaltExtract Parameters ====
 
@@ -239,67 +239,67 @@ For more information on parameters use the MaltExtract Manual
 
 === MaltExtract Slurm Parameters ===
 
-** threadsMaltEx=20 ** set number of Threads for MaltExtract. Should never be higher than the number of input files!
+**threadsMaltEx=20** set number of Threads for MaltExtract. Should never be higher than the number of input files!
 
-** maxMemoryMaltEx=300 ** set maximum Memory in GB!!!! for MALTExtract. 
+**maxMemoryMaltEx=300** set maximum Memory in GB!!!! for MALTExtract. 
 
-** partitionMaltEx=medium ** optional set partition for MaltExtract. You can change to long in very big jobs. But I am not sure if it is advisable to change to short
+**partitionMaltEx=medium** optional set partition for MaltExtract. You can change to long in very big jobs. But I am not sure if it is advisable to change to short
 
-** wallTimeME =48:00:00 ** While it is possible to decrease the Walltime for MaltExtract this should only be done in very small jobs
+**wallTimeME =48:00:00** While it is possible to decrease the Walltime for MaltExtract this should only be done in very small jobs
 
 === General MaltExtract Parameters ===
 
-** filter=def_anc ** filter mode uses ** def_anc **, ** default **, ** ancient **, ** scan ** or ** crawl ** or ** srna ** (in development) if in doubt use def_anc, which gives you results for all filtered reads in the default folder and all reads that have at least one damage lesion in their first 5 bases from either end. Default returns statistics for all reads that fullfill all other filter. Ancient requires reads in addition to have one mismatching lesion in their first 5 bases from either end. Scan just returns the number of assigned reads for all nodes without any filtering. runs very fast. Crawl was designed to replace a mapping to a specific reference. Return statistics for all references that match the input species name. For example Yersinia pestis will return statistics for all Yersinia pestis references. This probably the slowest mode. SRNA returns all enrries in terminal nodes it is designed to work with the disable LCA option in cMALT
+**filter=def_anc** filter mode uses **def_anc**, **default**, **ancient**, **scan** or **crawl** or **srna** (in development) if in doubt use def_anc, which gives you results for all filtered reads in the default folder and all reads that have at least one damage lesion in their first 5 bases from either end. Default returns statistics for all reads that fullfill all other filter. Ancient requires reads in addition to have one mismatching lesion in their first 5 bases from either end. Scan just returns the number of assigned reads for all nodes without any filtering. runs very fast. Crawl was designed to replace a mapping to a specific reference. Return statistics for all references that match the input species name. For example Yersinia pestis will return statistics for all Yersinia pestis references. This probably the slowest mode. SRNA returns all enrries in terminal nodes it is designed to work with the disable LCA option in cMALT
 
-** taxas=/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt ** Species names in following format Yersinia_pesits;Mycobacterium_tuberculosis can be submitted to AMPS directly via the config file or add the path to a taxa file containing the species names separated by new line characters (as you did previously when calling MaltExtract directly)
+**taxas=/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt** Species names in following format Yersinia_pesits;Mycobacterium_tuberculosis can be submitted to AMPS directly via the config file or add the path to a taxa file containing the species names separated by new line characters (as you did previously when calling MaltExtract directly)
 
-** resources=/projects1/clusterhomes/huebler/RMASifter/RMA_Extractor_Resources ** path to NCBI.map and ncbi.tre files, which can be downloaded from Daniel Husons Megan github page
+**resources=/projects1/clusterhomes/huebler/RMASifter/RMA_Extractor_Resources** path to NCBI.map and ncbi.tre files, which can be downloaded from Daniel Husons Megan github page
 
-** topMaltEx=0.01 ** set top percent value for considered matches. Only the top one percent of matches will be used by default. 
+**topMaltEx=0.01** set top percent value for considered matches. Only the top one percent of matches will be used by default. 
 
-** maxLength=0 ** set a maximum read length. Only reads shorter than this value will be considered (optional). Probably only useful for def_anc or ancient.
+**maxLength=0** set a maximum read length. Only reads shorter than this value will be considered (optional). Probably only useful for def_anc or ancient.
 
-** minPIdent=0 ** set minimum percent identity. Only matches with a value higher than this will be considered. (optional) You can be more strict in MaltExtract than you were in MALT
+**minPIdent=0** set minimum percent identity. Only matches with a value higher than this will be considered. (optional) You can be more strict in MaltExtract than you were in MALT
 
-** verboseMaltEx=0 ** want verbose output. (0 = false 1 = true, optional ) by default false
+**verboseMaltEx=0** want verbose output. (0 = false 1 = true, optional ) by default false
 
-** alignment=0 ** retrieve alignments for all matches that pass the filtering ( 0 = false 1 = true, optional )by default false
+**alignment=0** retrieve alignments for all matches that pass the filtering ( 0 = false 1 = true, optional )by default false
 
-** reads=0 ** retrieve reads that fullfill filtering criteria ( 0 = false 1 = true, optional)
+**reads=0** retrieve reads that fullfill filtering criteria ( 0 = false 1 = true, optional)
 
-** minComp=0 **set minimum complexity between 0.0 and 0.8. Filtering should usually only start when set to 0.6> or higher. While anything higher then 0.7 will be very strict. But maybe test for yourselves
+**minComp=0** set minimum complexity between 0.0 and 0.8. Filtering should usually only start when set to 0.6> or higher. While anything higher then 0.7 will be very strict. But maybe test for yourselves
 
-** meganSummary=0 ** retrieve megan summaries. Which is a file that contains the tree structure and the number of assigned reads for each node but no alignments. This should probably be turned on if clean up is enabled so that you have some idea what the Malt Files originally contained. By default disabled.
+**meganSummary=0** retrieve megan summaries. Which is a file that contains the tree structure and the number of assigned reads for each node but no alignments. This should probably be turned on if clean up is enabled so that you have some idea what the Malt Files originally contained. By default disabled.
 
-** destackingOff=0 **turn off destacking. Should only be used in files that are highly covered! (0 = false 1 = true) Otherwise any read that overlaps with any other read will be removed
+**destackingOff=0** turn off destacking. Should only be used in files that are highly covered! (0 = false 1 = true) Otherwise any read that overlaps with any other read will be removed
 
-** dupRemOff=0 ** turn off removal of duplicate reads (0 = false 1 = true, optional)
+**dupRemOff=0** turn off removal of duplicate reads (0 = false 1 = true, optional)
 
-** downSampOff=0** turn off downsampling for nodes with more than 10000 assinged reads. Usually we downsample to speed up computation and 10000 assigned reads is sufficient to detect any species in Maltextract!( 0 = false 1 = true, optional)
+**downSampOff=0** turn off downsampling for nodes with more than 10000 assinged reads. Usually we downsample to speed up computation and 10000 assigned reads is sufficient to detect any species in Maltextract!( 0 = false 1 = true, optional)
 
-** useTopAlignment=0 ** turn on to only use the top alignment for every statistic, except for those concerning read distribution and coverage
+**useTopAlignment=0** turn on to only use the top alignment for every statistic, except for those concerning read distribution and coverage
 
 ==== PostProcessing Parameters ====
 
 === PostProcessing Slurm Parameters ===
-** threadsPost=2 ** set number of threads to use in postprocessing
+**threadsPost=2** set number of threads to use in postprocessing
 
-** partitionPost=short ** set partition for postprocessing
+**partitionPost=short** set partition for postprocessing
 
-** maxMemoryPost=10 ** set Max Memory for Postprocessing
+**maxMemoryPost=10** set Max Memory for Postprocessing
 
-** wallTimePost=1:00:00 ** set walltime for postprocessing
+**wallTimePost=1:00:00** set walltime for postprocessing
 
 === PostProcessing GeneralParameters ===
 
-** pathToList=/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt**  specify path to postprocessing node list
+**pathToList=/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt**  specify path to postprocessing node list
 
 === PreProcessing Slurm Parameters ===
-** wallTimePreProcessing= 48:00:00 ** Set walltime for preprocessing will only be used if partition is changed to medium or short but this only a viable option in small jobs
+**wallTimePreProcessing= 48:00:00** Set walltime for preprocessing will only be used if partition is changed to medium or short but this only a viable option in small jobs
 
-** partitionPreProcessing=long ** by default preproceeing will queue in long queue but you can change this
+**partitionPreProcessing=long** by default preproceeing will queue in long queue but you can change this
 
-** threadsPreProcessing=32 ** number of treads used for preprocessing, by default 32 threads will be used. As the shellscript itself will only require 32 cores, this parameter should only be changed when you also change the preprocessing script itself
+**threadsPreProcessing=32** number of treads used for preprocessing, by default 32 threads will be used. As the shellscript itself will only require 32 cores, this parameter should only be changed when you also change the preprocessing script itself
 
-** memoryPreProcessing=500 ** change the number reserved memory for preprocessing
+**memoryPreProcessing=500** change the number reserved memory for preprocessing
 

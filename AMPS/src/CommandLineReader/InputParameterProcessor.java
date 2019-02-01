@@ -142,7 +142,7 @@ public class InputParameterProcessor {
     	            				break;
     	            			case MALTEX:	
     	            				for(String name : inFile.list())//if file ends with RMA6 or is as a soft link at to files
-        	            				if(name.endsWith("rma6") || name.endsWith("rma")  || Files.isSymbolicLink(new File(inFile.getPath()+"/" + name).toPath()))
+        	            				if(name.endsWith("rma6") || name.endsWith("rma")  || Files.isSymbolicLink(new File(inFile.getPath()+"/" + name).toPath())||arg.endsWith("rma"))
         	            				this.fileNames.add(inFile.getPath()+"/" + name);
     	            				break;
     	            			case POST:
@@ -150,7 +150,7 @@ public class InputParameterProcessor {
     	            				break;
     	            			case ME_PO:
     	            				for(String name : inFile.list())//if file ends with RMA6 or is as a soft link at to files
-        	            				if(name.endsWith("rma6") || Files.isSymbolicLink(new File(inFile.getPath()+"/" + name).toPath()))
+        	            				if(name.endsWith("rma6") || Files.isSymbolicLink(new File(inFile.getPath()+"/" + name).toPath())||arg.endsWith("rma"))
         	            				this.fileNames.add(inFile.getPath()+"/" + name);
     	            				break;
 								default:
@@ -170,7 +170,7 @@ public class InputParameterProcessor {
     	            				}
     	            				break;
     	            			case MALTEX:
-    	            				if(arg.endsWith("rma6")||Files.isSymbolicLink(new File(inFile.getPath()).toPath())){ 
+    	            				if(arg.endsWith("rma")||Files.isSymbolicLink(new File(inFile.getPath()).toPath())||arg.endsWith("rma6")){ 
     	            					fileNames.add(inFile.getPath());
     	            				}
     	            				break;
@@ -178,44 +178,48 @@ public class InputParameterProcessor {
     	            				fileNames.add(inFile.getPath());
     	            				break;
     	            			case ME_PO:{
-    	            				if(arg.endsWith("rma6")||Files.isSymbolicLink(new File(inFile.getPath()).toPath())){ 
+    	            				if(arg.endsWith("rma")||Files.isSymbolicLink(new File(inFile.getPath()).toPath())||arg.endsWith("rma6")){ 
     	            					fileNames.add(inFile.getPath());
     	            				}
     	            				break;
     	            			}	
 								default:
+									switch(ampsMode){
+	    	            			case ALL:
+	    	            				readFileList(inFile,"fa");
+	    	            				readFileList(inFile,"fg");
+	    	            				readFileList(inFile,"fasta");
+	    	            				readFileList(inFile,"fastq");
+	    	            				readFileList(inFile,"gz");
+	    	            				break;
+	    	            			case MALT:
+	    	            				readFileList(inFile,"fa");
+	    	            				readFileList(inFile,"fg");
+	    	            				readFileList(inFile,"fasta");
+	    	            				readFileList(inFile,"fastq");
+	    	            				readFileList(inFile,"gz");
+	    	            				break;
+	    	            			case MALTEX:
+	    	            				readFileList(inFile,"rma6");
+	    	            				break;
+	    	            			case POST:
+	    	            				System.err.println("File List not egilable for mode postprocessing");
+	    	            				break;
+	    	            			case ME_PO:{
+	    	            				readFileList(inFile,"rma6");
+	    	            			}
+									default:
+										break;
+	    	             			}	
 									break;
     	            			
     	            				
     	            			}
-    	             		}else{ // read file names from text file
-    	             			switch(ampsMode){
-    	            			case ALL:
-    	            				readFileList(inFile,"fa");
-    	            				readFileList(inFile,"fg");
-    	            				readFileList(inFile,"fasta");
-    	            				readFileList(inFile,"fastq");
-    	            				readFileList(inFile,"gz");
-    	            				break;
-    	            			case MALT:
-    	            				readFileList(inFile,"fa");
-    	            				readFileList(inFile,"fg");
-    	            				readFileList(inFile,"fasta");
-    	            				readFileList(inFile,"fastq");
-    	            				readFileList(inFile,"gz");
-    	            				break;
-    	            			case MALTEX:
-    	            				readFileList(inFile,"rma6");
-    	            				break;
-    	            			case POST:
-    	            				System.err.println("File List not egilable for mode postprocessing");
-    	            				break;
-    	            			case ME_PO:{
-    	            				readFileList(inFile,"rma6");
-    	            			}
-								default:
-									break;
-    	             			}	
+    	             		}else if(Files.isSymbolicLink(new File(inFile.getPath()).toPath())) {
+    	             			fileNames.add(inFile.getPath());
+    	             		}
+    	             		else{ // read file names from text file
+    	             			System.err.println("Does not recognize "+arg +"as file");
     	             			
     	             		}
     	            }  

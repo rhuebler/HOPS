@@ -219,7 +219,7 @@ public class InputParameterProcessor {
     	             			fileNames.add(inFile.getPath());
     	             		}
     	             		else{ // read file names from text file
-    	             			System.err.println("Does not recognize "+arg +"as file");
+    	             			System.err.println("Does not recognize "+arg +" as file");
     	             			
     	             		}
     	            }  

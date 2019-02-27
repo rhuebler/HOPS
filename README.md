@@ -12,7 +12,7 @@ For the source code to MaltExtract: https://github.com/rhuebler/MaltExtract
 
 For the source code to the postprocessing scipts: https://github.com/keyfm/amps
 
-
+If you encounter any problems running HOPS please contact huebler@shh.mpg.de and provide the config file you are using as well as the log file that was generated, this will greatly speed up troublehooting.
 ## How do I get set up? ##
 
 In order to run HOPS you need Java version 9 or higher and a version of MALT 036 or higher and a version of MaltExtract 1.2 or higher. The most up-to-date versions are available automatically, but if you need to use a previous version you can set these parameters in the config file. ** In our case you have to specify at the moment the Java version from the tools folder **

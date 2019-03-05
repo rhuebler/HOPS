@@ -46,7 +46,7 @@ POST
 
 **pathToList=/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt**  specify path to postprocessing node list
 
-Otherwise if you want to 
+Otherwise if you want to adapt HOPS to another Schedular you can generate for example a new method in the class ProcessExecutor. And change the parameters in the ParameterProcessor.
 
 ## Citation ##
 

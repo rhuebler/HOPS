@@ -17,7 +17,7 @@ If you encounter any problems running HOPS please contact huebler@shh.mpg.de and
 
 In order to run HOPS you need Java version 9 or higher and a version of MALT 036 or higher and a version of MaltExtract 1.2 or higher. The most up-to-date versions are available automatically, but if you need to use a previous version you can set these parameters in the config file. ** In our case you have to specify at the moment the Java version from the tools folder **
 
-# Parameters that have to be specified #
+### Parameters that have to be specified ###
 
 To run HOPS you will have to specify all parameters that refer to path variables in the Config file (or in the class ParameterProcessor
 if you want work without a config file).

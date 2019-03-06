@@ -83,6 +83,8 @@ public class ParameterProcessor {
 	private int threadsPost = 4;
 	private String partitionPost = "short";//"short";
 	private String wallTimePost ="1:00:00";
+	private boolean postStrictDamage = false;
+	private boolean postDisplayAll = false;
 
 	private int maxMemoryPost=10;
 
@@ -208,9 +210,17 @@ public class ParameterProcessor {
 		if(Config.entryExists("wallTimePost"))
 			wallTimePost = Config.getString("wallTimePost");
 		else
-			log.log(Level.INFO, "Set wallTime to" +wallTimePost);
+			log.log(Level.INFO, "Set wallTime to " +wallTimePost);
 		
-	
+		if(Config.entryExists("postStrictDamage"))
+			postStrictDamage = Config.getBoolean("postStrictDamage");
+		else
+			log.log(Level.INFO, "Set strict damage to " +postStrictDamage);
+		
+		if(Config.entryExists("postDisplayAll"))
+			postStrictDamage = Config.getBoolean("postDisplayAll");
+		else
+			log.log(Level.INFO, "Set display all to " + postDisplayAll);
 	}
 
 	public void process(){	
@@ -450,7 +460,10 @@ public class ParameterProcessor {
 		line.add(""+threadsPost);
 		line.add("-n");
 		line.add(pathToList);
-		
+		if(postStrictDamage)
+			line.add("-s");
+		if(postDisplayAll)
+			line.add("-d");
 		commandLinePost = line;
 	}
 

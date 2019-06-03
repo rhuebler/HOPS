@@ -17,6 +17,42 @@ If you encounter any problems running HOPS please contact huebler@shh.mpg.de and
 
 In order to run HOPS you need Java version 9 or higher and a version of MALT 036 or higher and a version of MaltExtract 1.2 or higher. The most up-to-date versions are available automatically, but if you need to use a previous version you can set these parameters in the config file. ** In our case you have to specify at the moment the Java version from the tools folder **
 
+### Parameters that have to be specified ###
+
+To run HOPS you will have to specify all parameters that refer to path variables in the Config file (or in the class ParameterProcessor
+if you want work without a config file).
+
+tha variables are 
+General:
+
+**pathToMalt=/projects1/malt/versions/malt040/malt-run** where to find the malt-run shellscript which comes with all implementations of malt
+
+**pathToMaltExtract=/projects1/clusterhomes/huebler/MaltExtract1.5.jar** where to find RMAExtractor.jar try to use 1.3 or higher
+
+**pathToPostProcessing=/projects1/clusterhomes/huebler/RMASifter/AMPS/PostProcessing/amps-master/postprocessing.AMPS.r** where to find the postprocessig script
+
+**pathToPreProcessing=/projects/clusterhomes/huebler/RMASifter/AMPS/RemoveHumanReads.sh** specify the path of a  preprocessing script. The current one removes reads mapping to human as runtimes in samples with **high** endogenous human DNA run a lot longer through the FullBacFullVir database.If you want  to provide your own preprocessing script it has to produce ".fq.gz" at the end
+
+MALT:
+
+**index=/projects1/malt/databases/indexed/index040/full-bac-full-vir-etal-nov_2017** path to chosen Malt DB, has to be constructed with MALT version 38 or higher
+
+MaltExtract:
+**taxas=/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt** Species names in following format Yersinia_pesits;Mycobacterium_tuberculosis can be submitted to AMPS directly via the config file or add the path to a taxa file containing the species names separated by new line characters (as you did previously when calling MaltExtract directly)
+
+**resources=/projects1/clusterhomes/huebler/RMASifter/RMA_Extractor_Resources** path to NCBI.map and ncbi.tre files, which can be downloaded from Daniel Husons Megan github page
+
+POST
+
+**pathToList=/projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt**  specify path to postprocessing node list
+
+Otherwise if you want to adapt HOPS to another Schedular you can generate for example a new method in the class ProcessExecutor. And change the parameters in the ParameterProcessor.
+
+## Citation ##
+
+Please quote for now 
+https://www.biorxiv.org/content/10.1101/534198v2
+
 ### Example ###
 
 <code bash> /projects1/tools/java/jdk-9.0.4/bin/java -jar /projects1/clusterhomes/huebler/RMASifter/AMPS/hops0.2.jar -input  /path/to/files/*fastq.gz -output /my/output/goes/here -m full </code>

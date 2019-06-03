@@ -59,7 +59,7 @@ public class ParameterProcessor {
 	private String pathToMaltExtract = "/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jars/MaltExtract1.5.jar";
 	private String filter = "full";
 	private ArrayList<String> taxas = new ArrayList<String>();	
-	private String resources = "/projects1/clusterhomes/huebler/RMASifter/RMA_Extractor_Resources/";
+	private String resources;
 	private double top=0.01; 
 	private int maxLength=0;
 	private double minPIdent=0.0;
@@ -506,9 +506,9 @@ public class ParameterProcessor {
 		}else {
 			log.log(Level.INFO,"set filter to default of defAnc");
 		}
-		if(Config.entryExists("taxas")){
+		if(Config.entryExists("pathToList")){
 		
-			String s = Config.getString("taxas");
+			String s = Config.getString("pathToList");
 			File  f = new File(s);
 			if(f.exists()&&f.isFile()) {
 				taxas.add(s);
@@ -615,7 +615,9 @@ public class ParameterProcessor {
 		meLine.add("-o");			meLine.add(outputME);//output
 		meLine.add("-p");			meLine.add(""+threadsMex);//threads
 		meLine.add("-t")	;			meLine.addAll(taxas);//taxas
-		meLine.add("--resources");	meLine.add(resources);//resources
+		if(resources !=null) {
+			meLine.add("--resources");	meLine.add(resources);//resources
+		}
 		if(top>0)
 			meLine.add("--top");		meLine.add(""+top);//top percent
 		if(maxLength>0)// maxLength
@@ -666,7 +668,9 @@ public class ParameterProcessor {
 		meLine.add("-o");			meLine.add(outputME);//output
 		meLine.add("-p");			meLine.add(""+threadsMex);//threads
 		meLine.add("-t");			meLine.addAll(taxas);//taxas
-		meLine.add("--resources");	meLine.add(resources);//resources
+		if(resources !=null) {
+			meLine.add("--resources");	meLine.add(resources);//resources
+		}
 		if(top>0)
 			meLine.add("--top");		meLine.add(""+top);//top percent
 		if(maxLength>0)// maxLength

@@ -252,7 +252,7 @@ public class InputParameterProcessor {
 	    	        	}
     	        }
     	        if(commandLine.hasOption("h")){////help
-    	        	String header = "HOPS version 0.1";
+    	        	String header = "HOPS version 0.3";
     	    	    String footer = "In case you encounter an error drop an email with an useful description to huebler@shh.mpg.de";
     	    	    HelpFormatter formatter = new HelpFormatter();
     	    	    formatter.setWidth(500);
@@ -260,7 +260,7 @@ public class InputParameterProcessor {
     	    	    System.exit(0);
     	        }
     	        if(!commandLine.hasOption("o")||!commandLine.hasOption("i")) {
-	    	        	System.err.println("input and output ave to be specified to run HOPS use -h for help \n Shutting down");
+	    	        	System.err.println("input and output have to be specified to run HOPS use -h for help \n Shutting down");
 	    	        	System.exit(1);
     	        }
     	    }

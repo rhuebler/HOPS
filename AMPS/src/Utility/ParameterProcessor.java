@@ -1,6 +1,7 @@
 package Utility;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +15,7 @@ public class ParameterProcessor {
 	 * parts of the pipeline
 	 */
 	//General Parameters
+	private String locationHOPS="";
 	private HOPS_Mode ampsMode;
 	private ArrayList<String> input; 
 	private String output;
@@ -26,10 +28,10 @@ public class ParameterProcessor {
 	private String partitionPreProcessing="long";
 	private int threadsPreProcessing=32;
 	private int memoryPreProcessing =500;
-	private String pathToJava = "/projects1/tools/java/jdk-9.0.4/bin/java";
+	private String pathToJava = "java";
 	//PreProceesing
-	
-	private String pathToPreProcessing = "/projects/clusterhomes/huebler/RMASifter/AMPS/RemoveHumanReads.sh";
+
+	private String pathToPreProcessing = locationHOPS+"/RemoveHumanReads.sh";
 	private ArrayList<String> commandPrePreprocessing =  new ArrayList<String>();
 	//Specific MALT Parameters
 	private int threadsMalt = 32;
@@ -37,8 +39,9 @@ public class ParameterProcessor {
 	private String partitionMalt="long";//"long"
 	private String wallTimeMalt="48:00:00"; //if necessary
 	private ArrayList<String> MALTCommandLine;
-	private String pathToMalt = "/projects1/malt/versions/malt040/malt-run";
-	private String index = "/projects1/malt/databases/indexed/index040/full-bac-full-vir-etal-nov_2017";
+	private String pathToMalt = locationHOPS + "/malt-run";
+	private String index = locationHOPS + "/database/";
+	private double lcaID=90.00;
 	private double id=90.00;
 	private String mode="BlastN";
 	private String alignmentType="SemiGlobal"; 
@@ -56,7 +59,7 @@ public class ParameterProcessor {
 	private int maxMemoryMex = 300;
 	private String partitionMex = "medium";//"medium"
 	private ArrayList<String> MALTExtractCommandLine;
-	private String pathToMaltExtract = "/projects1/clusterhomes/huebler/RMASifter/RMAExtractor_jars/MaltExtract1.5.jar";
+	private String pathToMaltExtract = locationHOPS +"MaltExtract.jar";
 	private String filter = "full";
 	private ArrayList<String> taxas = new ArrayList<String>();	
 	private String resources;
@@ -78,8 +81,8 @@ public class ParameterProcessor {
 	
 	//POSTPROCESSING Parameters
 	private ArrayList<String> commandLinePost;
-	private String pathToList="/projects1/clusterhomes/huebler/RMASifter/AMPS/reworkedPathogenListwVirusesFMK_KB_RH_1.txt";
-	private String pathToPostProcessing ="/projects1/clusterhomes/huebler/RMASifter/AMPS/PostProcessing/amps-master/postprocessing.AMPS.r";
+	private String pathToList=locationHOPS +"/target_List.txt";
+	private String pathToPostProcessing =locationHOPS +"/postprocessing.AMPS.r";
 	private int threadsPost = 4;
 	private String partitionPost = "short";//"short";
 	private String wallTimePost ="1:00:00";
@@ -191,7 +194,7 @@ public class ParameterProcessor {
 		if(Config.entryExists("pathToList"))
 			pathToList = Config.getString("pathToList");
 		else {
-			log.log(Level.INFO, "Use default List /projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt");
+			log.log(Level.WARNING, "No List present");
 		}
 		if(Config.entryExists("threadsPost"))
 			threadsPost = Config.getInt("threadsPost");
@@ -224,6 +227,17 @@ public class ParameterProcessor {
 	}
 
 	public void process(){	
+
+		String l="";
+		try {
+			l = new File(ParameterProcessor.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath().toString();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String[]parts = l.split("/");
+		String s =parts[parts.length-1].toString();
+		locationHOPS = l.substring(0, (l.length()-1-s.length()));
 		if(Config.entryExists("useSlurm")){
 			useSlurm = Config.getBoolean("useSlurm");
 		}
@@ -371,8 +385,17 @@ public class ParameterProcessor {
 		 }else{
 			 log.log(Level.INFO,"Using default index /projects1/malt/databases/indexed/index040");
 		 }
+		 if(Config.entryExists("lcaID")){
+			 id=Config.getDouble("lcaID");
+			 if(lcaID<1)
+				 lcaID*=100;
+		 }else {
+			 log.log(Level.INFO,"Using default min Percent ID for LCA of "+90);
+		 }
 		 if(Config.entryExists("id")){
 			 id=Config.getDouble("id");
+			 if(id<1)
+				 id*=100;
 		 }else {
 			 log.log(Level.INFO,"Using default ID of "+90);
 		 }
@@ -489,7 +512,8 @@ public class ParameterProcessor {
 		maltLine.add("-sup");			maltLine.add(""+sup);//minimum supportedNumber
 		maltLine.add("-mq") ;			maltLine.add(""+mq);//maximumum query
 		maltLine.add("-top");			maltLine.add(""+topMalt);//toppercent
-		maltLine.add("-mpi");			maltLine.add(""+id);//minimum percentID
+		maltLine.add("-mpi");			maltLine.add(""+lcaID);//minimum percentID
+		maltLine.add("-id");			maltLine.add(""+id);//minimum percentID
 		if(verboseMalt)
 			maltLine.add("-v");
 		if(replicateQueryCache)

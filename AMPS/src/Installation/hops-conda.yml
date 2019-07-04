@@ -1,0 +1,17 @@
+name: hops
+channels:
+- bioconda
+- anaconda
+- conda-forge
+- defaults
+- R
+
+dependencies:
+- openjdk
+- R
+#R
+- parallel
+- getopt
+- gridBase
+- gridExtra
+

@@ -59,7 +59,7 @@ public class ParameterProcessor {
 	private int maxMemoryMex = 300;
 	private String partitionMex = "medium";//"medium"
 	private ArrayList<String> MALTExtractCommandLine;
-	private String pathToMaltExtract = locationHOPS +"MaltExtract.jar";
+	private String pathToMaltExtract = locationHOPS +"/MaltExtract.jar";
 	private String filter = "full";
 	private ArrayList<String> taxas = new ArrayList<String>();	
 	private String resources;
@@ -194,7 +194,7 @@ public class ParameterProcessor {
 		if(Config.entryExists("pathToList"))
 			pathToList = Config.getString("pathToList");
 		else {
-			log.log(Level.WARNING, "No List present");
+			log.log(Level.INFO, "Use default List /projects1/users/key/anc5h/soi.backup/List_of_pathogens_KB_fmk12_wViruses1.txt");
 		}
 		if(Config.entryExists("threadsPost"))
 			threadsPost = Config.getInt("threadsPost");

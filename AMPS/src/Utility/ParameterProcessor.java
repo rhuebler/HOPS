@@ -39,7 +39,7 @@ public class ParameterProcessor {
 	private String partitionMalt="long";//"long"
 	private String wallTimeMalt="48:00:00"; //if necessary
 	private ArrayList<String> MALTCommandLine;
-	private String pathToMalt = locationHOPS + "/malt-run";
+	private String pathToMalt = "malt-run";
 	private String index = locationHOPS + "/database/";
 	private double lcaID=90.00;
 	private double id=90.00;
@@ -238,6 +238,10 @@ public class ParameterProcessor {
 		String[]parts = l.split("/");
 		String s =parts[parts.length-1].toString();
 		locationHOPS = l.substring(0, (l.length()-1-s.length()));
+		if(new File(locationHOPS+"/malt-run").exists()) {
+			System.out.println("Using version of Malt that exists at location of HOPS.jar unless config file specifies otherwise");
+			pathToMalt=locationHOPS+"/malt-run";
+		}
 		if(Config.entryExists("useSlurm")){
 			useSlurm = Config.getBoolean("useSlurm");
 		}

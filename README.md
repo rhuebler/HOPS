@@ -1,4 +1,4 @@
-[Logo](HOPS-02.png)
+![Logo](HOPS-02.png)
 ## HOPS Summary ##  
 10.5281/zenodo.3362248 
 

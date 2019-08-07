@@ -1,7 +1,6 @@
-# README #
-
-![Logo](HOPS-02.png)
-## HOPS Summary ##  10.5281/zenodo.3362248 
+[Logo](HOPS-02.png)
+## HOPS Summary ##  
+10.5281/zenodo.3362248 
 
 HOPS is a java pipeline which focuses on screening MALT data (see Table of Contents) for the presence of a user-specified list of target species. The pipeline essentially exists to make it easier to use MALT and MaltExtract in unison. To use HOPS you will need a config file, which specifies some key parameters for MALT and MaltExtract. You can have multiple config files to quickly redo a previous analysis or archive them to remember parameters you used in an analysis. HOPS will in every case create a log that tells you which command was sent to Slurm, in case you encounter problems, that log file is a very good place to start looking for the problem.
 

@@ -22,10 +22,11 @@ In order to run HOPS you need Java version 8 or higher and a version of MALT 036
 ### Conda install ###
 <code bash>conda install hops -c bioconda </code>
 
-will install hops, maltExtract and the postprocessing. As Malt is currently not available you will need to install it via its installer http://ab.inf.uni-tuebingen.de/data/software/malt/download/welcome.html
-you can add symlink to malt to into ..condo/envs/hops/share/hops
-or add 
-**pathToMalt=../path.malt/malt-run** where to find the malt-run shellscript which comes with all implementations of malt]
+will install hops, maltExtract, malt and the postprocessing. HOPS will look for its dependencies at the location of the hops.jar and will assume that the malt-run script is in the Path. if for whatever reasons you have problems getting HOPS to run you can also specifically point HOPS to its dependencies via a config file. For example an older verion of MALT:
+
+**pathToMalt=../path.malt/malt-run** where to find the malt-run shellscript which comes with all implementations of malt
+
+**You will in any case need an indexed Malt Database, as such a database can easily have a size of several 100 GB HOPS does not come with a database. You can either contact me so I can share one of our prebuilt databses with you or you can built your own database via malt-build please consult the malt manual for the specifics **
 
 **index= ../indexed/database** path to chosen Malt DB, has to be constructed with MALT version 38 or higher
 to a config file for hops. 

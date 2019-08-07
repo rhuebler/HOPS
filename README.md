@@ -19,7 +19,16 @@ If you encounter any problems running HOPS please contact huebler@shh.mpg.de and
 
 In order to run HOPS you need Java version 8 or higher and a version of MALT 036 or higher and a version of MaltExtract 1.2 or higher. You can run run the install_hops.sh to download HOPS and its dependencies (except MALT) automatically.
 
-### Conda install coming soon ###
+### Conda install ###
+<code bash>conda install hops -c bioconda </code>
+
+will install hops, maltExtract and the postprocessing. As Malt is currently not available you will need to install it via its installer http://ab.inf.uni-tuebingen.de/data/software/malt/download/welcome.html
+you can add symlink to malt to into ..condo/envs/hops/share/hops
+or add 
+**pathToMalt=../path.malt/malt-run** where to find the malt-run shellscript which comes with all implementations of malt]
+
+**index= ../indexed/database** path to chosen Malt DB, has to be constructed with MALT version 38 or higher
+to a config file for hops. 
 
 ### Parameters that have to be specified ###
 

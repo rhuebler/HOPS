@@ -252,7 +252,7 @@ public class InputParameterProcessor {
 	    	        	}
     	        }
     	        if(commandLine.hasOption("h")){////help
-    	        	String header = "HOPS version 0.3";
+    	        	String header = "HOPS version 0.31";
     	    	    String footer = "In case you encounter an error drop an email with an useful description to huebler@shh.mpg.de";
     	    	    HelpFormatter formatter = new HelpFormatter();
     	    	    formatter.setWidth(500);

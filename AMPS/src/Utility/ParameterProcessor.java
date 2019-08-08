@@ -1,10 +1,13 @@
 package Utility;
 
 import java.io.File;
-import java.net.URISyntaxException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+
 import ConfigFileReader.Config;
 
 public class ParameterProcessor {
@@ -20,7 +23,7 @@ public class ParameterProcessor {
 	private ArrayList<String> input; 
 	private String output;
 	private Logger log;
-	private boolean useSlurm = true;
+	private boolean useSlurm = false;
 	private boolean preProcess = false;
 	private boolean cleanUp = false;
 	//Preprocessing
@@ -59,7 +62,7 @@ public class ParameterProcessor {
 	private int maxMemoryMex = 300;
 	private String partitionMex = "medium";//"medium"
 	private ArrayList<String> MALTExtractCommandLine;
-	private String pathToMaltExtract = locationHOPS +"/MaltExtract.jar";
+	private String pathToMaltExtract = locationHOPS +"/MaltExtract1.5.jar";
 	private String filter = "full";
 	private ArrayList<String> taxas = new ArrayList<String>();	
 	private String resources;
@@ -82,7 +85,7 @@ public class ParameterProcessor {
 	//POSTPROCESSING Parameters
 	private ArrayList<String> commandLinePost;
 	private String pathToList=locationHOPS +"/target_List.txt";
-	private String pathToPostProcessing =locationHOPS +"/postprocessing.AMPS.r";
+	private String pathToPostProcessing =locationHOPS +"postprocessing.AMPS.r";
 	private int threadsPost = 4;
 	private String partitionPost = "short";//"short";
 	private String wallTimePost ="1:00:00";
@@ -101,6 +104,16 @@ public class ParameterProcessor {
 			out+="/";
 		output = out;
 		ampsMode = aMode;
+		try {
+			String path = URLDecoder.decode(ClassLoader.getSystemClassLoader().getResource(".").getPath(), "UTF-8");
+			locationHOPS = path;
+		}catch(UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		pathToPreProcessing=	locationHOPS+"RemoveHumanReads.sh";
+		index = locationHOPS + "database/";
+		pathToMaltExtract= locationHOPS +"MaltExtract1.5.jar";
+		pathToPostProcessing =locationHOPS +"postprocessing.AMPS.r";
 	}
 	public ParameterProcessor(ArrayList<String> in, String out,Logger log, HOPS_Mode aMode){
 		this.log = log;
@@ -109,6 +122,16 @@ public class ParameterProcessor {
 			out+="/";
 		output = out;
 		ampsMode = aMode;
+		try {
+			String path = URLDecoder.decode(ClassLoader.getSystemClassLoader().getResource(".").getPath(), "UTF-8");
+			locationHOPS = path;
+		}catch(UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		pathToPreProcessing=	locationHOPS+"RemoveHumanReads.sh";
+		index = locationHOPS + "database/";
+		pathToMaltExtract= locationHOPS +"MaltExtract1.5.jar";
+		pathToPostProcessing =locationHOPS +"postprocessing.AMPS.r";
 	}
 	//getters
 	
@@ -227,17 +250,6 @@ public class ParameterProcessor {
 	}
 
 	public void process(){	
-
-		String l="";
-		try {
-			l = new File(ParameterProcessor.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath().toString();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String[]parts = l.split("/");
-		String s =parts[parts.length-1].toString();
-		locationHOPS = l.substring(0, (l.length()-1-s.length()));
 		if(new File(locationHOPS+"/malt-run").exists()) {
 			System.out.println("Using version of Malt that exists at location of HOPS.jar unless config file specifies otherwise");
 			pathToMalt=locationHOPS+"/malt-run";
@@ -318,60 +330,53 @@ public class ParameterProcessor {
 		case MALT:	
 			if(Config.entryExists("pathToMalt")){
 				 pathToMalt=Config.getString("pathToMalt");
-				 processMALTParameters();
-				 generateMALTCommandLine(input, output+"malt");
 				 if(!pathToMalt.endsWith("malt-run")){
 					 log.log(Level.SEVERE,"malt-run script not found");
 				 	System.exit(1);
 				 }
 			 }else{
-				 processMALTParameters();
-				 generateMALTCommandLine(input, output+"malt");
-				 log.log(Level.INFO,"use default version MALT40");
+				
+				 log.log(Level.INFO,"use default version MALT41");
 			 }
+			 processMALTParameters();
+			 generateMALTCommandLine(input, output+"malt");
 			 break;
 		case MALTEX:	
 			if(Config.entryExists("pathToMaltExtract")){
-				 pathToMaltExtract=pathToMalt=Config.getString("pathToMaltExtract");
-				 processMALTExtractParameters();
-				 generateMALTExtractCommandLine(input, output+"maltExtract/");
+				 pathToMaltExtract=Config.getString("pathToMaltExtract");
+				
 			 }else{
-				 processMALTExtractParameters();
-				 generateMALTExtractCommandLine(input, output+"maltExtract/");
+
 				 log.log(Level.INFO,"Use default MaltExtract verion 1.5");
-			 }	 
+			 }	
+			 processMALTExtractParameters();
+			 generateMALTExtractCommandLine(input, output+"maltExtract/");
 			 break;
 		case POST:	
 			if(Config.entryExists("pathToPostProcessing")){
 				 pathToPostProcessing=Config.getString("pathToPostProcessing");
-				 processPostProcessingParameters();
-				 generatePostProcessingLine(input.get(0));
 			 }else{
-				 log.log(Level.INFO,"Using Default PostProcessing Script");
-				 processPostProcessingParameters();
-				 generatePostProcessingLine(input.get(0));
+				 log.log(Level.INFO,"Using Default PostProcessing Script");	
 			 }
+			 processPostProcessingParameters();
+			 generatePostProcessingLine(input.get(0));
 			break;
 		case ME_PO:
 			if(Config.entryExists("pathToMaltExtract")){
 				 pathToMaltExtract=pathToMalt=Config.getString("pathToMaltExtract");
-				 processMALTExtractParameters();
-				 generateMALTExtractCommandLine(input, output+"maltExtract/");
+			
 			 }else{
-				 processMALTExtractParameters();
-				 generateMALTExtractCommandLine(input, output+"maltExtract/");
 				 log.log(Level.INFO,"Use default MaltExtract verion 1.5");
 			 }	 
-			
+			 processMALTExtractParameters();
+			 generateMALTExtractCommandLine(input, output+"maltExtract/");
 			 if(Config.entryExists("pathToPostProcessing")){
 				 pathToPostProcessing=Config.getString("pathToPostProcessing");
-				 processPostProcessingParameters();
-				 generatePostProcessingLine(output+"maltExtract/");
 			 }else{
 				 log.log(Level.INFO,"Using Default PostProcessing script");
-				 processPostProcessingParameters();
-				 generatePostProcessingLine(output+"maltExtract/");
 			 }
+			 processPostProcessingParameters();
+			 generatePostProcessingLine(output+"maltExtract/");
 			 break;
 		}		
 	}
@@ -387,7 +392,12 @@ public class ParameterProcessor {
 		 if(Config.entryExists("index")){
 			 index=Config.getString("index");
 		 }else{
-			 log.log(Level.INFO,"Using default index /projects1/malt/databases/indexed/index040");
+			 log.log(Level.INFO,"Assessing if a Malt Database is present at location of HOPS.jar");
+			 if(!new File(locationHOPS + "/database/").exists()) {
+				 log.log(Level.SEVERE,"No Malt Databqse present! Shutting Down! Please refer to the manual and rerun HOPS with a valid MAltDB");
+				System.exit(1);
+				 
+			 }
 		 }
 		 if(Config.entryExists("lcaID")){
 			 id=Config.getDouble("lcaID");
@@ -454,7 +464,7 @@ public class ParameterProcessor {
 		 	if(Config.entryExists("threadsMalt")) {
 		 		threadsMalt = Config.getInt("threadsMalt");
 			}else {
-				log.log(Level.SEVERE, "Using MALT with default of 32 threads");
+				log.log(Level.INFO, "Using MALT with default of 32 threads");
 			}
 			if(Config.entryExists("maxMemoryMalt")){
 				maxMemoryMalt = Config.getInt("maxMemoryMalt");
@@ -473,6 +483,7 @@ public class ParameterProcessor {
 	}
 	private void generatePostProcessingLine(String inputDirectory){//TODO rework
 		ArrayList<String> line = new ArrayList<String>();
+		line.add("Rscript");
 		String mode="";
 		if(filter=="def_anc"||filter=="default")
 			mode =filter;
@@ -606,7 +617,7 @@ public class ParameterProcessor {
 		if(Config.entryExists("threadsMaltEx")) {
 	 		threadsMex = Config.getInt("threadsMaltEx");
 		}else {
-			log.log(Level.SEVERE, "Using MALT with default of 16");
+			log.log(Level.SEVERE, "Using MaltEctract with default of 20 cores");
 		}
 		if(Config.entryExists("useTopAlignment")) {
 			useTopAlignment = Config.getBoolean("useTopAlignment");

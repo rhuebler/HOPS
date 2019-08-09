@@ -11,7 +11,7 @@ For the hacked version of MALT with some extra functionality: https://github.com
 
 For the source code to MaltExtract: https://github.com/rhuebler/MaltExtract
 
-As target list of for MaltExtract you can try the one from the resource folder in the HOPS github repositry or create your own on. Just remember to specify it in a config file so HOPS can find it.
+As a target list for MaltExtract you can try the one from the resource folder in the HOPS github repository or create your own. Just remember to specify it in a config file so HOPS can find it.
 
 For the source code to the postprocessing scipts: https://github.com/keyfm/amps
 

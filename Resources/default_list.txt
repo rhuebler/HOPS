@@ -1,0 +1,355 @@
+African swine fever virus
+Aspergillus fumigatus
+Bacillus anthracis
+Bacillus cereus group
+Bartonella bacilliformis
+Bartonella henselae
+Bartonella quintana
+BK virus strain AS
+BK virus strain GS
+BK virus variant RF
+Blastomyces dermatitidis
+Bordetella
+Bordetella pertussis
+Bordetella petrii
+Borreliaceae
+Borrelia
+Borreliella afzelii
+Borreliella burgdorferi
+Borreliella garinii
+Borrelia recurrentis
+Brucellaceae
+Brucella
+Brucella abortus
+Brucella melitensis
+Brucella microti
+Brucella ovis
+Brucella suis
+Burkholderia cepacia
+Burkholderia mallei
+Burkholderia pseudomallei
+Chlamydia abortus
+Chlamydia caviae
+Chlamydia felis
+Chlamydia muridarum
+Chlamydia pecorum
+Chlamydia pneumoniae
+Chlamydia psittaci
+Chlamydia trachomatis
+Clostridium
+Clostridium botulinum
+Clostridium botulinum BKT015925
+Clostridium botulinum E3 str. Alaska E43
+Clostridium sporogenes
+Clostridium tetani
+Clostridium tetani E88
+Coccidioides immitis
+Coccidioides posadasii
+Corynebacterium diphtheriae
+Cowpox-Vaccinia virus
+Cowpox virus
+Coxiella burnetii
+Cryptococcus gattii species complex
+Cryptococcus neoformans
+Cynomolgus Epstein-Barr Virus A4
+Cynomolgus Epstein-Barr Virus Si-IIA
+Cynomolgus Epstein-Barr Virus TsB-B6
+Enterobius vermicularis
+Epstein-barr virus strain ag876
+Epstein-barr virus strain p3hr-1
+Escherichia coli
+Escherichia coli O111
+Escherichia coli O157:H7
+Escherichia coli O26
+Fusobacterium
+Fusobacterium nucleatum
+Francisella tularensis
+Haemophilus influenzae
+Haemophilus influenzae Rd KW20
+Helicobacter pylori
+Hepatitis B virus
+Recombinant Hepatitis C virus 3a-2a (SA1/JFH1) 
+Hepatitis delta virus
+Hepatitis E virus
+Herpes simplex virus 1 strain R-15
+Herpes simplex virus (type 1 / strain 17)
+Herpes simplex virus (type 1 / strain A44)
+Herpes simplex virus (type 1 / strain Angelotti)
+Herpes simplex virus (type 1 / strain CL101)
+Herpes simplex virus (type 1 / strain CVG-2)
+Herpes simplex virus (type 1 / strain F)
+Herpes simplex virus (type 1 / strain HFEM)
+Herpes simplex virus (type 1 / strain HZT)
+Herpes simplex virus (type 1 / strain MGH-10)
+Herpes simplex virus (type 1 / strain MP)
+Herpes simplex virus (type 1 / strain Patton)
+Herpes simplex virus (type 1 / strain R19)
+Herpes simplex virus (type 1 /strain RH2)
+Herpes simplex virus (type 1 / strain SC16)
+Herpes simplex virus unknown type
+Human herpesvirus 1
+Human herpesvirus 6B
+Histoplasma capsulatum
+Human adenovirus 1
+Human adenovirus 11
+Human adenovirus 11+34
+Human adenovirus 11a
+Human adenovirus 11p
+Human adenovirus 12
+Human adenovirus 14
+Human adenovirus 14a
+Human adenovirus 14p
+Human adenovirus 14p1
+Human adenovirus 15
+Human adenovirus 15/H9
+Human adenovirus 16
+Human adenovirus 16p
+Human adenovirus 17
+Human adenovirus 18
+Human adenovirus 19
+Human adenovirus 19a
+Human adenovirus 19C
+Human adenovirus 19p
+Human adenovirus 1 strain Adenoid 71
+Human adenovirus 2
+Human adenovirus 20
+Human adenovirus 21
+Human adenovirus 21a
+Human adenovirus 22
+Human adenovirus 22H8
+Human adenovirus 23
+Human adenovirus 24
+Human adenovirus 25
+Human adenovirus 26
+Human adenovirus 27
+Human adenovirus 28
+Human adenovirus 29
+Human adenovirus 30
+Human adenovirus 31
+Human adenovirus 3+11p
+Human adenovirus 32
+Human adenovirus 33
+Human adenovirus 34
+Human adenovirus 34a
+Human adenovirus 35
+Human adenovirus 35+11
+Human adenovirus 36
+Human adenovirus 3+7
+Human adenovirus 38
+Human adenovirus 38H44
+Human adenovirus 39
+Human adenovirus 3p
+Human adenovirus 40
+Human adenovirus 41
+Human adenovirus 41 Wisconsin
+Human adenovirus 42
+Human adenovirus 43
+Human adenovirus 44
+Human adenovirus 45
+Human adenovirus 46
+Human adenovirus 47
+Human adenovirus 48
+Human adenovirus 49
+Human adenovirus 4a
+Human adenovirus 5
+Human adenovirus 50
+Human adenovirus 50 prototype strain Wan
+Human adenovirus 51
+Human adenovirus 52
+Human adenovirus 53
+Human adenovirus 54
+Human adenovirus 55
+Human adenovirus 56
+Human adenovirus 57
+Human adenovirus 58
+Human adenovirus 59 MSJ-2011
+Human adenovirus 6
+Human adenovirus 60a
+Human adenovirus 61
+Human adenovirus 62
+Human adenovirus 63
+Human adenovirus 64
+Human adenovirus 65
+Human adenovirus 66
+Human adenovirus 67
+Human adenovirus 68
+Human adenovirus 69
+Human adenovirus 7
+Human adenovirus 71
+Human adenovirus 7428
+Human adenovirus 7620
+Human adenovirus 7961
+Human adenovirus 7a
+Human adenovirus 7d
+Human adenovirus 7d2
+Human adenovirus 7h
+Human adenovirus 7l
+Human adenovirus 7m
+Human adenovirus 7p
+Human adenovirus 8E
+Human adenovirus 9042
+Human adenovirus 9052
+Human adenovirus 9431
+Human adenovirus A02-2B-2
+Human adenovirus A03-2B-1
+Human adenovirus AdV/Berlin
+Human adenovirus AdV/Berlin003/02/DE
+Human adenovirus AdV/Berlin004/02/DE
+Human adenovirus AdV/Berlin131/01/DE
+Human adenovirus AdV/Berlin524/01/DE
+Human adenovirus AdV/Berlin604/01/DE
+Human adenovirus AdV/Berlin619/01/DE
+Human adenovirus AdV/Berlin643/01/DE
+Human adenovirus AdV/Berlin682/01/DE
+Human adenovirus AdV/Berlin718/01/DE
+Human adenovirus AdV/Berlin749/01/DE
+Human adenovirus AdV/Berlin769/01/DE
+Human adenovirus AdV/Berlin859/01/DE
+Human adenovirus ATCC VR-1501
+Human adenovirus ATCC VR-1502
+Human adenovirus B1
+Human adenovirus B2
+Human adenovirus B3
+Human adenovirus Chiba_E086/2012
+Human adenovirus D10
+Human adenovirus D13
+Human adenovirus D15H9
+Human adenovirus D17H29
+Human adenovirus D19H30
+Human adenovirus D30H44
+Human adenovirus D37
+Human adenovirus D37H13
+Human adenovirus D37H17
+Human adenovirus D46H13
+Human adenovirus D8
+Human adenovirus D9
+Human adenovirus E4
+Human adenovirus H02-2B-2
+Human adenovirus H02-2B-3
+Human adenovirus H03-2B-1
+Human adenovirus H08-2B-2
+Human adenovirus I02-2B-2
+Human adenovirus I05-2B-2
+Human adenovirus isolate MY7/1
+Human adenovirus isolate MY8/1
+Human adenovirus isolate SGH2289
+Human adenovirus isolate SGH5253
+Human adenovirus LZY153B
+Human adenovirus MKJ/Chennai/2010
+Human adenovirus RKI-2797/04
+Human adenovirus S02-2B-1
+Human adenovirus S03-2B-1
+Human adenovirus S03-2B-2
+Human adenovirus S03-2B-3
+Human adenovirus S05-2B-2
+Human adenovirus S06-2B-3
+Human adenovirus S07-2B-2
+Human adenovirus S08-2B-3
+Human adenovirus S10-1-6
+Human adenovirus type 35p
+Human hepatitis A virus
+Human herpesvirus 3 strain Dumas
+Human herpesvirus 3 VZV-32
+Human herpesvirus 3 strain Oka vaccine 
+Human gammaherpesvirus 4
+Human mastadenovirus C
+JC polyomavirus
+JC virus x BK virus
+Klebsiella oxytoca
+Klebsiella pneumoniae
+Klebsiella pneumoniae subsp. rhinoscleromatis
+Legionella pneumophila
+Leptospira alexanderi
+Leptospira alstonii
+Leptospira borgpetersenii
+Leptospira broomii
+Leptospira fainei
+Leptospira inadai
+Leptospira interrogans
+Leptospira kirschneri
+Leptospira kmetyi
+Leptospira licerasiae
+Leptospira noguchii
+Leptospira santarosai
+Leptospira weilii
+Leptospira wolffii
+Methanobrevibacter oralis
+Moraxella catarrhalis
+Mycobacteroides abscessus 
+Mycobacterium africanum
+Mycobacterium avium
+Mycobacterium bovis
+Mycobacterium canettii
+Mycobacterium colombiense
+Mycobacterium intracellulare
+Mycobacterium kansasii
+Mycobacterium leprae
+Mycobacterium tuberculosis complex
+Mycoplasma pneumoniae
+Neisseria
+Neisseria gonorrhoeae
+Neisseria meningitidis
+Orthohepadnavirus
+Parvimonas micra
+Peptostreptococcus anaerobius
+Plasmodium falciparum
+Plasmodium vivax
+Pneumocystis carinii
+Pneumocystis jirovecii
+Porphyromonas gingivalis
+Porphyromonas gingivalis W83
+Rickettsia africae
+Rickettsia akari
+Rickettsia conorii
+Rickettsia felis
+Rickettsia japonica
+Rickettsia prowazekii
+Rickettsia rickettsii
+Rickettsia sibirica
+Rickettsia typhi
+Salmonella enterica subsp. enterica
+Salmonella typhimurium TR7095
+Schistosoma mansoni
+Shigella boydii
+Shigella dysenteriae
+Shigella flexneri
+Shigella sonnei
+Simian virus 42
+Staphylococcus aureus
+Streptococcus
+Streptococcus agalactiae
+Streptococcus anginosus
+Streptococcus dysgalactiae
+Streptococcus gordonii
+Streptococcus gordonii str. Challis substr. CH1
+Streptococcus mutans
+Streptococcus oralis
+Streptococcus pneumoniae
+Streptococcus pneumoniae
+Streptococcus pyogenes
+Streptococcus salivarius
+Streptococcus sanguinis
+Taenia solium
+Tannerella forsythia
+Tannerella forsythia 92A2
+Toxoplasma gondii
+Treponema
+Treponema denticola
+Treponema denticola ATCC 35405
+Treponema pallidum
+Treponema pallidum subsp. pallidum
+Treponema pallidum subsp. pallidum
+Treponema pallidum subsp. pertenue
+Trichinella spiralis
+Trypanosoma brucei
+Trypanosoma cruzi
+Variola major virus
+Variola minor virus
+Veillonella parvula
+Vibrio cholerae
+Vibrio parahaemolyticus
+Vibrio vulnificus
+Yersinia enterocolitica
+Yersinia pestis
+Yersinia pseudotuberculosis
+Yersinia pseudotuberculosis complex

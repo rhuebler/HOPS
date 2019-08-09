@@ -67,14 +67,18 @@ https://www.biorxiv.org/content/10.1101/534198v2
 
 ### Example ###
 
-<code bash> jjava -jar ../path/hops0.2.jar -input  /path/to/files/*fastq.gz -output /my/output/goes/here -m full </code>
-This command will execute HOPS with default parameters, which means: submit MALT to the long queue, MaltExtract to the medium queue and post processing to the short queue and shutdown. Because this command does not really require any processing power or memory you can probably log in to cruncher1 and execute it there.
-
+<code bash> java -jar ../path/hops0.2.jar -Xmx600G -input  /path/to/files/*fastq.gz -output /my/output/goes/here -m full </code>
+This command will execute HOPS with default parameters
 or if you want to do something more specific
 
 <code bash> /projects1/tools/java/jdk-9.0.4/bin/java -jar ../path/hops0.2.jar -input  /path/to/files/*fastq.gz -output /my/output/goes/here -m full -c configFile.txt </code>
 
-This will still only submit jobs to SLURM, but parameters specified in the config file will overwrite default parameters. All parameters not specified in the config file will stay at their default value. To check what the default values are, check the config file section.  These parameters can also change where the job is submitted and how many resources are reserved for it.  
+Parameters specified in the config file will overwrite default parameters. All parameters not specified in the config file will stay at their default value. To check what the default values are, check the config file section.  
+
+### Example Conda###
+
+<code bash> hops -Xmx600G -input  /path/to/files/*fastq.gz -output /my/output/goes/here -m full </code>
+This command will execute HOPS with default parameters.
 
 ## Command Line Parameters ##
 

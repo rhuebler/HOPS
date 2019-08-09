@@ -11,6 +11,8 @@ For the hacked version of MALT with some extra functionality: https://github.com
 
 For the source code to MaltExtract: https://github.com/rhuebler/MaltExtract
 
+As target list of for MaltExtract you can try the one from the resource folder in the HOPS github repositry or create your own on. Just remember to specify it in a config file so HOPS can find it.
+
 For the source code to the postprocessing scipts: https://github.com/keyfm/amps
 
 If you encounter any problems running HOPS please contact huebler@shh.mpg.de and provide the config file you are using as well as the log file that was generated, this will greatly speed up troublehooting.
@@ -27,7 +29,7 @@ will install hops, maltExtract, malt and the postprocessing. HOPS will look for 
 
 **pathToMalt=../path.malt/malt-run** where to find the malt-run shellscript which comes with all implementations of malt
 
-**You will in any case need an indexed Malt Database, as such a database can easily have a size of several 100 GB HOPS does not come with a database. You can either contact me so I can share one of our prebuilt databses with you or you can built your own database via malt-build please consult the malt manual for the specifics **
+**You will in any case need an indexed Malt Database, as such a database can easily have a size of several 100 GB HOPS does not come with a database. You can either contact me so I can share one of our prebuilt databses with you or you can built your own database via malt-build please consult the malt manual for the specifics**
 
 **index= ../indexed/database** path to chosen Malt DB, has to be constructed with MALT version 38 or higher
 to a config file for hops. 

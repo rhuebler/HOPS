@@ -67,18 +67,18 @@ https://www.biorxiv.org/content/10.1101/534198v2
 
 ### Example ###
 
-<code bash> java -jar ../path/hops0.2.jar -Xmx600G -input  /path/to/files/*fastq.gz -output /my/output/goes/here -m full </code>
+<code bash> java -jar ../path/hops0.3.jar -Xmx600G -input  /path/to/files/*fastq.gz -output /my/output/goes/here -m full </code>
 This command will execute HOPS with default parameters
 or if you want to do something more specific
 
-<code bash> /projects1/tools/java/jdk-9.0.4/bin/java -jar ../path/hops0.2.jar -input  /path/to/files/*fastq.gz -output /my/output/goes/here -m full -c configFile.txt </code>
+<code bash> java -jar ../path/hops0.3.jar -Xmx600G -input  /path/to/files/*fastq.gz -output /my/output/goes/here -m full -c configFile.txt </code>
 
-Parameters specified in the config file will overwrite default parameters. All parameters not specified in the config file will stay at their default value. To check what the default values are, check the config file section.  
+Parameters specified in the config file will overwrite default parameters. All parameters not specified in the config file will stay at their default value. To check what the default values are, check the config file section. **Please note that as the HOPS job will by defaulat call Malt and MaltExtract that HOPS will need enough Heapspace to allow the Malt job to run. Otherwise it will get stuck**
 
 ### Example Conda###
 
-<code bash> hops -Xmx600G -input  /path/to/files/*fastq.gz -output /my/output/goes/here -m full </code>
-This command will execute HOPS with default parameters.
+<code bash> hops -Xmx600G -input  /path/to/files/*fastq.gz -output /my/output/goes/here -m full -c configFile.txt </code>
+**Please note that as the HOPS job will by defaulat call Malt and MaltExtract that HOPS will need enough Heapspace to allow the Malt job to run. Otherwise it will get stuck**
 
 ## Command Line Parameters ##
 

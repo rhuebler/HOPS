@@ -1,15 +1,24 @@
-#!/bin/sh
-#  hops.sh
-#  
-#
-#  Created by Ron Huebler on 27.06.19.
-#
-PROG_PATH=${BASH_SOURCE[0]}      # this script's name
-PROG_NAME=${PROG_PATH##*/}       # basename of script (strip path)
-PROG_DIR="$(cd "$(dirname "${PROG_PATH:-$PWD}")" 2>/dev/null 1>&2 && pwd)"
-parameters=""
-while [ $# != "0" ] ; do
-    parameters="$parameters $1"
-    shift
-done
-java -jar $PROG_DIR/hops.jar $parameters
+#!/bin/bash
+DIRECTORY=$PWD"/hops"
+mkdir -p $DIRECTORY
+wget https://raw.githubusercontent.com/rhuebler/HOPS/SHH/AMPS/Resources/hops0.31.jar -O $DIRECTORY/hops.jar
+wget https://raw.githubusercontent.com/rhuebler/HOPS/SHH/AMPS/Resources/MaltExtract1.5-JDK8.jar -O $DIRECTORY/MaltExtract.jar
+wget https://raw.githubusercontent.com/rhuebler/HOPS/SHH/AMPS/Resources/ipak_HOPS.r
+wget https://raw.githubusercontent.com/keyfm/amps/master/postprocessing.AMPS.r -O $DIRECTORY/postprocessing.AMPS.r
+
+chmod u+x $DIRECTORY/hops.jar
+chmod u+x $DIRECTORY/MaltExtract1.5.jar
+chmod u+x $DIRECTORY/postprocessing.AMPS.r
+chmod u+x $DIRECTORY/ipak_HOPS.r
+
+cd  $DIRECTORY
+Rscript ipak_hops.r
+
+echo "you will still need a working version of malt"
+echo "you can download it from Daniel Huson's github"
+echo "ln -s ../path/to/malt-run /path/to/hops/dir/malt-run"
+echo "you will also need a reference database you can either create a symlink of"
+echo "the database location in the hops folder run hops with a config file"
+echo "ln -s ../path/to/maltdb /path/to/hops/dir/malt-run/databse"
+echo "or"
+echo "add "

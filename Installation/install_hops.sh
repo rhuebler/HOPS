@@ -3,7 +3,7 @@ DIRECTORY=$PWD"/hops"
 mkdir -p $DIRECTORY
 wget https://raw.githubusercontent.com/rhuebler/HOPS/external/Resources/hops0.31.jar -O $DIRECTORY/hops.jar
 wget https://raw.githubusercontent.com/rhuebler/HOPS/SHH/AMPS/Resources/MaltExtract1.5-JDK8.jar -O $DIRECTORY/MaltExtract1.5.jar
-wget https://raw.githubusercontent.com/rhuebler/HOPS/external/Resources/ipak_hops.r
+wget https://raw.githubusercontent.com/rhuebler/HOPS/external/Resources/ipak_hops.r -O $DIRECTORY/ipak_hops.r
 wget https://raw.githubusercontent.com/keyfm/amps/master/postprocessing.AMPS.r -O $DIRECTORY/postprocessing.AMPS.r
 
 chmod u+x $DIRECTORY/hops.jar

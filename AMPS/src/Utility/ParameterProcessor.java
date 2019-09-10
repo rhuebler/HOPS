@@ -2,8 +2,11 @@ package Utility;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -95,6 +98,7 @@ public class ParameterProcessor {
 	private int maxMemoryPost=10;
 
 	private ArrayList<String> cleaningCommand = new ArrayList<String>();
+	private int maxMemoryMaltEx;
 	//Constructor
 	public ParameterProcessor(String config, ArrayList<String> in, String out,Logger log, HOPS_Mode aMode){
 		this.log = log;
@@ -394,7 +398,7 @@ public class ParameterProcessor {
 		 }else{
 			 log.log(Level.INFO,"Assessing if a Malt Database is present at location of HOPS.jar");
 			 if(!new File(locationHOPS + "/database/").exists()) {
-				 log.log(Level.SEVERE,"No Malt Databqse present! Shutting Down! Please refer to the manual and rerun HOPS with a valid MAltDB");
+				 log.log(Level.SEVERE,"No Malt Database present! Shutting Down! Please refer to the manual and rerun HOPS with a valid MaltDB");
 				System.exit(1);
 				 
 			 }
@@ -511,6 +515,30 @@ public class ParameterProcessor {
 			String s=this.output+"pre/"+new File(input.get(i)).getName().split(".")[0]+".fq.gz";
 			input.set(i, s);
 			}
+		}
+		  
+		RuntimeMXBean bean = ManagementFactory.getRuntimeMXBean();
+		int heapsize = 0;
+		List<String> aList = bean.getInputArguments();
+		for (int i = 0; i < aList.size(); i++) {
+			if(aList.get(i).startsWith("-Xmx")) {
+				if(aList.get(i).endsWith("G")) {
+					heapsize = Integer.parseInt(aList.get(i).substring(4, (aList.get(i).length()-1)));
+				}
+				if(aList.get(i).endsWith("MB")) {
+					heapsize = Integer.parseInt(aList.get(i).substring(1, (aList.get(i).length()-2)))/1000;
+				}
+			}
+
+		  } 
+		if(heapsize == 0) {
+			heapsize = (int)(Runtime.getRuntime().maxMemory()/1000)/1000/1000;
+		}
+		if(heapsize<maxMemoryMalt&&!useSlurm) {
+			log.log(Level.SEVERE,"HOPS has insuffcient HeapSpace (" +heapsize+"GB) to start Malt\n"
+					+ "Please Restart HOPS as hops -Xmx"+maxMemoryMalt+"G -i ...\n"
+							+ "If your System has not enough memory please refer to the HOPS manual on the github page and the config file section");
+			System.exit(1);
 		}
 		
 		ArrayList<String> maltLine= new ArrayList<String>();
@@ -646,6 +674,29 @@ public class ParameterProcessor {
 		}
 	}
 	private void generateMALTExtractCommandLine(String input, String outputME){
+		RuntimeMXBean bean = ManagementFactory.getRuntimeMXBean();
+		int heapsize = 0;
+		List<String> aList = bean.getInputArguments();
+		for (int i = 0; i < aList.size(); i++) {
+			if(aList.get(i).startsWith("-Xmx")) {
+				if(aList.get(i).endsWith("G")) {
+					heapsize = Integer.parseInt(aList.get(i).substring(4, (aList.get(i).length()-1)));
+				}
+				if(aList.get(i).endsWith("MB")) {
+					heapsize = Integer.parseInt(aList.get(i).substring(1, (aList.get(i).length()-2)))/1000;
+				}
+			}
+
+		  } 
+		if(heapsize == 0) {
+			heapsize = (int)(Runtime.getRuntime().maxMemory()/1000)/1000/1000;
+		}
+		if(heapsize<maxMemoryMaltEx&&!useSlurm) {
+			log.log(Level.SEVERE,"HOPS has insuffcient HeapSpace (" +heapsize+"GB) to start MaltExtract\n "
+					+ "Please Restart HOPS as hops -Xmx"+maxMemoryMex+"G -i ...\n"
+							+ "If your System has not enough memory please refer to the HOPS manual on the github page and the config file section");
+			System.exit(1);
+		}
 		ArrayList<String> meLine = new ArrayList<String>();
 		meLine.add(pathToJava);	meLine.add("-jar");// start MaltExtract
 		meLine.add("-Xmx"+maxMemoryMex+"G");	meLine.add(pathToMaltExtract);//max memory
@@ -699,6 +750,29 @@ public class ParameterProcessor {
 		new File(outputME).mkdir();
 	}
 	private void generateMALTExtractCommandLine(ArrayList<String> input, String outputME){
+		RuntimeMXBean bean = ManagementFactory.getRuntimeMXBean();
+		int heapsize = 0;
+		List<String> aList = bean.getInputArguments();
+		for (int i = 0; i < aList.size(); i++) {
+			if(aList.get(i).startsWith("-Xmx")) {
+				if(aList.get(i).endsWith("G")) {
+					heapsize = Integer.parseInt(aList.get(i).substring(4, (aList.get(i).length()-1)));
+				}
+				if(aList.get(i).endsWith("MB")) {
+					heapsize = Integer.parseInt(aList.get(i).substring(1, (aList.get(i).length()-2)))/1000;
+				}
+			}
+
+		  } 
+		if(heapsize == 0) {
+			heapsize = (int)(Runtime.getRuntime().maxMemory()/1000)/1000/1000;
+		}
+		if(heapsize<maxMemoryMaltEx&&!useSlurm) {
+			log.log(Level.SEVERE,"HOPS has insuffcient HeapSpace (" +heapsize+"GB) to start to start MaltExtract\n "
+					+ "Please Restart HOPS as hops -Xmx"+maxMemoryMex+"G -i ...\n"
+							+ "If your System has not enough memory please refer to the HOPS manual on the github page and the config file section");
+			System.exit(1);
+		}
 		ArrayList<String> meLine = new ArrayList<String>();
 		meLine.add(pathToJava);	meLine.add("-jar");// start MaltExtract
 		meLine.add("-Xmx"+maxMemoryMex+"G");meLine.add(pathToMaltExtract);//max memory

@@ -118,7 +118,9 @@ taxas="Yersinia pestis"
 or multiple
 
 taxas="Yersinia pestis;Mycobacterium tuberculosis;Bacterium anthracis"
+
 ===== HOPS Output Files =====
+
 ==== HOPS MALT Output ====
 
 The output from MALT are rma6 files found in the ram folder. Those are basically a compressed taxonomic tree, that contains for each Node in the tree, which read is aligned (assigned) to it. You can than inspect the output in MEGAN [[http://megan.informatik.uni-tuebingen.de/]]

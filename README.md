@@ -77,9 +77,10 @@ or if you want to do something more specific
 
 Parameters specified in the config file will overwrite default parameters. All parameters not specified in the config file will stay at their default value. To check what the default values are, check the config file section. **Please note that as the HOPS job will by defaulat call Malt and MaltExtract that HOPS will need enough Heapspace to allow the Malt job to run. Otherwise it will get stuck**
 
-### Example Conda###
+### Example Conda ###
 
 <code bash> hops -Xmx600G -input  /path/to/files/*fastq.gz -output /my/output/goes/here -m full -c configFile.txt </code>
+
 **Please note that as the HOPS job will by defaulat call Malt and MaltExtract that HOPS will need enough Heapspace to allow the Malt job to run. Otherwise it will get stuck**
 
 ## Command Line Parameters ##

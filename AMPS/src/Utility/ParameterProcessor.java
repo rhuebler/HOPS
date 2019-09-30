@@ -301,7 +301,7 @@ public class ParameterProcessor {
 			 }
 		
 			 if(Config.entryExists("pathToMaltExtract")){
-				 pathToMaltExtract=pathToMalt=Config.getString("pathToMaltExtract");
+				 pathToMaltExtract=Config.getString("pathToMaltExtract");
 				 processMALTExtractParameters();
 				 generateMALTExtractCommandLine(output+"malt/", output+"maltExtract/");
 			 }else{

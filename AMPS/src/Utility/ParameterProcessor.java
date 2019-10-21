@@ -88,7 +88,7 @@ public class ParameterProcessor {
 	//POSTPROCESSING Parameters
 	private ArrayList<String> commandLinePost;
 	private String pathToList=locationHOPS +"/target_List.txt";
-	private String pathToPostProcessing =locationHOPS +"postprocessing.AMPS.r";
+	private String pathToPostProcessing ="postprocessing.AMPS.r";
 	private int threadsPost = 4;
 	private String partitionPost = "short";//"short";
 	private String wallTimePost ="1:00:00";
@@ -698,8 +698,8 @@ public class ParameterProcessor {
 			System.exit(1);
 		}
 		ArrayList<String> meLine = new ArrayList<String>();
-		meLine.add(pathToJava);	meLine.add("-jar");// start MaltExtract
-		meLine.add("-Xmx"+maxMemoryMex+"G");	meLine.add(pathToMaltExtract);//max memory
+		//meLine.add(pathToJava);	meLine.add("-jar");// start MaltExtract
+		meLine.add("MaltExtract");	meLine.add("-Xmx"+maxMemoryMex+"G");//max memory
 		meLine.add("--filter");		meLine.add(filter);//filter
 		meLine.add("-i");			meLine.add(input);//Input
 		meLine.add("-o");			meLine.add(outputME);//output
@@ -774,8 +774,8 @@ public class ParameterProcessor {
 			System.exit(1);
 		}
 		ArrayList<String> meLine = new ArrayList<String>();
-		meLine.add(pathToJava);	meLine.add("-jar");// start MaltExtract
-		meLine.add("-Xmx"+maxMemoryMex+"G");meLine.add(pathToMaltExtract);//max memory
+		//meLine.add(pathToJava);	meLine.add("-jar");// start MaltExtract
+		meLine.add("MaltExtract");meLine.add("-Xmx"+maxMemoryMex+"G");////max memory
 		meLine.add("--filter");		meLine.add(filter);//filter
 		meLine.add("-i");			meLine.addAll(input);// input
 		meLine.add("-o");			meLine.add(outputME);//output

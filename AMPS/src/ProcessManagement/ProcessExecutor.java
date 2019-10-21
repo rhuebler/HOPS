@@ -221,8 +221,10 @@ public class ProcessExecutor {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(continueRun)
+			if(continueRun) {
+				System.gc();
 				return continueRun;
+				}
 			else{
 				 log.log(Level.SEVERE,"Process interuppted");
 				System.exit(1);

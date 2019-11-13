@@ -35,6 +35,7 @@ public class InputParameterProcessor {
 	private String outDir;
 	private String configFile;
 	private HOPS_Mode ampsMode =HOPS_Mode.ALL;
+	private String version = "0.33";
 	
 	// constructor
 	public InputParameterProcessor(String[] params) throws IOException, ParseException{
@@ -84,6 +85,7 @@ public class InputParameterProcessor {
     	    Option optionConfigFile = Option.builder("c").longOpt("configFile").argName("String").hasArg().desc("Path to Config File").build();
     	    Option optionMode = Option.builder("m").longOpt("mode").argName("String").hasArg().desc("HOPS Mode to run accpeted full, malt, maltex, post").build();
     	    Option option_Help = Option.builder("h").longOpt("help").optionalArg(true).desc("Print Help").build();
+    	    Option option_Version = Option.builder("v").longOpt("version").optionalArg(true).desc("Print Version").build();
     	    Options options = new Options();
     	    
     	    // add all parameters to the parser
@@ -94,6 +96,7 @@ public class InputParameterProcessor {
     	    options.addOption(optionMode);
     	    options.addOption(optionConfigFile);
     	    options.addOption(option_Help);
+    	    options.addOption(option_Version);
 
     	    //parse arguments into the comandline parser
     	        commandLine = parser.parse(options, parameters);
@@ -252,11 +255,17 @@ public class InputParameterProcessor {
 	    	        	}
     	        }
     	        if(commandLine.hasOption("h")){////help
-    	        	String header = "HOPS version 0.31";
+    	        	String header = "HOPS version"+version;
     	    	    String footer = "In case you encounter an error drop an email with an useful description to huebler@shh.mpg.de";
     	    	    HelpFormatter formatter = new HelpFormatter();
     	    	    formatter.setWidth(500);
     	    	    formatter.printHelp("HOPS", header, options, footer, true);   
+    	    	    System.exit(0);
+    	        }
+    	        if(commandLine.hasOption("v")){////help
+    	        	String header = "HOPS version"+version;
+    	    	    System.out.println(header);
+    	    	   
     	    	    System.exit(0);
     	        }
     	        if(!commandLine.hasOption("o")||!commandLine.hasOption("i")) {

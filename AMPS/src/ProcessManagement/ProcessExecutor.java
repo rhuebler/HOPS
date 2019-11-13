@@ -1,9 +1,11 @@
 package ProcessManagement;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -193,29 +195,32 @@ public class ProcessExecutor {
 		if(command!=null&&command.size()!=0) {
 			String l ="";
 			for(String s : command){
-				log.log(Level.INFO,s);
+				//log.log(Level.INFO,s);
 				l+=s+" ";
 			}
 			log.log(Level.INFO,l);
+			command.add(0,"/usr/bin/stdbuf");
+			command.add(1,"-o0");
+			command.add(2,"-e0");
+			
+			//String s=">"+ output+"Malt.log 2>&1";
 			ProcessBuilder builder = new ProcessBuilder (command);
+			builder.redirectErrorStream(true);
 			boolean continueRun = false;
 			//Map<String, String> environ = builder.environment();
 			try {
 				final Process process = builder.start();
-			    if(process.isAlive()){
-			    	 	BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-				    String line;
-				    while ((line = br.readLine()) != null) {
+				BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			    String line;
+			    while ((line = br.readLine()) != null) {
 				      log.log(Level.INFO,line);
-				    }
-				    BufferedReader be = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-				    while ((line = be.readLine()) != null) {
-					      log.log(Level.WARNING,line);
-				    }
-
-				    int status = process.waitFor();
-					log.log(Level.INFO,"Process Exited with status: " + status);
 			    }
+			    BufferedReader be = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			    while ((line = be.readLine()) != null) {
+					      log.log(Level.WARNING,line);
+				 }
+			    int status = process.waitFor();
+				log.log(Level.INFO,"Process Exited with status: " + status);
 				continueRun = true;
 			} catch (IOException | InterruptedException e) {
 				// TODO Auto-generated catch block

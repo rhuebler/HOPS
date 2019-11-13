@@ -65,7 +65,7 @@ public class ParameterProcessor {
 	private int maxMemoryMex = 300;
 	private String partitionMex = "medium";//"medium"
 	private ArrayList<String> MALTExtractCommandLine;
-	private String pathToMaltExtract = locationHOPS +"/MaltExtract1.5.jar";
+	private String pathToMaltExtract = "MaltExtract";
 	private String filter = "full";
 	private ArrayList<String> taxas = new ArrayList<String>();	
 	private String resources;
@@ -114,10 +114,10 @@ public class ParameterProcessor {
 		}catch(UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		pathToPreProcessing=	locationHOPS+"RemoveHumanReads.sh";
-		index = locationHOPS + "database/";
-		pathToMaltExtract= locationHOPS +"MaltExtract1.5.jar";
-		pathToPostProcessing =locationHOPS +"postprocessing.AMPS.r";
+//		pathToPreProcessing=	locationHOPS+"RemoveHumanReads.sh";
+//		index = locationHOPS + "database/";
+//		pathToMaltExtract= "MaltExtract1.7.jar";
+//		pathToPostProcessing ="locationHOPS + postprocessing.AMPS.r";
 	}
 	public ParameterProcessor(ArrayList<String> in, String out,Logger log, HOPS_Mode aMode){
 		this.log = log;
@@ -132,10 +132,10 @@ public class ParameterProcessor {
 		}catch(UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		pathToPreProcessing=	locationHOPS+"RemoveHumanReads.sh";
-		index = locationHOPS + "database/";
-		pathToMaltExtract= locationHOPS +"MaltExtract1.5.jar";
-		pathToPostProcessing =locationHOPS +"postprocessing.AMPS.r";
+//		pathToPreProcessing=	locationHOPS+"RemoveHumanReads.sh";
+//		index = locationHOPS + "database/";
+//		pathToMaltExtract= locationHOPS +"MaltExtract1.5.jar";
+//		pathToPostProcessing =locationHOPS +"postprocessing.AMPS.r";
 	}
 	//getters
 	
@@ -370,7 +370,7 @@ public class ParameterProcessor {
 				 pathToMaltExtract=pathToMalt=Config.getString("pathToMaltExtract");
 			
 			 }else{
-				 log.log(Level.INFO,"Use default MaltExtract verion 1.5");
+				 log.log(Level.INFO,"Use default MaltExtract verion 1.7");
 			 }	 
 			 processMALTExtractParameters();
 			 generateMALTExtractCommandLine(input, output+"maltExtract/");
@@ -487,7 +487,7 @@ public class ParameterProcessor {
 	}
 	private void generatePostProcessingLine(String inputDirectory){//TODO rework
 		ArrayList<String> line = new ArrayList<String>();
-		line.add("Rscript");
+		//line.add("Rscript");
 		String mode="";
 		if(filter=="def_anc"||filter=="default")
 			mode =filter;
@@ -699,7 +699,7 @@ public class ParameterProcessor {
 		}
 		ArrayList<String> meLine = new ArrayList<String>();
 		//meLine.add(pathToJava);	meLine.add("-jar");// start MaltExtract
-		meLine.add("MaltExtract");	meLine.add("-Xmx"+maxMemoryMex+"G");//max memory
+		meLine.add(pathToMaltExtract);	meLine.add("-Xmx"+maxMemoryMex+"G");//max memory
 		meLine.add("--filter");		meLine.add(filter);//filter
 		meLine.add("-i");			meLine.add(input);//Input
 		meLine.add("-o");			meLine.add(outputME);//output
@@ -775,7 +775,7 @@ public class ParameterProcessor {
 		}
 		ArrayList<String> meLine = new ArrayList<String>();
 		//meLine.add(pathToJava);	meLine.add("-jar");// start MaltExtract
-		meLine.add("MaltExtract");meLine.add("-Xmx"+maxMemoryMex+"G");////max memory
+		meLine.add(pathToMaltExtract);meLine.add("-Xmx"+maxMemoryMex+"G");////max memory
 		meLine.add("--filter");		meLine.add(filter);//filter
 		meLine.add("-i");			meLine.addAll(input);// input
 		meLine.add("-o");			meLine.add(outputME);//output

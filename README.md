@@ -104,8 +104,7 @@ To run MALT or the full mode of HOPS in any case you will need *adapter clipped 
 ### Configure your own Screening List for HOPS ###
 To generate your own screening list you can use the taxas parameter and specify a plain text file
 that has on each line the name of a species you are interested in. To do that you will have to run HOPS with a Config file.
-You can check /projects1/clusterhomes/huebler/RMASifter/AMPS/reworkedPathogenListwVirusesFMK_KB_RH_1.txt for an example.
-In the config file you specify it like this:
+You can check the resource folder for an example. With the conda version you will mostly spared from dealing with it however.
 
 **Example:**
 taxas=/projects1/clusterhomes/huebler/RMASifte/AMPS/reworkedPathogenListwVirusesFMK_KB_RH_1.txt

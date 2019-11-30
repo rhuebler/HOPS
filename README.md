@@ -83,6 +83,13 @@ Parameters specified in the config file will overwrite default parameters. All p
 
 **Please note that as the HOPS job will by defaulat call Malt and MaltExtract that HOPS will need enough Heapspace to allow the Malt job to run. Otherwise it will get stuck**
 
+
+## Test Data ##
+
+To test if the installation was successfull you can use the resources from the Test_Data folder.
+Pease be aware that the database has to be decompressed (table0.db.zip and table0.idx.zip) and the folder Test_Database has to be specified in a config file (see how to do this above) the test reads can be specfied as normal input. You can use the default_list.txt as target list for hops for the test data.
+
+
 ## Command Line Parameters ##
 
 **-i --input** Path to input files or directory, depending on which mode you use. For full or malt specify a directory with input fa, fasta , fastq or fq files which can also be gzipped or just list the files. For the maltex mode only rma6 files will be accepted as input for the post mode (still underdevelopment) a folder containing the MaltExtract output has to be used as input

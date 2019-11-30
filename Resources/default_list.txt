@@ -353,3 +353,4 @@ Yersinia enterocolitica
 Yersinia pestis
 Yersinia pseudotuberculosis
 Yersinia pseudotuberculosis complex
+Yersinia pestis CO92

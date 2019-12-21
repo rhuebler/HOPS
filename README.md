@@ -64,7 +64,9 @@ By default HOPS run each step of the pipeline
 
 ## Citation ##
 
-Please quote for now 
+Please cite 
+Hübler, R., Key, F.M., Warinner, C. et al. HOPS: automated detection and authentication of pathogen DNA in archaeological remains. Genome Biol 20, 280 (2019) doi:10.1186/s13059-019-1903-0
+
 https://www.biorxiv.org/content/10.1101/534198v2
 
 ### Example ###

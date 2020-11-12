@@ -18,6 +18,10 @@ For the source code to the postprocessing scipts: https://github.com/keyfm/amps
 
 If you encounter any problems running HOPS please contact huebler@shh.mpg.de and provide the config file you are using as well as the log file that was generated, this will greatly speed up troublehooting.
 
+## Support ##
+
+in case you run into problems please contact huebler(at)shh.mpg.de and cc herbig(at)shh.mpg.de
+
 ## How do I get set up? ##
 ### without Conda ###
 

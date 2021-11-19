@@ -20,7 +20,8 @@ If you encounter any problems running HOPS please contact huebler@shh.mpg.de and
 
 ## Support ##
 
-in case you run into problems please contact huebler(at)shh.mpg.de and cc herbig(at)shh.mpg.de
+in case you run into problems please contact ron.huebler(at)yahoo.de and cc alexander_herbig(at)eva.mpg.de
+
 
 ## How do I get set up? ##
 ### without Conda ###
